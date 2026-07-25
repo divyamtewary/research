@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment (the big one!)
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Jupyter
+.ipynb_checkpoints/
+
+# The paper isn't backed up on GitHub (but you have it locally, and can re-download from arXiv anytime)
+echo "Information Geometr of Softmax/The Information Geometry of Softmax_ Probing and Steering.html"
+echo "Information Geometr of Softmax/The Information Geometry of Softmax_ Probing and Steering_files/"

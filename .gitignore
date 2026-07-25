@@ -24,6 +24,6 @@ Thumbs.db
 # Jupyter
 .ipynb_checkpoints/
 
-# The paper isn't backed up on GitHub (but you have it locally, and can re-download from arXiv anytime)
-echo "Information Geometr of Softmax/The Information Geometry of Softmax_ Probing and Steering.html"
-echo "Information Geometr of Softmax/The Information Geometry of Softmax_ Probing and Steering_files/"
+# Downloaded research paper (can re-download from arXiv)
+Information Geometr of Softmax/The Information Geometry of Softmax_ Probing and Steering.html
+Information Geometr of Softmax/The Information Geometry of Softmax_ Probing and Steering_files/

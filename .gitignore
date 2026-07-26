@@ -24,6 +24,3 @@ Thumbs.db
 # Jupyter
 .ipynb_checkpoints/
 
-# Downloaded research paper (can re-download from arXiv)
-Information Geometr of Softmax/The Information Geometry of Softmax_ Probing and Steering.html
-Information Geometr of Softmax/The Information Geometry of Softmax_ Probing and Steering_files/

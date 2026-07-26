@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Information Geometry of Softmax — Part 1: Softmax Foundation</title>
+<script>
+MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] }, options: { enableMenu: false } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+/* ── Reset & Base ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0b0e17;color:#e0e4ef;line-height:1.7;overflow-x:hidden}
+
+/* ── Navigation ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,14,23,.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);padding:0 24px}
+nav ul{list-style:none;display:flex;gap:4px;overflow-x:auto;padding:8px 0;max-width:1200px;margin:0 auto;justify-content:center}
+nav ul li a{display:block;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;color:#8892a7;text-decoration:none;transition:all .2s;white-space:nowrap}
+nav ul li a:hover,nav ul li a.active{color:#fff;background:rgba(255,255,255,.07)}
+
+/* ── Hero ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:100px 24px 60px;background:radial-gradient(ellipse 800px 500px at 50% 30%,rgba(99,102,241,.12),transparent)}
+.hero h1{font-size:clamp(2rem,5vw,3.6rem);font-weight:700;background:linear-gradient(135deg,#e0e4ef,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+.hero .subtitle{font-size:clamp(1rem,2vw,1.25rem);color:#8892a7;margin-top:16px;max-width:640px}
+.hero .scroll-hint{margin-top:48px;color:#4b5563;font-size:14px;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* ── Sections ── */
+section{padding:80px 24px;max-width:1100px;margin:0 auto}
+.section-header{margin-bottom:40px}
+.section-header .step{display:inline-block;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#818cf8;background:rgba(129,140,248,.1);padding:4px 14px;border-radius:20px;margin-bottom:12px}
+.section-header h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;line-height:1.3}
+.section-header h2 .highlight{color:#818cf8}
+.section-header p{color:#8892a7;margin-top:12px;font-size:1.05rem}
+
+/* ── Cards ── */
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;margin-bottom:24px}
+.card h3{font-size:1.15rem;font-weight:600;margin-bottom:8px;color:#f0f4ff}
+.card p{color:#9ca3af;font-size:.95rem}
+.card .math{background:rgba(0,0,0,.3);border-radius:10px;padding:16px;margin:12px 0;text-align:center;font-size:1.1rem;overflow-x:auto}
+.card .math .MathJax{color:#e0e4ef}
+
+/* ── Grids ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
+
+/* ── Controls ── */
+.control-group{display:flex;flex-wrap:wrap;gap:16px;margin:16px 0}
+.control{display:flex;flex-direction:column;gap:4px;flex:1;min-width:140px}
+.control label{font-size:13px;font-weight:500;color:#9ca3af}
+.control input[type=range]{accent-color:#818cf8;height:6px;background:rgba(255,255,255,.1);border-radius:3px;cursor:pointer}
+.control .value{font-size:14px;font-weight:600;color:#e0e4ef;font-variant-numeric:tabular-nums}
+
+/* ── Canvas ── */
+.viz-container{background:rgba(0,0,0,.3);border-radius:14px;padding:16px;margin:16px 0;text-align:center;position:relative}
+.viz-container canvas{max-width:100%;border-radius:8px;display:block;margin:0 auto}
+.viz-label{font-size:12px;color:#6b7280;margin-top:8px;text-align:center}
+
+/* ── Bars ── */
+.bar-chart{display:flex;gap:12px;justify-content:center;align-items:flex-end;height:200px;padding:16px 0;position:relative}
+.bar-group{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;max-width:100px}
+.bar{width:100%;border-radius:6px 6px 0 0;min-height:4px;transition:height .25s ease;position:relative}
+.bar.bar-a{background:linear-gradient(180deg,#818cf8,#6366f1)}
+.bar.bar-b{background:linear-gradient(180deg,#34d399,#10b981)}
+.bar.bar-c{background:linear-gradient(180deg,#f59e0b,#d97706)}
+.bar-value{font-size:13px;font-weight:600;color:#e0e4ef}
+.bar-label{font-size:12px;color:#8892a7;font-weight:500}
+
+/* ── Derivative curve ── */
+.curve-container{width:100%;max-width:600px;margin:0 auto}
+
+/* ── Callout ── */
+.callout{border-left:3px solid #818cf8;background:rgba(129,140,248,.06);padding:16px 20px;border-radius:0 10px 10px 0;margin:16px 0}
+.callout strong{color:#e0e4ef}
+.callout p{color:#9ca3af;font-size:.95rem;margin:0}
+
+/* ── Key Insight ── */
+.key-insight{margin:24px 0;padding:24px;background:linear-gradient(135deg,rgba(129,140,248,.08),rgba(52,211,153,.05));border:1px solid rgba(129,140,248,.15);border-radius:14px;text-align:center}
+.key-insight h4{font-size:1.05rem;color:#818cf8;margin-bottom:8px}
+.key-insight p{color:#d1d5db;font-size:1rem}
+
+/* ── Next section link ── */
+.next-link{display:block;text-align:center;margin:40px 0 0;padding:16px;border-radius:12px;background:rgba(129,140,248,.06);border:1px solid rgba(129,140,248,.1);color:#818cf8;text-decoration:none;font-weight:600;transition:all .2s}
+.next-link:hover{background:rgba(129,140,248,.12);transform:translateY(-2px)}
+
+/* ── Footer ── */
+footer{text-align:center;padding:40px 24px;color:#4b5563;font-size:13px;border-top:1px solid rgba(255,255,255,.04);margin-top:40px}
+
+/* ── Special: Dot product vis ── */
+.dot-viz{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;align-items:center;margin:16px 0}
+.dot-viz .vec{display:flex;flex-direction:column;align-items:center;gap:6px}
+.dot-viz .vec .arrows{display:flex;gap:24px;align-items:center}
+.dot-viz .vec .arrow{width:4px;height:60px;border-radius:2px;position:relative;transform-origin:bottom center}
+.dot-viz .vec .arrow.lambda{background:linear-gradient(180deg,#818cf8,#6366f1)}
+.dot-viz .vec .arrow.embed{background:linear-gradient(180deg,#34d399,#10b981)}
+.dot-viz .dot-result{font-size:1.2rem;font-weight:700;color:#f59e0b}
+
+/* ── Table ── */
+table.viz-table{width:100%;border-collapse:collapse;margin:12px 0}
+table.viz-table th,table.viz-table td{padding:10px 14px;text-align:center;border-bottom:1px solid rgba(255,255,255,.06)}
+table.viz-table th{color:#818cf8;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.5px}
+table.viz-table td{color:#d1d5db;font-size:14px}
+table.viz-table tr:hover td{background:rgba(129,140,248,.04)}
+
+/* ── Side-by-side ── */
+.panel-compare{display:flex;gap:16px;flex-wrap:wrap}
+.panel-compare>div{flex:1;min-width:260px;padding:20px;border-radius:12px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.04)}
+.panel-compare h4{font-size:14px;font-weight:600;text-align:center;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.06)}
+.panel-compare .euclidean h4{color:#818cf8}
+.panel-compare .probability h4{color:#34d399}
+</style>
+</head>
+<body>
+
+<!-- ══════ NAV ══════ -->
+<nav>
+<ul>
+<li><a href="#intro" class="active">Intro</a></li>
+<li><a href="#softmax">Softmax Distortion</a></li>
+<li><a href="#partition">Partition Function</a></li>
+<li><a href="#gradient">Gradient ∇A = P</a></li>
+<li><a href="#derivative">Self-Derivative</a></li>
+</ul>
+</nav>
+
+<!-- ══════ HERO ══════ -->
+<div class="hero">
+<h1>The Information Geometry<br>of Softmax</h1>
+<p class="subtitle">Part 1 — Softmax Foundation. An interactive exploration of how Softmax transforms hidden representations into probability distributions and bends the geometry of neural network space.</p>
+<div class="scroll-hint">↓ Scroll to begin</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: INTRODUCTION — Flat Space vs Softmax Distortion  -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="intro">
+<div class="section-header">
+<div class="step">Section 1</div>
+<h2>Big Question: <span class="highlight">How does Softmax warp the geometry of representation space?</span></h2>
+<p>Neural network hidden states are often treated as points in a flat Euclidean space. But models don't output hidden states — they output probability distributions. Softmax is the bridge, and it bends.</p>
+</div>
+
+<div class="card">
+<h3>Intuition — The Dog-to-Cat Line</h3>
+<p>In a flat Euclidean space, moving from "dog" to "cat" means moving in a straight line. Each step along that line smoothly transitions one concept into another. This is the <strong>Linear Representation Hypothesis</strong> — semantic concepts align along straight directions.</p>
+<div class="callout">
+<strong>But here's the catch:</strong> Neural networks don't directly compare hidden vectors. They convert them into <em>probability distributions</em> via Softmax, and probability space is curved — not flat.
+</div>
+</div>
+
+<div class="card">
+<h3>The Two Spaces — Side by Side</h3>
+<p>Drag the slider to interpolate between two logit vectors. Watch how a <strong>straight line</strong> in logit space becomes a <strong>curved path</strong> in probability space.</p>
+<div class="control-group">
+<div class="control">
+<label>Interpolation t</label>
+<input type="range" id="interpT" min="0" max="1" step="0.01" value="0.5">
+<span class="value" id="interpTval">0.50</span>
+</div>
+</div>
+<div class="grid-2">
+<div class="viz-container">
+<canvas id="logitSpace" width="480" height="360"></canvas>
+<div class="viz-label">Logit Space (Euclidean) — Straight line</div>
+</div>
+<div class="viz-container">
+<canvas id="probSpace" width="480" height="360"></canvas>
+<div class="viz-label">Probability Space (Softmax) — Curved path</div>
+</div>
+</div>
+</div>
+
+<div class="key-insight">
+<h4>✦ Key Insight</h4>
+<p>A straight line in logit space is <strong>not</strong> a straight line in probability space. Softmax bends the geometry, and any method that assumes Euclidean distance in representation space misses this curvature.</p>
+</div>
+
+<a class="next-link" href="#softmax">Next: The Softmax Transformation →</a>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: SOFTMAX TRANSFORMATION                          -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="softmax">
+<div class="section-header">
+<div class="step">Section 2</div>
+<h2>Big Question: <span class="highlight">How do raw logits become probabilities?</span></h2>
+<p>Softmax does two things: exponentiation and normalization. Together they ensure outputs are positive, bounded, and sum to one — but they also introduce nonlinear distortion.</p>
+</div>
+
+<div class="card">
+<h3>Intuition — The Auction Analogy</h3>
+<p>Imagine each token is bidding for probability mass. Exponentiation amplifies the strongest bids (making the gap between them larger), then normalization divides the total so everything sums to 100%. The richest bidder gets the most, but everyone gets something.</p>
+</div>
+
+<div class="card">
+<h3>Interactive: Logits → Probabilities</h3>
+<p>Use the sliders to adjust three logits and watch Softmax transform them into probabilities in real time.</p>
+<div class="control-group">
+<div class="control">
+<label>Logit A</label>
+<input type="range" id="logitA" min="-4" max="6" step="0.1" value="2">
+<span class="value" id="logitAval">2.0</span>
+</div>
+<div class="control">
+<label>Logit B</label>
+<input type="range" id="logitB" min="-4" max="6" step="0.1" value="1">
+<span class="value" id="logitBval">1.0</span>
+</div>
+<div class="control">
+<label>Logit C</label>
+<input type="range" id="logitC" min="-4" max="6" step="0.1" value="0">
+<span class="value" id="logitCval">0.0</span>
+</div>
+</div>
+<div class="grid-2">
+<div class="viz-container">
+<canvas id="logitBars" width="480" height="280"></canvas>
+<div class="viz-label">Raw Logits</div>
+</div>
+<div class="viz-container">
+<canvas id="probBars" width="480" height="280"></canvas>
+<div class="viz-label">Softmax Probabilities</div>
+</div>
+</div>
+<div class="card" style="margin-top:12px;">
+<div class="math" id="softmaxMathDisplay">
+$$Z = e^{2.0} + e^{1.0} + e^{0.0} = 7.39 + 2.72 + 1.00 = \mathbf{11.11}$$
+
+$$P(A) = \frac{7.39}{11.11} \approx 0.66 \qquad
+P(B) = \frac{2.72}{11.11} \approx 0.24 \qquad
+P(C) = \frac{1.00}{11.11} \approx 0.09$$
+</div>
+</div>
+</div>
+
+<div class="key-insight">
+<h4>✦ Key Insight</h4>
+<p>Softmax exponentiates then normalizes. Exponentiation is <strong>nonlinear</strong> — it amplifies differences — which is why the geometry of probability space differs from logit space.</p>
+</div>
+
+<a class="next-link" href="#partition">Next: The Partition Function →</a>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: PARTITION FUNCTION & LOG-NORMALISER             -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="partition">
+<div class="section-header">
+<div class="step">Section 3</div>
+<h2>Big Question: <span class="highlight">What is the partition function and why does it matter?</span></h2>
+<p>The denominator $Z = \sum_i e^{\lambda_i}$ is called the <strong>partition function</strong>. Its logarithm $A(\lambda) = \log Z$ is the <strong>log-normaliser</strong>. Together they control how probability mass is distributed.</p>
+</div>
+
+<div class="card">
+<h3>Intuition — The Size of the Pie</h3>
+<p>Think of $Z$ as the total size of the pie. Increase one logit, and the pie grows because that token's share gets larger. But since the pie is bigger, every other token's <em>percentage</em> shrinks — even though their absolute "slice" might stay the same. The log-normaliser $A(\lambda) = \log Z$ is just the log of the total pie size.</p>
+</div>
+
+<div class="card">
+<h3>Interactive: Sensitivity of $Z$</h3>
+<p>Move the slider to adjust one logit and see how $Z$ and $A(\lambda)$ respond.</p>
+<div class="control-group">
+<div class="control">
+<label>$\lambda_1$ (changing)</label>
+<input type="range" id="sensLambda1" min="-3" max="5" step="0.1" value="1">
+<span class="value" id="sensLambda1val">1.0</span>
+</div>
+</div>
+<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0">
+<span style="background:rgba(255,255,255,.04);padding:8px 18px;border-radius:8px;font-size:14px;white-space:nowrap">$\lambda_2 = 0.5$ (fixed)</span>
+<span style="background:rgba(255,255,255,.04);padding:8px 18px;border-radius:8px;font-size:14px;white-space:nowrap">$\lambda_3 = -1.0$ (fixed)</span>
+</div>
+<div class="viz-container">
+<canvas id="sensitivityCanvas" width="700" height="300"></canvas>
+<div class="viz-label">Partition function $Z$ and log-normaliser $A(\lambda) = \log Z$ as $\lambda_1$ changes</div>
+</div>
+<div class="card" style="margin-top:12px;">
+<div class="math" id="sensMathDisplay">
+$$Z = e^{1.0} + e^{0.5} + e^{-1.0} = 2.72 + 1.65 + 0.37 = \mathbf{4.74}$$
+
+$$A(\lambda) = \log(4.74) = \mathbf{1.55}$$
+</div>
+</div>
+</div>
+
+<div class="key-insight">
+<h4>✦ Key Insight</h4>
+<p>The derivative $\frac{\partial Z}{\partial \lambda_i} = e^{\lambda_i}$ and $\frac{\partial A}{\partial \lambda_i} = P_i$. The gradient of the log-normaliser <strong>is</strong> the Softmax probability — this is our first bridge between calculus and geometry.</p>
+</div>
+
+<a class="next-link" href="#gradient">Next: The Gradient Identity →</a>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: GRADIENT ∇A = P                                -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="gradient">
+<div class="section-header">
+<div class="step">Section 4</div>
+<h2>Big Question: <span class="highlight">What does the gradient of the log-normaliser tell us?</span></h2>
+<p>We just saw $\frac{\partial A}{\partial \lambda_i} = P_i$. Collecting all components, $\nabla A(\lambda) = P$. The gradient of $A$ at any point is exactly the probability vector.</p>
+</div>
+
+<div class="card">
+<h3>Intuition — Gradient as Arrow</h3>
+<p>Gradients point in the direction of steepest ascent. For $A(\lambda)$, the gradient points toward the distribution that would most increase the log-partition function — which turns out to be the probability vector itself. In other words, $A$ "encodes" the distribution in its slope.</p>
+</div>
+
+<div class="card">
+<h3>Interactive: Visual Proof</h3>
+<p>Adjust the logits and watch how each component of $\nabla A$ matches the corresponding Softmax probability.</p>
+<div class="control-group">
+<div class="control">
+<label>$\lambda_1$</label>
+<input type="range" id="gradL1" min="-3" max="5" step="0.1" value="1.5">
+<span class="value" id="gradL1val">1.5</span>
+</div>
+<div class="control">
+<label>$\lambda_2$</label>
+<input type="range" id="gradL2" min="-3" max="5" step="0.1" value="0.5">
+<span class="value" id="gradL2val">0.5</span>
+</div>
+<div class="control">
+<label>$\lambda_3$</label>
+<input type="range" id="gradL3" min="-3" max="5" step="0.1" value="-0.5">
+<span class="value" id="gradL3val">-0.5</span>
+</div>
+</div>
+<div class="viz-container">
+<canvas id="gradientCanvas" width="700" height="300"></canvas>
+<div class="viz-label">$\nabla A(\lambda)$ components vs Softmax probabilities — they match exactly</div>
+</div>
+</div>
+
+<div class="key-insight">
+<h4>✦ Key Insight</h4>
+<p>$$\boxed{\nabla A(\lambda) = P}$$</p>
+<p>This is not a coincidence — it's a fundamental property of exponential families. The gradient of the log-normaliser <strong>is</strong> the expected sufficient statistic (here, the probability vector).</p>
+</div>
+
+<a class="next-link" href="#derivative">Next: The Self-Derivative of Softmax →</a>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: SELF-DERIVATIVE ∂Pᵢ/∂λᵢ = Pᵢ(1-Pᵢ)           -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="derivative">
+<div class="section-header">
+<div class="step">Section 5</div>
+<h2>Big Question: <span class="highlight">How sensitive is a token's probability to its own logit?</span></h2>
+<p>If we nudge $\lambda_i$ up by a tiny $\varepsilon$, how much does $P_i$ change? The answer is $P_i(1-P_i)$ — a beautiful sigmoid-like relationship.</p>
+</div>
+
+<div class="card">
+<h3>Intuition — The Law of Diminishing Returns</h3>
+<p>If a token already has very low probability ($P_i \approx 0$), increasing its logit barely helps — it's competing against everyone else. If it's very high ($P_i \approx 1$), there's almost no room to grow. The maximum sensitivity occurs at $P_i = 0.5$, where a small nudge has the biggest effect.</p>
+</div>
+
+<div class="card">
+<h3>Interactive: The $P(1-P)$ Curve</h3>
+<p>Drag the slider to change the logit and trace how the self-derivative changes.</p>
+<div class="control-group">
+<div class="control">
+<label>$\lambda_i$</label>
+<input type="range" id="selfLambda" min="-6" max="6" step="0.1" value="0">
+<span class="value" id="selfLambdaVal">0.0</span>
+</div>
+</div>
+<div class="viz-container">
+<canvas id="selfDerivCanvas" width="700" height="380"></canvas>
+<div class="viz-label">$P_i$ (blue) and its derivative $\frac{\partial P_i}{\partial\lambda_i} = P_i(1-P_i)$ (orange)</div>
+</div>
+<div class="card" style="margin-top:12px">
+<div class="math" id="selfDerivMath">
+$$P_i = \frac{e^{\lambda_i}}{e^{\lambda_i} + e^{0.5} + e^{-1.0}} \quad\Rightarrow\quad
+\frac{\partial P_i}{\partial\lambda_i} = P_i(1-P_i)$$
+</div>
+</div>
+</div>
+
+<div class="key-insight">
+<h4>✦ Key Insight</h4>
+<p>The self-derivative peaks at $P_i = 0.5$, where uncertainty is highest. When the model is most uncertain, a small change in the logit has the largest effect on probability. This is Softmax's version of the sigmoid's logistic curve.</p>
+</div>
+
+<div class="callout">
+<strong>Preview — Part 2:</strong> But what happens to the <em>other</em> tokens when we change one logit? That's the <strong>cross-derivative</strong> $\partial P_j / \partial \lambda_i = -P_i P_j$, which reveals the global coupling of Softmax — and leads directly to KL divergence and Bregman geometry.
+</div>
+
+<a class="next-link" href="#" style="pointer-events:none;opacity:0.5">Continue to Part 2 → (Coming Soon)</a>
+</section>
+
+<footer>
+The Information Geometry of Softmax — Interactive Visualiser Part 1<br>
+Based on the paper by EleutherAI. Built for educational purposes.
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- JAVASCRIPT                                                                -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<script>
+// ── Utility ──
+const softmax = logits => { const ex = logits.map(Math.exp); const s = ex.reduce((a,b)=>a+b,0); return ex.map(v=>v/s); };
+const clamp = (v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+
+// ── Canvas helpers ──
+function drawBarChart(canvas, values, labels, colors, maxVal) {
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  const pad = {t:10,b:30,l:40,r:20};
+  const cw = (W-pad.l-pad.r)/values.length * 0.6;
+  const gap = (W-pad.l-pad.r)/values.length * 0.4;
+  const mH = H-pad.t-pad.b;
+  const mx = maxVal||Math.max(...values,0.01);
+  ctx.textAlign='center';
+  values.forEach((v,i)=>{
+    const x = pad.l + i*(cw+gap) + gap/2;
+    const h = (v/mx)*mH;
+    const y = H-pad.b - h;
+    const grad = ctx.createLinearGradient(x,y,x,H-pad.b);
+    grad.addColorStop(0,colors[i][0]);
+    grad.addColorStop(1,colors[i][1]);
+    ctx.fillStyle=grad;
+    ctx.beginPath();
+    ctx.roundRect(x,y,cw,h,4);
+    ctx.fill();
+    ctx.fillStyle='#e0e4ef';
+    ctx.font='600 14px Segoe UI,sans-serif';
+    ctx.fillText(v.toFixed(2),x+cw/2,H-pad.b+18);
+    ctx.fillStyle='#8892a7';
+    ctx.font='12px Segoe UI,sans-serif';
+    ctx.fillText(labels[i],x+cw/2,H-pad.b+40);
+  });
+}
+if(!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){this.moveTo(x+r,y);this.arcTo(x+w,y,x+w,y+h,r);this.arcTo(x+w,y+h,x,y+h,r);this.arcTo(x,y+h,x,y,r);this.arcTo(x,y,x+w,y,r);this.closePath();return this;};
+}
+
+// ── 1. Interpolation (Logit vs Probability space) ──
+function drawInterpolation() {
+  const t = parseFloat(document.getElementById('interpT').value);
+  document.getElementById('interpTval').textContent = t.toFixed(2);
+  const start = [1, -2, 0.5];
+  const end = [-1, 2, -0.5];
+
+  function drawOne(canvasId, isLogit) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#0d1117';
+    ctx.fillRect(0, 0, W, H);
+
+    var padL = 55, padR = 25, padT = 25, padB = 40;
+    var plotW = W - padL - padR;
+    var plotH = H - padT - padB;
+    var loX = isLogit ? -2.5 : 0;
+    var hiX = isLogit ? 2.5 : 1;
+    var loY = isLogit ? -2.5 : 0;
+    var hiY = isLogit ? 2.5 : 1;
+
+    // Compute one point per percent of interpolation
+    for (var i = 0; i <= 100; i++) {
+      var frac = i / 100;
+      var v0 = start[0] + frac * (end[0] - start[0]);
+      var v1 = start[1] + frac * (end[1] - start[1]);
+      var v2 = start[2] + frac * (end[2] - start[2]);
+      var vals;
+      if (isLogit) {
+        vals = [v0, v1, v2];
+      } else {
+        var ex0 = Math.exp(v0), ex1 = Math.exp(v1), ex2 = Math.exp(v2);
+        var sum = ex0 + ex1 + ex2;
+        vals = [ex0 / sum, ex1 / sum, ex2 / sum];
+      }
+      var px = padL + ((vals[0] - loX) / (hiX - loX)) * plotW;
+      var py = padT + (1 - ((vals[1] - loY) / (hiY - loY))) * plotH;
+      var isCurrent = Math.round(frac * 100) === Math.round(t * 100);
+      ctx.fillStyle = isCurrent ? '#fbbf24' : (isLogit ? '#818cf8' : '#34d399');
+      ctx.beginPath();
+      ctx.arc(px, py, isCurrent ? 7 : 4, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+
+    // Axes
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(padL, padT); ctx.lineTo(padL, H - padB); ctx.lineTo(W - padR, H - padB);
+    ctx.stroke();
+
+    ctx.fillStyle = '#9ca3af';
+    ctx.font = '12px Segoe UI,sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(isLogit ? '\u03BB\u2081' : 'P\u2081', W / 2, H - 4);
+    ctx.save();
+    ctx.translate(18, H / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText(isLogit ? '\u03BB\u2082' : 'P\u2082', 0, 0);
+    ctx.restore();
+
+    ctx.fillStyle = '#fbbf24';
+    ctx.font = '600 13px Segoe UI,sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('t = ' + t.toFixed(2), padL + 6, padT + 18);
+  }
+
+  drawOne('logitSpace', true);
+  drawOne('probSpace', false);
+}
+
+// ── 2. Softmax Bars ──
+function drawSoftmaxBars() {
+  const l1=parseFloat(document.getElementById('logitA').value);
+  const l2=parseFloat(document.getElementById('logitB').value);
+  const l3=parseFloat(document.getElementById('logitC').value);
+  ['logitAval','logitBval','logitCval'].forEach((id,i)=>document.getElementById(id).textContent=[l1,l2,l3][i].toFixed(1));
+
+  const logits=[l1,l2,l3];
+  const probs=softmax(logits);
+  const colors=[['#818cf8','#6366f1'],['#34d399','#10b981'],['#f59e0b','#d97706']];
+  const labels=['Token A','Token B','Token C'];
+
+  drawBarChart(document.getElementById('logitBars'), logits, labels, colors, Math.max(...logits,1));
+  drawBarChart(document.getElementById('probBars'), probs, labels, colors, 1);
+
+  const ex = logits.map(Math.exp);
+  const Z = ex.reduce((a,b)=>a+b,0);
+  const A = Math.log(Z);
+  document.getElementById('softmaxMathDisplay').innerHTML = `
+$$Z = e^{${l1.toFixed(1)}} + e^{${l2.toFixed(1)}} + e^{${l3.toFixed(1)}} = ${ex[0].toFixed(2)} + ${ex[1].toFixed(2)} + ${ex[2].toFixed(2)} = \\mathbf{${Z.toFixed(2)}}$$
+
+$$P(A) = \\frac{${ex[0].toFixed(2)}}{${Z.toFixed(2)}} \\approx ${probs[0].toFixed(2)} \\qquad
+P(B) = \\frac{${ex[1].toFixed(2)}}{${Z.toFixed(2)}} \\approx ${probs[1].toFixed(2)} \\qquad
+P(C) = \\frac{${ex[2].toFixed(2)}}{${Z.toFixed(2)}} \\approx ${probs[2].toFixed(2)}$$
+`;
+  if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
+}
+
+// ── 3. Sensitivity ──
+function drawSensitivity() {
+  const l1=parseFloat(document.getElementById('sensLambda1').value);
+  document.getElementById('sensLambda1val').textContent=l1.toFixed(1);
+  const fixed=[0.5,-1.0];
+
+  const steps=200;
+  const l1s=[]; const Zs=[]; const As=[]; const Ps=[];
+  for(let i=0;i<=steps;i++){
+    const v=-3+i*(8/steps);
+    l1s.push(v);
+    const ex=[Math.exp(v),Math.exp(fixed[0]),Math.exp(fixed[1])];
+    const Z=ex.reduce((a,b)=>a+b,0);
+    Zs.push(Z);
+    As.push(Math.log(Z));
+    Ps.push(ex[0]/Z);
+  }
+
+  // Find closest index
+  const idx=l1s.reduce((best,v,i)=>Math.abs(v-l1)<Math.abs(v-l1s[best])?i:best,0);
+
+  const canvas=document.getElementById('sensitivityCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.02)';
+  ctx.fillRect(0,0,W,H);
+
+  const pad={l:60,r:30,t:30,b:40};
+  const pw=W-pad.l-pad.r, ph=H-pad.t-pad.b;
+
+  // Draw Z curve
+  const maxZ=Math.max(...Zs);
+  ctx.strokeStyle='#818cf8'; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  l1s.forEach((v,i)=>{const x=pad.l+(i/steps)*pw;const y=pad.t+ph-(Zs[i]/maxZ)*ph; i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.stroke();
+
+  // Draw A curve
+  const maxA=Math.max(...As); const minA=Math.min(...As);
+  ctx.strokeStyle='#34d399'; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  l1s.forEach((v,i)=>{const x=pad.l+(i/steps)*pw;const y=pad.t+ph-((As[i]-minA)/(maxA-minA||1))*ph; i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.stroke();
+
+  // Draw P curve
+  ctx.strokeStyle='#f59e0b'; ctx.lineWidth=2;
+  ctx.setLineDash([4,4]);
+  ctx.beginPath();
+  l1s.forEach((v,i)=>{const x=pad.l+(i/steps)*pw;const y=pad.t+ph-Ps[i]*ph; i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Current point marker
+  const cx=pad.l+(idx/steps)*pw;
+  const cyZ=pad.t+ph-(Zs[idx]/maxZ)*ph;
+  const cyA=pad.t+ph-((As[idx]-minA)/(maxA-minA||1))*ph;
+  const cyP=pad.t+ph-Ps[idx]*ph;
+
+  ctx.fillStyle='#818cf8'; ctx.beginPath(); ctx.arc(cx,cyZ,5,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#34d399'; ctx.beginPath(); ctx.arc(cx,cyA,5,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#f59e0b'; ctx.beginPath(); ctx.arc(cx,cyP,5,0,Math.PI*2); ctx.fill();
+
+  // Legend
+  const legendY=8;
+  ctx.font='11px Segoe UI,sans-serif';
+  ctx.fillStyle='#818cf8'; ctx.fillRect(pad.l+10,legendY+4,12,3); ctx.fillText('Z (partition)',pad.l+26,legendY+10);
+  ctx.fillStyle='#34d399'; ctx.fillRect(pad.l+130,legendY+4,12,3); ctx.fillText('A = log Z',pad.l+146,legendY+10);
+  ctx.fillStyle='#f59e0b'; ctx.fillRect(pad.l+240,legendY+4,12,3); ctx.fillText('P (prob)',pad.l+256,legendY+10);
+
+  // Axes
+  ctx.strokeStyle='rgba(255,255,255,.08)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(pad.l,pad.t); ctx.lineTo(pad.l,H-pad.b); ctx.lineTo(W-pad.r,H-pad.b); ctx.stroke();
+  ctx.fillStyle='#6b7280'; ctx.font='11px Segoe UI,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('λ₁',W/2,H-8);
+  ctx.save(); ctx.translate(14,H/2); ctx.rotate(-Math.PI/2); ctx.fillText('Value',0,0); ctx.restore();
+
+  // Math display
+  const exCur=[Math.exp(l1),Math.exp(fixed[0]),Math.exp(fixed[1])];
+  const Zcur=exCur.reduce((a,b)=>a+b,0);
+  document.getElementById('sensMathDisplay').innerHTML=`
+$$Z = e^{${l1.toFixed(1)}} + e^{${fixed[0].toFixed(1)}} + e^{${fixed[1].toFixed(1)}} = ${exCur[0].toFixed(2)} + ${exCur[1].toFixed(2)} + ${exCur[2].toFixed(2)} = \\mathbf{${Zcur.toFixed(2)}}$$
+
+$$A(\\lambda) = \\log(${Zcur.toFixed(2)}) = \\mathbf{${Math.log(Zcur).toFixed(3)}}$$
+
+$$\\frac{\\partial A}{\\partial \\lambda_1} = P_1 = \\mathbf{${(exCur[0]/Zcur).toFixed(4)}}$$
+`;
+  if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
+}
+
+// ── 4. Gradient Visualisation ──
+function drawGradient() {
+  const l1=parseFloat(document.getElementById('gradL1').value);
+  const l2=parseFloat(document.getElementById('gradL2').value);
+  const l3=parseFloat(document.getElementById('gradL3').value);
+  ['gradL1val','gradL2val','gradL3val'].forEach((id,i)=>document.getElementById(id).textContent=[l1,l2,l3][i].toFixed(1));
+
+  const probs=softmax([l1,l2,l3]);
+  const colors=[['#818cf8','#6366f1'],['#34d399','#10b981'],['#f59e0b','#d97706']];
+  const labels=['∇A₁','∇A₂','∇A₃'];
+  const probLabels=['P₁','P₂','P₃'];
+
+  const canvas=document.getElementById('gradientCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+
+  const pad={l:80,r:80,t:40,b:40};
+  const gW=(W-pad.l-pad.r)/3;
+
+  const comps=[{val:probs[0],gradLabel:'∇A₁ = P₁',probLabel:'P₁',color:'#818cf8'},
+               {val:probs[1],gradLabel:'∇A₂ = P₂',probLabel:'P₂',color:'#34d399'},
+               {val:probs[2],gradLabel:'∇A₃ = P₃',probLabel:'P₃',color:'#f59e0b'}];
+
+  comps.forEach((c,i)=>{
+    const cx=pad.l+i*gW+gW/2;
+    const bh=c.val*(H-pad.t-pad.b);
+    const y=H-pad.b;
+
+    // Gradient bar
+    const grad=ctx.createLinearGradient(cx,y,cx,y-bh);
+    grad.addColorStop(0,c.color);
+    grad.addColorStop(1,c.color+'88');
+    ctx.fillStyle=grad;
+    ctx.beginPath();
+    ctx.roundRect(cx-18,y-bh,36,bh,4);
+    ctx.fill();
+
+    // Value label
+    ctx.fillStyle='#e0e4ef';
+    ctx.font='600 18px Segoe UI,sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText(c.val.toFixed(3),cx,y-bh-10);
+
+    // Matching arrow indicator
+    ctx.fillStyle='#6b7280';
+    ctx.font='12px Segoe UI,sans-serif';
+    ctx.fillText('✓ matches',cx,y+20);
+  });
+
+  ctx.fillStyle='#8892a7';
+  ctx.font='12px Segoe UI,sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('∇A(λ)',W/2,H-6);
+}
+
+// ── 5. Self-Derivative ──
+function drawSelfDerivative() {
+  const li=parseFloat(document.getElementById('selfLambda').value);
+  document.getElementById('selfLambdaVal').textContent=li.toFixed(1);
+
+  // Fixed other logits
+  const fixed=[0.5,-1.0];
+  const canvas=document.getElementById('selfDerivCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.02)';
+  ctx.fillRect(0,0,W,H);
+
+  const pad={l:60,r:30,t:30,b:40};
+  const pw=W-pad.l-pad.r, ph=H-pad.t-pad.b;
+
+  // Compute values over range
+  const steps=200;
+  const xs=[], ps=[], ds=[];
+  for(let i=0;i<=steps;i++){
+    const l=-6+i*12/steps;
+    xs.push(l);
+    const ex=[Math.exp(l),Math.exp(fixed[0]),Math.exp(fixed[1])];
+    const Z=ex.reduce((a,b)=>a+b,0);
+    const p=ex[0]/Z;
+    ps.push(p);
+    ds.push(p*(1-p));
+  }
+
+  // Draw P curve
+  ctx.strokeStyle='#818cf8'; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  xs.forEach((v,i)=>{const x=pad.l+(i/steps)*pw;const y=pad.t+ph-ps[i]*ph; i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.stroke();
+
+  // Draw derivative curve
+  ctx.strokeStyle='#f59e0b'; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  xs.forEach((v,i)=>{const x=pad.l+(i/steps)*pw;const y=pad.t+ph-ds[i]*ph; i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.stroke();
+
+  // Current point
+  const curIdx=xs.reduce((best,v,i)=>Math.abs(v-li)<Math.abs(v-xs[best])?i:best,0);
+  const curP=ps[curIdx], curD=ds[curIdx];
+  const cx=pad.l+(curIdx/steps)*pw;
+  ctx.fillStyle='#818cf8'; ctx.beginPath(); ctx.arc(cx,pad.t+ph-curP*ph,6,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#f59e0b'; ctx.beginPath(); ctx.arc(cx,pad.t+ph-curD*ph,6,0,Math.PI*2); ctx.fill();
+
+  // Legend
+  ctx.font='12px Segoe UI,sans-serif';
+  ctx.fillStyle='#818cf8'; ctx.fillRect(pad.l+10,10,14,3); ctx.fillText('Pᵢ',pad.l+28,15);
+  ctx.fillStyle='#f59e0b'; ctx.fillRect(pad.l+80,10,14,3); ctx.fillText('Pᵢ(1-Pᵢ)',pad.l+98,15);
+
+  // Value labels at current point
+  ctx.fillStyle='#818cf8'; ctx.textAlign='left';
+  ctx.fillText(`Pᵢ = ${curP.toFixed(4)}`,pad.l+10,32);
+  ctx.fillStyle='#f59e0b';
+  ctx.fillText(`dPᵢ/dλᵢ = ${curD.toFixed(4)}`,pad.l+10,50);
+
+  // Axes
+  ctx.strokeStyle='rgba(255,255,255,.08)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(pad.l,pad.t); ctx.lineTo(pad.l,H-pad.b); ctx.lineTo(W-pad.r,H-pad.b); ctx.stroke();
+  ctx.fillStyle='#6b7280'; ctx.font='11px Segoe UI,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('λᵢ',W/2,H-8);
+
+  // Math
+  const exCur=[Math.exp(li),Math.exp(fixed[0]),Math.exp(fixed[1])];
+  const Zcur=exCur.reduce((a,b)=>a+b,0);
+  const pCur=exCur[0]/Zcur;
+  document.getElementById('selfDerivMath').innerHTML=`
+$$P_i = \\frac{e^{${li.toFixed(1)}}}{e^{${li.toFixed(1)}}+e^{${fixed[0].toFixed(1)}}+e^{${fixed[1].toFixed(1)}}} = ${pCur.toFixed(4)}$$
+
+$$\\frac{\\partial P_i}{\\partial\\lambda_i} = P_i(1-P_i) = ${pCur.toFixed(4)} \\times (1-${pCur.toFixed(4)}) = \\mathbf{${(pCur*(1-pCur)).toFixed(4)}}$$
+`;
+  if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
+}
+
+// ── Wire event listeners & init ──
+document.addEventListener('DOMContentLoaded',()=>{
+  // Section 1
+  document.getElementById('interpT').addEventListener('input',drawInterpolation);
+  // Section 2
+  ['logitA','logitB','logitC'].forEach(id=>document.getElementById(id).addEventListener('input',drawSoftmaxBars));
+  // Section 3
+  document.getElementById('sensLambda1').addEventListener('input',drawSensitivity);
+  // Section 4
+  ['gradL1','gradL2','gradL3'].forEach(id=>document.getElementById(id).addEventListener('input',drawGradient));
+  // Section 5
+  document.getElementById('selfLambda').addEventListener('input',drawSelfDerivative);
+
+  // Initial draws
+  drawInterpolation();
+  drawSoftmaxBars();
+  drawSensitivity();
+  drawGradient();
+  drawSelfDerivative();
+
+  // Nav highlight
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+        const link=document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if(link) link.classList.add('active');
+      }
+    });
+  },{threshold:0.3});
+  document.querySelectorAll('section[id]').forEach(s=>observer.observe(s));
+});
+</script>
+</body>
+</html>

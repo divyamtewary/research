@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Information Geometry of Softmax — Part 2: Geometry & KL Divergence</title>
+<script>
+MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] }, options: { enableMenu: false } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+/* ── Reset & Base ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0b0e17;color:#e0e4ef;line-height:1.7;overflow-x:hidden}
+
+/* ── Navigation ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,14,23,.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);padding:0 24px}
+nav ul{list-style:none;display:flex;gap:4px;overflow-x:auto;padding:8px 0;max-width:1200px;margin:0 auto;justify-content:center}
+nav ul li a{display:block;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;color:#8892a7;text-decoration:none;transition:all .2s;white-space:nowrap}
+nav ul li a:hover,nav ul li a.active{color:#fff;background:rgba(255,255,255,.07)}
+
+/* ── Hero ── */
+.hero{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:100px 24px 60px;background:radial-gradient(ellipse 800px 500px at 50% 30%,rgba(52,211,153,.10),transparent)}
+.hero h1{font-size:clamp(2rem,5vw,3.6rem);font-weight:700;background:linear-gradient(135deg,#e0e4ef,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+.hero .subtitle{font-size:clamp(1rem,2vw,1.25rem);color:#8892a7;margin-top:16px;max-width:640px}
+.hero .scroll-hint{margin-top:48px;color:#4b5563;font-size:14px;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* ── Sections ── */
+section{padding:80px 24px;max-width:1100px;margin:0 auto}
+.section-header{margin-bottom:40px}
+.section-header .step{display:inline-block;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#34d399;background:rgba(52,211,153,.1);padding:4px 14px;border-radius:20px;margin-bottom:12px}
+.section-header h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;line-height:1.3}
+.section-header h2 .highlight{color:#34d399}
+.section-header p{color:#8892a7;margin-top:12px;font-size:1.05rem}
+
+/* ── Cards ── */
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;margin-bottom:24px}
+.card h3{font-size:1.15rem;font-weight:600;margin-bottom:8px;color:#f0f4ff}
+.card p{color:#9ca3af;font-size:.95rem}
+.card .math{background:rgba(0,0,0,.3);border-radius:10px;padding:16px;margin:12px 0;text-align:center;font-size:1.1rem;overflow-x:auto}
+
+/* ── Grids ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
+
+/* ── Controls ── */
+.control-group{display:flex;flex-wrap:wrap;gap:16px;margin:16px 0}
+.control{display:flex;flex-direction:column;gap:4px;flex:1;min-width:140px}
+.control label{font-size:13px;font-weight:500;color:#9ca3af}
+.control input[type=range]{accent-color:#34d399;height:6px;background:rgba(255,255,255,.1);border-radius:3px;cursor:pointer}
+.control .value{font-size:14px;font-weight:600;color:#e0e4ef;font-variant-numeric:tabular-nums}
+
+/* ── Canvas ── */
+.viz-container{background:rgba(0,0,0,.3);border-radius:14px;padding:16px;margin:16px 0;text-align:center;position:relative}
+.viz-container canvas{max-width:100%;border-radius:8px;display:block;margin:0 auto}
+.viz-label{font-size:12px;color:#6b7280;margin-top:8px;text-align:center}
+
+/* ── Callout ── */
+.callout{border-left:3px solid #34d399;background:rgba(52,211,153,.06);padding:16px 20px;border-radius:0 10px 10px 0;margin:16px 0}
+.callout strong{color:#e0e4ef}
+.callout p{color:#9ca3af;font-size:.95rem;margin:0}
+
+/* ── Key Insight ── */
+.key-insight{margin:24px 0;padding:24px;background:linear-gradient(135deg,rgba(52,211,153,.08),rgba(129,140,248,.05));border:1px solid rgba(52,211,153,.15);border-radius:14px;text-align:center}
+.key-insight h4{font-size:1.05rem;color:#34d399;margin-bottom:8px}
+.key-insight p{color:#d1d5db;font-size:1rem}
+
+/* ── Next section link ── */
+.next-link{display:block;text-align:center;margin:40px 0 0;padding:16px;border-radius:12px;background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.1);color:#34d399;text-decoration:none;font-weight:600;transition:all .2s}
+.next-link:hover{background:rgba(52,211,153,.12);transform:translateY(-2px)}
+
+/* ── Footer ── */
+footer{text-align:center;padding:40px 24px;color:#4b5563;font-size:13px;border-top:1px solid rgba(255,255,255,.04);margin-top:40px}
+
+/* ── Flow diagram ── */
+.flow-container{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;padding:20px 0}
+.flow-token{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 16px;border-radius:10px;min-width:80px}
+.flow-token .flow-label{font-size:13px;font-weight:600}
+.flow-token .flow-val{font-size:18px;font-weight:700}
+.flow-arrow{font-size:22px;color:#6b7280}
+
+/* ── KL comparison ── */
+.kl-panel{display:flex;gap:16px;flex-wrap:wrap}
+.kl-panel>div{flex:1;min-width:280px;padding:16px;border-radius:12px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.04)}
+.kl-panel h4{font-size:14px;font-weight:600;text-align:center;margin-bottom:12px;color:#818cf8}
+
+/* ── Bregman diagram ── */
+.bregman-viz{position:relative;width:100%;max-width:600px;margin:0 auto}
+</style>
+</head>
+<body>
+
+<!-- ══════ NAV ══════ -->
+<nav>
+<ul>
+<li><a href="#cross" class="active">Cross-Derivative</a></li>
+<li><a href="#coupling">Global Coupling</a></li>
+<li><a href="#kldiv">KL Divergence</a></li>
+<li><a href="#expectation">Expectation</a></li>
+<li><a href="#bregman">Bregman Geometry</a></li>
+</ul>
+</nav>
+
+<!-- ══════ HERO ══════ -->
+<div class="hero">
+<h1>Probability Geometry,<br>KL Divergence &amp; Bregman Geometry</h1>
+<p class="subtitle">Part 2 — From cross-derivatives to curved information-geometric manifolds. Understanding how Softmax globally couples tokens and induces a non-Euclidean geometry.</p>
+<div class="scroll-hint">↓ Scroll to begin</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: CROSS-DERIVATIVE                                     -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section id="cross">
+<div class="section-header">
+<div class="step">Section 1</div>
+<h2>Big Question: <span class="highlight">What happens to other tokens when one logit changes?</span></h2>
+<p>In Part 1 we learned $\partial P_i / \partial \lambda_i = P_i(1-P_i)$ — the self-influence. But Softmax is a system: changing one logit affects <em>all</em> probabilities. The cross-derivative $\partial P_j / \partial \lambda_i = -P_i P_j$ quantifies this.</p>
+</div>
+
+<div class="card">
+<h3>Intuition — Stealing Probability Mass</h3>
+<p>Imagine three tokens sharing a fixed pie of probability. If Token A's logit increases, Token A's slice grows. But the total must stay 1, so every other slice must shrink. The amount stolen from Token B is proportional to both A's probability <em>and</em> B's probability — hence $-P_A P_B$.</p>
+</div>
+
+<div class="card">
+<h3>Interactive: Coupled Sliders</h3>
+<p>Drag the slider for $\lambda_1$ and watch how all three probabilities respond simultaneously. The self-derivative (green) and cross-derivatives (orange/red) update in real time.</p>
+<div class="control-group">
+<div class="control">
+<label>$\lambda_1$ (changing)</label>
+<input type="range" id="crossLambda1" min="-4" max="6" step="0.1" value="2">
+<span class="value" id="crossLambda1val">2.0</span>
+</div>
+<div class="control">
+<label>$\lambda_2$ (fixed)</label>
+<input type="range" id="crossLambda2" min="-4" max="6" step="0.1" value="1">
+<span class="value" id="crossLambda2val">1.0</span>
+</div>
+<div class="control">
+<label>$\lambda_3$ (fixed)</label>
+<input type="range" id="crossLambda3" min="-4" max="6" step="0.1" value="0">
+<span class="value" id="crossLambda3val">0.0</span>
+</div>
+</div>
+<div class="viz-container">
+<canvas id="crossCanvas" width="700" height="320"></canvas>
+<div class="viz-label">Probability changes when $\lambda_1$ increases — self vs cross effects</div>
+</div>
+<div class="card" style="margin-top:12px">
+<div class="math" id="crossMathDisplay">
+$$P_1 = 0.665 \quad P_2 = 0.245 \quad P_3 = 0.090$$
+
+$$\frac{\partial P_1}{\partial\lambda_1} = P_1(1-P_1) = 0.223 \qquad
+\frac{\partial P_2}{\partial\lambda_1} = -P_1P_2 = -0.163 \qquad
+\frac{\partial P_3}{\partial\lambda_1} = -P_1P_3 = -0.060$$
+</div>
+</div>
+</div>
+
+<div class="key-insight">
+<h4>✦ Key Insight</h4>
+<p>$$\frac{\partial P_j}{\partial\lambda_i} = -P_iP_j \quad (i\neq j)$$</p>
+<p>The cross-derivative is always <strong>negative</strong>. Increasing any logit steals probability from every other token. Softmax is globally coupled — no token exists independently.</p>
+</div>
+
+<a class="next-link" href="#coupling">Next: Global Coupling &amp; Probability Stealing →</a>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: GLOBAL COUPLING                                      -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section id="coupling">
+<div class="section-header">
+<div class="step">Section 2</div>
+<h2>Big Question: <span class="highlight">How does probability mass flow between tokens?</span></h2>
+<p>When a logit changes, probability mass is redistributed across the entire distribution. The amount each competitor loses depends on its current probability — big competitors lose more.</p>
+</div>
+
+<div class="card">
+<h3>Intuition — Water Displacement</h3>
+<p>Think of each token's probability as water in a set of connected vessels. If you pour more water into one vessel, water flows <em>out</em> of all others. But the amount that leaves each vessel is proportional to how much water was already there — large vessels lose more than small ones.</p>
+</div>
+
+<div class="card">
+<h3>Interactive: Probability Flow</h3>
+<p>Adjust the three logits below and watch the probability mass flow diagram. The arrows show how mass moves between tokens.</p>
+<div class="control-group">
+<div class="control">
+<label>$\lambda_1$</label>
+<input type="range" id="flowL1" min="-3" max="5" step="0.1" value="2">
+<span class="value" id="flowL1val">2.0</span>
+</div>
+<div class="control">
+<label>$\lambda_2$</label>
+<input type="range" id="flowL2" min="-3" max="5" step="0.1" value="1">
+<span class="value" id="flowL2val">1.0</span>
+</div>
+<div class="control">
+<label>$\lambda_3$</label>
+<input type="range" id="flowL3" min="-3" max="5" step="0.1" value="0">
+<span class="value" id="flowL3val">0.0</span>
+</div>
+</div>
+<div class="viz-container">
+<canvas id="flowCanvas" width="700" height="350"></canvas>
+<div class="viz-label">Probability distribution (bars) and pairwise competition (connecting arcs)</div>
+</div>
+</div>
+
+<div class="key-insight">
+<h4>✦ Key Insight</h4>
+<p>Tokens that already have very small probability lose almost nothing when a competitor rises. Large-probability competitors lose the most. This asymmetric competition is captured entirely by the product $-P_i P_j$.</p>
+</div>
+
+<a class="next-link" href="#kldiv">Next: Behavioral Distance &amp; KL Divergence →</a>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: KL DIVERGENCE                                        -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section id="kldiv">
+<div class="section-header">
+<div class="step">Section 3</div>
+<h2>Big Question: <span class="highlight">How do we measure distance between two behavioral states?</span></h2>
+<p>Instead of measuring how different two hidden vectors $\lambda$ and $\lambda'$ are, the paper asks: how different are the <em>probability distributions</em> they produce? The answer is the Kullback-Leibler (KL) divergence.</p>
+</div>
+
+<div class="card">
+<h3>Intuition — Surprise as Distance</h3>
+<p>KL divergence measures how "surprised" you'd be if you expected distribution $P$ but received distribution $Q$ instead. If they're identical, surprise is zero. The more they diverge, the larger the KL value. Crucially, it's <strong>not</strong> Euclidean distance — it respects the curved geometry of probability space.</p>
+</div>
+
+<div class="card">
+<h3>Interactive: Comparing Two Distributions</h3>
+<p>Adjust two sets of logits and watch the KL divergence between their resulting probability distributions. The bar chart shows both distributions side-by-side for comparison.</p>
+<div class="grid-2">
+<div>
+<h4 style="text-align:center;color:#818cf8;font-size:14px;margin-bottom:8px">Reference $P_\lambda$</h4>
+<div class="control">
+<label>$\lambda$_ref₁</label>
+<input type="range" id="klRef1" min="-3" max="5" step="0.1" value="2">
+<span class="value" id="klRef1val">2.0</span>
+</div>
+<div class="control">
+<label>$\lambda$_ref₂</label>
+<input type="range" id="klRef2" min="-3" max="5" step="0.1" value="1">
+<span class="value" id="klRef2val">1.0</span>
+</div>
+<div class="control">
+<label>$\lambda$_ref₃</label>
+<input type="range" id="klRef3" min="-3" max="5" step="0.1" value="0">
+<span class="value" id="klRef3val">0.0</span>
+</div>
+</div>
+<div>
+<h4 style="text-align:center;color:#34d399;font-size:14px;margin-bottom:8px">Comparison $P_{\lambda'}$</h4>
+<div class="control">
+<label>$\lambda'$_₁</label>
+<input type="range" id="klCmp1" min="-3" max="5" step="0.1" value="1">
+<span class="value" id="klCmp1val">1.0</span>
+</div>
+<div class="control">
+<label>$\lambda'$_₂</label>
+<input type="range" id="klCmp2" min="-3" max="5" step="0.1" value="0">
+<span class="value" id="klCmp2val">0.0</span>
+</div>
+<div class="control">
+<label>$\lambda'$_₃</label>
+<input type="range" id="klCmp3" min="-3" max="5" step="0.1" value="-1">
+<span class="value" id="klCmp3val">-1.0</span>
+</div>
+</div>
+</div>
+<div class="viz-container">
+<canvas id="klCanvas" width="700" height="300"></canvas>
+<div class="viz-label" id="klValueLabel">KL Divergence DKL = 0.000</div>
+</div>
+<div class="card" style="margin-top:12px">
+<div class="math" id="klMathDisplay">
+$$D_{KL}(P_\lambda \| P_{\lambda'}) = \sum_y P_\lambda(y) \left[\log P_\lambda(y) - \log P_{\lambda'}(y)\right]$$
+</div>
+</div>
+</div>
+
+<div class="callout">
+<strong>Why not Euclidean distance?</strong> Consider two points on a sphere — the straight-line (Euclidean) distance cuts through the sphere, but the meaningful distance follows the curved surface. KL divergence is the curved-surface distance for probability space.
+</div>
+
+<div class="key-insight">
+<h4>✦ Key Insight</h4>
+<p>KL divergence is <strong>not</strong> symmetric ($D_{KL}(P\|Q) \neq D_{KL}(Q\|P)$), and it's <strong>not</strong> a metric. But it's the natural way to measure behavioral change in probability space — and we're about to discover it has a remarkable geometric dual.</p>
+</div>
+
+<a class="next-link" href="#expectation">Next: Expectation &amp; The Gradient Identity →</a>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: EXPECTATION & GRADIENT IDENTITY                      -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section id="expectation">
+<div class="section-header">
+<div class="step">Section 4</div>
+<h2>Big Question: <span class="highlight">What is the gradient of the log-normaliser pointing at?</span></h2>
+<p>We know $\nabla A(\lambda) = P$. But there's a deeper interpretation: the gradient equals the <strong>expected output embedding</strong> $E[Y]$. This bridges the gap between calculus and geometry.</p>
+</div>
+
+<div class="card">
+<h3>Intuition — Center of Mass</h3>
+<p>Imagine each output embedding $Y_j$ is a weight placed on a board. The probability $P_\lambda(j)$ is how heavy that weight is. The <em>center of mass</em> — where the board balances — is the expected value $E[Y] = \sum_j P_\lambda(j) Y_j$. The gradient $\nabla A(\lambda)$ points exactly to this center of mass.</p>
+</div>
+
+<div class="card">
+<h3>Interactive: Center of Mass Explorer</h3>
+<p>Three output embeddings are placed in a 2D plane. Their weights (sizes) are the Softmax probabilities. Drag the logits to watch the center of mass move.</p>
+<div class="control-group">
+<div class="control">
+<label>$\lambda_1$</label>
+<input type="range" id="expL1" min="-4" max="6" step="0.1" value="2">
+<span class="value" id="expL1val">2.0</span>
+</div>
+<div class="control">
+<label>$\lambda_2$</label>
+<input type="range" id="expL2" min="-4" max="6" step="0.1" value="1">
+<span class="value" id="expL2val">1.0</span>
+</div>
+<div class="control">
+<label>$\lambda_3$</label>
+<input type="range" id="expL3" min="-4" max="6" step="0.1" value="0">
+<span class="value" id="expL3val">0.0</span>
+</div>
+</div>
+<div class="viz-container">
+<canvas id="expCanvas" width="700" height="400"></canvas>
+<div class="viz-label">Output embeddings (circles sized by probability) and center of mass (★)</div>
+</div>
+<div class="card" style="margin-top:12px">
+<div class="math" id="expMathDisplay">
+$$E[Y] = \sum_j P_\lambda(j) Y_j = \nabla A(\lambda)$$
+</div>
+</div>
+</div>
+
+<div class="callout">
+<strong>This is the bridge.</strong> The gradient of the log-normaliser is not just the probability vector — it's the expected output representation. This identity connects the statistical view (probabilities, expectation) with the geometric view (gradient, manifold).
+</div>
+
+<div class="key-insight">
+<h4>✦ Key Insight</h4>
+<p>$$\boxed{\nabla A(\lambda) = E[Y]}$$</p>
+<p>The gradient points toward the weighted average of output embeddings. As logits shift, the gradient moves smoothly across the space — tracing a path on the information-geometric manifold.</p>
+</div>
+
+<a class="next-link" href="#bregman">Next: Bregman Geometry — The Grand Finale →</a>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: BREGMAN DIVERGENCE                                   -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section id="bregman">
+<div class="section-header">
+<div class="step">Section 5</div>
+<h2>Big Question: <span class="highlight">What is the hidden geometry behind Softmax?</span></h2>
+<p>We started with KL divergence (a statistical concept). Through pure algebra, it transforms into a <strong>Bregman divergence</strong> (a geometric concept). This reveals that Softmax induces a curved, non-Euclidean manifold on the representation space.</p>
+</div>
+
+<div class="card">
+<h3>Intuition — The Tangent Plane View</h3>
+<p>Imagine a convex bowl (the graph of $A(\lambda)$). At any point $\lambda$, the Bregman divergence measures the vertical distance between the bowl and its tangent plane at $\lambda$, evaluated at another point $\lambda'$. This is exactly what KL divergence computes — it's the "error" of using a linear approximation at $\lambda$ to predict the value at $\lambda'$.</p>
+</div>
+
+<div class="card">
+<h3>The Derivation — KL → Bregman</h3>
+<p>Starting from the definition of KL divergence and substituting the Softmax probability formula:</p>
+<div class="math">
+$$D_{KL}(P_\lambda\|P_{\lambda'}) = \sum_y P_\lambda(y)\left[(\lambda-\lambda')^T Y_y - A(\lambda) + A(\lambda')\right]$$
+</div>
+<p>Since $\sum_y P_\lambda(y) = 1$ and $\nabla A(\lambda) = \sum_y P_\lambda(y) Y_y$,</p>
+<div class="math">
+$$= (\lambda-\lambda')^T \nabla A(\lambda) - A(\lambda) + A(\lambda')$$
+</div>
+<p>Rearranging gives the <strong>Bregman divergence</strong>:</p>
+<div class="math" style="border:2px solid #34d399;border-radius:12px;padding:20px;margin:16px 0">
+$$\boxed{D_{KL}(P_\lambda\|P_{\lambda'}) = A(\lambda') - A(\lambda) - \nabla A(\lambda)^T (\lambda' - \lambda)}$$
+</div>
+</div>
+
+<div class="card">
+<h3>Interactive: Bregman Divergence Visualised</h3>
+<p>Adjust $\lambda$ (the reference point) and $\lambda'$ (the comparison point) to see the Bregman divergence as the gap between $A(\lambda')$ and the tangent plane at $\lambda$.</p>
+<div class="grid-2">
+<div>
+<h4 style="text-align:center;color:#818cf8;font-size:14px;margin-bottom:8px">Reference $\lambda$</h4>
+<div class="control">
+<label>$\lambda_1$</label>
+<input type="range" id="brL1" min="-3" max="4" step="0.1" value="1">
+<span class="value" id="brL1val">1.0</span>
+</div>
+<div class="control">
+<label>$\lambda_2$</label>
+<input type="range" id="brL2" min="-3" max="4" step="0.1" value="0.5">
+<span class="value" id="brL2val">0.5</span>
+</div>
+</div>
+<div>
+<h4 style="text-align:center;color:#34d399;font-size:14px;margin-bottom:8px">Comparison $\lambda'$</h4>
+<div class="control">
+<label>$\lambda'_1$</label>
+<input type="range" id="brL1p" min="-3" max="4" step="0.1" value="-0.5">
+<span class="value" id="brL1pval">-0.5</span>
+</div>
+<div class="control">
+<label>$\lambda'_2$</label>
+<input type="range" id="brL2p" min="-3" max="4" step="0.1" value="-1">
+<span class="value" id="brL2pval">-1.0</span>
+</div>
+</div>
+</div>
+<div class="viz-container">
+<canvas id="bregmanCanvas" width="700" height="420"></canvas>
+<div class="viz-label" id="bregmanValueLabel">Bregman Divergence = DKL = 0.000</div>
+</div>
+</div>
+
+<div class="card">
+<h3>What This Means</h3>
+<p>The discovery that KL divergence equals a Bregman divergence is profound:</p>
+<ul style="color:#9ca3af;margin-top:8px;padding-left:20px;line-height:2">
+<li><strong>Statistical → Geometric:</strong> A purely statistical distance (KL) has an exact geometric dual (Bregman).</li>
+<li><strong>Curved Space:</strong> The function $A(\lambda) = \log Z$ defines a convex potential that shapes the curvature of the representation space.</li>
+<li><strong>Not Euclidean:</strong> Hidden representations live on a curved information-geometric manifold, not in flat Euclidean space.</li>
+<li><strong>Interpretability Implications:</strong> Methods that assume Euclidean geometry (linear probes, PCA, cosine similarity) may miss the true structure.</li>
+</ul>
+</div>
+
+<div class="key-insight">
+<h4>✦ Core Result</h4>
+<p>Softmax does not merely convert logits to probabilities. It induces an entirely new geometry on the representation space — an information-geometric manifold whose natural distance is KL divergence, algebraically equivalent to a Bregman divergence governed by $A(\lambda)$.</p>
+<p style="margin-top:12px;font-size:1.1rem">$$\boxed{\text{KL Divergence} \;\cong\; \text{Bregman Divergence} \;\cong\; \text{Curved Geometry}}$$</p>
+</div>
+
+<a class="next-link" href="#" style="pointer-events:none;opacity:0.5">← Back to Part 1</a>
+</section>
+
+<footer>
+The Information Geometry of Softmax — Interactive Visualiser Part 2<br>
+Based on the paper by EleutherAI. Built for educational purposes.
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- JAVASCRIPT                                                                  -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<script>
+// ── Utility ──
+const softmax = logits => { const ex = logits.map(Math.exp); const s = ex.reduce((a,b)=>a+b,0); return ex.map(v=>v/s); };
+const clamp = (v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+
+// Polyfill roundRect
+if(!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){this.moveTo(x+r,y);this.arcTo(x+w,y,x+w,y+h,r);this.arcTo(x+w,y+h,x,y+h,r);this.arcTo(x,y+h,x,y,r);this.arcTo(x,y,x+w,y,r);this.closePath();return this;};
+}
+
+// ── 1. Cross-Derivative ──
+function drawCross() {
+  const l1=parseFloat(document.getElementById('crossLambda1').value);
+  const l2=parseFloat(document.getElementById('crossLambda2').value);
+  const l3=parseFloat(document.getElementById('crossLambda3').value);
+  document.getElementById('crossLambda1val').textContent=l1.toFixed(1);
+  document.getElementById('crossLambda2val').textContent=l2.toFixed(1);
+  document.getElementById('crossLambda3val').textContent=l3.toFixed(1);
+
+  const logits=[l1,l2,l3];
+  const probs=softmax(logits);
+  const selfDer = probs[0]*(1-probs[0]);
+  const cross12 = -probs[0]*probs[1];
+  const cross13 = -probs[0]*probs[2];
+
+  const canvas=document.getElementById('crossCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.02)';
+  ctx.fillRect(0,0,W,H);
+
+  const pad={l:50,r:30,t:50,b:50};
+  const cw=(W-pad.l-pad.r)/3*0.5;
+  const gap=(W-pad.l-pad.r)/3*0.5;
+
+  const items=[
+    {label:'∂P₁/∂λ₁\n(self)',val:selfDer,color:'#34d399'},
+    {label:'∂P₂/∂λ₁\n(cross)',val:cross12,color:'#f59e0b'},
+    {label:'∂P₃/∂λ₁\n(cross)',val:cross13,color:'#ef4444'}
+  ];
+  const maxAbs=Math.max(Math.abs(selfDer),Math.abs(cross12),Math.abs(cross13),0.01);
+
+  ctx.textAlign='center';
+  items.forEach((item,i)=>{
+    const x=pad.l+i*(cw+gap)+gap/2;
+    const h=Math.abs(item.val)/maxAbs * (H-pad.t-pad.b)*0.9;
+    const isNeg=item.val<0;
+    const yCenter=H-pad.b;
+
+    // Draw bar from center
+    ctx.fillStyle=item.color+'66';
+    const barH=Math.max(h,2);
+    ctx.beginPath();
+    ctx.roundRect(x,isNeg?yCenter:yCenter-barH,cw,barH,4);
+    ctx.fill();
+
+    // Draw outline
+    ctx.strokeStyle=item.color;
+    ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.roundRect(x,isNeg?yCenter:yCenter-barH,cw,barH,4);
+    ctx.stroke();
+
+    // Value label
+    ctx.fillStyle='#e0e4ef';
+    ctx.font='600 15px Segoe UI,sans-serif';
+    const valY = isNeg ? yCenter+22 : yCenter-barH-10;
+    ctx.fillText(item.val.toFixed(4),x+cw/2,valY);
+
+    // Axis label
+    ctx.fillStyle='#8892a7';
+    ctx.font='11px Segoe UI,sans-serif';
+    ctx.fillText(item.label,x+cw/2,yCenter+40);
+  });
+
+  // Axis line
+  ctx.strokeStyle='rgba(255,255,255,.15)';
+  ctx.lineWidth=1;
+  ctx.beginPath();
+  ctx.moveTo(pad.l,H-pad.b);
+  ctx.lineTo(W-pad.r,H-pad.b);
+  ctx.stroke();
+
+  // Math display
+  document.getElementById('crossMathDisplay').innerHTML=`
+$$P_1 = ${probs[0].toFixed(3)} \\quad P_2 = ${probs[1].toFixed(3)} \\quad P_3 = ${probs[2].toFixed(3)}$$
+
+$$\\frac{\\partial P_1}{\\partial\\lambda_1} = P_1(1-P_1) = ${selfDer.toFixed(4)} \\qquad
+\\frac{\\partial P_2}{\\partial\\lambda_1} = -P_1P_2 = ${cross12.toFixed(4)} \\qquad
+\\frac{\\partial P_3}{\\partial\\lambda_1} = -P_1P_3 = ${cross13.toFixed(4)}$$
+`;
+  if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
+}
+
+// ── 2. Global Coupling / Flow ──
+function drawFlow() {
+  const l1=parseFloat(document.getElementById('flowL1').value);
+  const l2=parseFloat(document.getElementById('flowL2').value);
+  const l3=parseFloat(document.getElementById('flowL3').value);
+  document.getElementById('flowL1val').textContent=l1.toFixed(1);
+  document.getElementById('flowL2val').textContent=l2.toFixed(1);
+  document.getElementById('flowL3val').textContent=l3.toFixed(1);
+
+  const probs=softmax([l1,l2,l3]);
+  const colors=[['#818cf8','#6366f1'],['#34d399','#10b981'],['#f59e0b','#d97706']];
+  const labels=['Token A','Token B','Token C'];
+
+  const canvas=document.getElementById('flowCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.02)';
+  ctx.fillRect(0,0,W,H);
+
+  // Bar chart
+  const pad={t:80,b:80,l:40,r:40};
+  const barW=(W-pad.l-pad.r)/3*0.6;
+  const gap=(W-pad.l-pad.r)/3*0.4;
+  const bh=H-pad.t-pad.b;
+
+  // Draw competition arcs between top of bars
+  const barTops=[];
+  probs.forEach((p,i)=>{
+    const x=pad.l+i*(barW+gap)+gap/2;
+    const h=p*bh;
+    const y=H-pad.b-h;
+    const grad=ctx.createLinearGradient(x,y,x,H-pad.b);
+    grad.addColorStop(0,colors[i][0]);
+    grad.addColorStop(1,colors[i][1]);
+    ctx.fillStyle=grad;
+    ctx.beginPath();
+    ctx.roundRect(x,y,barW,h,6);
+    ctx.fill();
+    ctx.fillStyle='#e0e4ef';
+    ctx.font='600 16px Segoe UI,sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText((p*100).toFixed(1)+'%',x+barW/2,y-8);
+    ctx.fillStyle='#8892a7';
+    ctx.font='13px Segoe UI,sans-serif';
+    ctx.fillText(labels[i],x+barW/2,H-pad.b+18);
+    barTops.push({x:x+barW/2,y:y});
+  });
+
+  // Draw competition arcs
+  const pairs=[[0,1],[0,2],[1,2]];
+  const pairColors=['rgba(129,140,248,0.2)','rgba(52,211,153,0.2)','rgba(245,158,11,0.2)'];
+  const pairTexts=[];
+  pairs.forEach(([i,j],idx)=>{
+    const p1=barTops[i]; const p2=barTops[j];
+    const cx=(p1.x+p2.x)/2; const cy=(p1.y+p2.y)/2-30;
+    // Only draw if both have meaningful probability
+    if(probs[i]>0.01 && probs[j]>0.01){
+      ctx.strokeStyle=pairColors[idx];
+      ctx.lineWidth=1.5;
+      ctx.setLineDash([5,5]);
+      ctx.beginPath();
+      ctx.moveTo(p1.x,p1.y-4);
+      ctx.quadraticCurveTo(cx,cy,p2.x,p2.y-4);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Competition score
+      const comp=probs[i]*probs[j];
+      ctx.fillStyle='#6b7280';
+      ctx.font='11px Segoe UI,sans-serif';
+      ctx.fillText(`×${comp.toFixed(3)}`,cx,cy+4);
+    }
+  });
+
+  // Legend at top
+  ctx.fillStyle='#9ca3af';
+  ctx.font='12px Segoe UI,sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('Dashed arcs show pairwise competition −PᵢPⱼ (stronger = larger product)',W/2,24);
+}
+
+// ── 3. KL Divergence ──
+function drawKL() {
+  const ref=[parseFloat(document.getElementById('klRef1').value),
+             parseFloat(document.getElementById('klRef2').value),
+             parseFloat(document.getElementById('klRef3').value)];
+  const cmp=[parseFloat(document.getElementById('klCmp1').value),
+             parseFloat(document.getElementById('klCmp2').value),
+             parseFloat(document.getElementById('klCmp3').value)];
+  ['klRef1val','klRef2val','klRef3val'].forEach((id,i)=>document.getElementById(id).textContent=ref[i].toFixed(1));
+  ['klCmp1val','klCmp2val','klCmp3val'].forEach((id,i)=>document.getElementById(id).textContent=cmp[i].toFixed(1));
+
+  const pRef=softmax(ref);
+  const pCmp=softmax(cmp);
+
+  // Compute KL
+  let kl=0;
+  for(let i=0;i<3;i++){
+    if(pRef[i]>0 && pCmp[i]>0) kl+=pRef[i]*(Math.log(pRef[i])-Math.log(pCmp[i]));
+    else if(pRef[i]>0 && pCmp[i]<=0) kl=Infinity;
+  }
+
+  const canvas=document.getElementById('klCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.02)';
+  ctx.fillRect(0,0,W,H);
+
+  const pad={l:80,r:30,t:30,b:50};
+  const barW=(W-pad.l-pad.r)/3*0.3;
+  const gap=(W-pad.l-pad.r)/3*0.4;
+
+  // Draw grouped bars
+  for(let i=0;i<3;i++){
+    const x=pad.l+i*(barW*2+gap)+gap/2+10;
+    // Reference
+    const h1=pRef[i]*(H-pad.t-pad.b);
+    ctx.fillStyle='#818cf8';
+    ctx.beginPath();
+    ctx.roundRect(x,H-pad.b-h1,barW,h1,4);
+    ctx.fill();
+    // Comparison
+    const h2=pCmp[i]*(H-pad.t-pad.b);
+    ctx.fillStyle='#34d399';
+    ctx.beginPath();
+    ctx.roundRect(x+barW+6,H-pad.b-h2,barW,h2,4);
+    ctx.fill();
+
+    // Labels
+    ctx.fillStyle='#8892a7';
+    ctx.font='11px Segoe UI,sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText('Token '+(i+1),x+barW+3,H-pad.b+18);
+  }
+
+  // Legend
+  ctx.fillStyle='#818cf8'; ctx.fillRect(pad.l+10,10,14,3); ctx.fillText('Pλ (ref)',pad.l+28,15);
+  ctx.fillStyle='#34d399'; ctx.fillRect(pad.l+120,10,14,3); ctx.fillText('Pλ\' (cmp)',pad.l+138,15);
+  ctx.fillStyle='#f59e0b';
+  ctx.font='600 14px Segoe UI,sans-serif';
+  ctx.textAlign='right';
+  const klDisplay = isFinite(kl) ? kl.toFixed(4) : '∞';
+  ctx.fillText('DKL = '+klDisplay,W-pad.r,22);
+
+  // Math display
+  const term1 = pRef.map((p,i)=>p*(Math.log(p)-Math.log(pCmp[i])));
+  const termStr = pRef.map((p,i)=>`${p.toFixed(3)}(\\log(${p.toFixed(3)})-\\log(${pCmp[i].toFixed(3)}))`).join(' + ');
+  document.getElementById('klMathDisplay').innerHTML=`
+$$D_{KL}(P_\\lambda \\| P_{\\lambda'}) = ${termStr} = \\mathbf{${klDisplay}}$$
+`;
+  if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
+  document.getElementById('klValueLabel').textContent=`KL Divergence DKL = ${klDisplay}`;
+}
+
+// ── 4. Expectation / Center of Mass ──
+function drawExp() {
+  const l1=parseFloat(document.getElementById('expL1').value);
+  const l2=parseFloat(document.getElementById('expL2').value);
+  const l3=parseFloat(document.getElementById('expL3').value);
+  document.getElementById('expL1val').textContent=l1.toFixed(1);
+  document.getElementById('expL2val').textContent=l2.toFixed(1);
+  document.getElementById('expL3val').textContent=l3.toFixed(1);
+
+  const probs=softmax([l1,l2,l3]);
+
+  // Embeddings in 2D space (pretend these are projection of Y1, Y2, Y3)
+  const embeds=[[80,300],[300,80],[520,300]];
+  const comX=embeds.reduce((s,_,i)=>s+probs[i]*embeds[i][0],0)/probs.reduce((a,b)=>a+b,0);
+  const comY=embeds.reduce((s,_,i)=>s+probs[i]*embeds[i][1],0)/probs.reduce((a,b)=>a+b,0);
+
+  const canvas=document.getElementById('expCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.02)';
+  ctx.fillRect(0,0,W,H);
+
+  const colors=['#818cf8','#34d399','#f59e0b'];
+  const labels=['Y₁','Y₂','Y₃'];
+
+  // Draw connecting lines to center of mass
+  ctx.strokeStyle='rgba(255,255,255,.05)';
+  ctx.lineWidth=1;
+  embeds.forEach(([x,y])=>{
+    ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(comX,comY); ctx.stroke();
+  });
+
+  // Draw embeddings as circles sized by probability
+  embeds.forEach(([x,y],i)=>{
+    const radius=20+probs[i]*80;
+    const grad=ctx.createRadialGradient(x-8,y-8,2,x,y,radius);
+    grad.addColorStop(0,colors[i]+'88');
+    grad.addColorStop(1,colors[i]+'33');
+    ctx.fillStyle=grad;
+    ctx.strokeStyle=colors[i];
+    ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(x,y,radius,0,Math.PI*2); ctx.fill(); ctx.stroke();
+
+    // Label
+    ctx.fillStyle=colors[i];
+    ctx.font='600 14px Segoe UI,sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText(labels[i],x,y+radius+16);
+    ctx.fillStyle='#e0e4ef';
+    ctx.font='13px Segoe UI,sans-serif';
+    ctx.fillText((probs[i]*100).toFixed(1)+'%',x,y+4);
+  });
+
+  // Center of mass star
+  ctx.fillStyle='#fbbf24';
+  ctx.shadowColor='#fbbf24';
+  ctx.shadowBlur=20;
+  ctx.font='32px Segoe UI,sans-serif';
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.fillText('★',comX,comY);
+  ctx.shadowBlur=0;
+  ctx.textBaseline='alphabetic';
+
+  // Labels
+  ctx.fillStyle='#fbbf24';
+  ctx.font='600 14px Segoe UI,sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('E[Y] = ∇A(λ)',comX,comY-30);
+
+  // Math display
+  const comStr = embeds.map(([x,y],i)=>`${probs[i].toFixed(3)}\\times(${x},${y})`).join(' + ');
+  document.getElementById('expMathDisplay').innerHTML=`
+$$E[Y] = ${comStr} = (${comX.toFixed(1)}, ${comY.toFixed(1)})$$
+
+$$\\nabla A(\\lambda) = E[Y] = \\text{center of mass of output embeddings}$$
+`;
+  if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
+}
+
+// ── 5. Bregman Divergence ──
+function drawBregman() {
+  const ref=[parseFloat(document.getElementById('brL1').value),
+             parseFloat(document.getElementById('brL2').value)];
+  const cmp=[parseFloat(document.getElementById('brL1p').value),
+             parseFloat(document.getElementById('brL2p').value)];
+  document.getElementById('brL1val').textContent=ref[0].toFixed(1);
+  document.getElementById('brL2val').textContent=ref[1].toFixed(1);
+  document.getElementById('brL1pval').textContent=cmp[0].toFixed(1);
+  document.getElementById('brL2pval').textContent=cmp[1].toFixed(1);
+
+  // For 2D case, compute A(λ) = log(exp(λ1)+exp(λ2)+1) — third logit fixed at 0
+  const A = (l) => Math.log(Math.exp(l[0])+Math.exp(l[1])+Math.exp(0));
+  const gradA = (l) => {
+    const ex=[Math.exp(l[0]),Math.exp(l[1]),Math.exp(0)];
+    const s=ex.reduce((a,b)=>a+b,0);
+    return [ex[0]/s, ex[1]/s];
+  };
+  const Aref=A(ref), Acmp=A(cmp);
+  const g=gradA(ref);
+  const bregman = Acmp - Aref - (g[0]*(cmp[0]-ref[0])+g[1]*(cmp[1]-ref[1]));
+
+  const canvas=document.getElementById('bregmanCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.02)';
+  ctx.fillRect(0,0,W,H);
+
+  const pad={l:90,r:50,t:40,b:60};
+
+  // Compute surface over grid of λ1, λ2
+  const grid=30;
+  const l1Range=[-3,4]; const l2Range=[-3,4];
+  const zs=[];
+  let minZ=Infinity, maxZ=-Infinity;
+  for(let i=0;i<=grid;i++){
+    const row=[];
+    for(let j=0;j<=grid;j++){
+      const l1=l1Range[0]+i*(l1Range[1]-l1Range[0])/grid;
+      const l2=l2Range[0]+j*(l2Range[1]-l2Range[0])/grid;
+      const z=A([l1,l2]);
+      row.push(z);
+      if(z<minZ) minZ=z;
+      if(z>maxZ) maxZ=z;
+    }
+    zs.push(row);
+  }
+  const zRange=maxZ-minZ;
+
+  // Map (l1,l2) to canvas coords
+  const toX=(l1)=>pad.l+(l1-l1Range[0])/(l1Range[1]-l1Range[0])*(W-pad.l-pad.r);
+  const toY=(l2,z)=>pad.t+(1-(z-minZ)/(zRange||1))*0.6*(H-pad.t-pad.b);
+  // For the surface, z maps to height
+  const toZ=(z)=>pad.t+(0.6+0.4*(z-minZ)/(zRange||1))*(H-pad.t-pad.b);  // unused, keep
+
+  // Draw heatmap of A(λ)
+  const cellW=(W-pad.l-pad.r)/grid;
+  const cellH=0.6*(H-pad.t-pad.b)/grid;
+  for(let i=0;i<grid;i++){
+    for(let j=0;j<grid;j++){
+      const avg=(zs[i][j]+zs[i+1][j]+zs[i][j+1]+zs[i+1][j+1])/4;
+      const norm=(avg-minZ)/(zRange||1);
+      const r=Math.round(10+norm*40);
+      const gs=Math.round(14+norm*80);
+      const b=Math.round(23+norm*100);
+      ctx.fillStyle=`rgb(${r},${gs},${b})`;
+      const x=pad.l+i*cellW;
+      const y=pad.t+j*cellH;
+      ctx.fillRect(x,y,cellW,cellH);
+    }
+  }
+
+  // Draw A(λ) contour lines
+  ctx.strokeStyle='rgba(255,255,255,.08)';
+  ctx.lineWidth=1;
+  for(let i=0;i<=grid;i+=5){
+    ctx.beginPath();
+    for(let j=0;j<=grid;j++){
+      const l1=l1Range[0]+i*(l1Range[1]-l1Range[0])/grid;
+      const l2=l2Range[0]+j*(l2Range[1]-l2Range[0])/grid;
+      const z=A([l1,l2]);
+      const x=toX(l1); const y=toY(l2,z);
+      j===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+  }
+  for(let j=0;j<=grid;j+=5){
+    ctx.beginPath();
+    for(let i=0;i<=grid;i++){
+      const l1=l1Range[0]+i*(l1Range[1]-l1Range[0])/grid;
+      const l2=l2Range[0]+j*(l2Range[1]-l2Range[0])/grid;
+      const z=A([l1,l2]);
+      const x=toX(l1); const y=toY(l2,z);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+  }
+
+  // Plot reference point λ
+  const refZ=A(ref);
+  const refX=toX(ref[0]);
+  const refY=toY(ref[1],refZ);
+
+  // Plot comparison point λ'
+  const cmpZ=A(cmp);
+  const cmpX=toX(cmp[0]);
+  const cmpY=toY(cmp[1],cmpZ);
+
+  // Draw vertical line from λ' down to surface
+  const projY=toY(cmp[1],cmpZ);
+
+  // Tangent plane value at λ' position
+  const tangentAtCmp = Aref + g[0]*(cmp[0]-ref[0]) + g[1]*(cmp[1]-ref[1]);
+  const tangentY=toY(cmp[1],tangentAtCmp);
+
+  // Draw Bregman gap
+  const gapTop=Math.min(cmpY, tangentY);
+  const gapBot=Math.max(cmpY, tangentY);
+  ctx.fillStyle='rgba(251,191,36,0.2)';
+  ctx.strokeStyle='#fbbf24';
+  ctx.lineWidth=2;
+  ctx.beginPath();
+  ctx.moveTo(cmpX-12,gapTop);
+  ctx.lineTo(cmpX+12,gapTop);
+  ctx.lineTo(cmpX+12,gapBot);
+  ctx.lineTo(cmpX-12,gapBot);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // Label the gap
+  ctx.fillStyle='#fbbf24';
+  ctx.font='12px Segoe UI,sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('Bregman D',cmpX,Math.min(cmpY,tangentY)-8);
+
+  // Plot point for reference
+  ctx.fillStyle='#818cf8';
+  ctx.beginPath(); ctx.arc(refX,refY,8,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#e0e4ef';
+  ctx.font='12px Segoe UI,sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('λ (ref)',refX,refY-14);
+
+  // Plot point for comparison
+  ctx.fillStyle='#34d399';
+  ctx.beginPath(); ctx.arc(cmpX,cmpY,8,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#e0e4ef';
+  ctx.font='12px Segoe UI,sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText("λ' (cmp)",cmpX,cmpY+22);
+
+  // Tangent line (simplified: just a line through ref with slope = gradient)
+  ctx.strokeStyle='rgba(129,140,248,0.3)';
+  ctx.lineWidth=1.5;
+  ctx.setLineDash([6,4]);
+  const tanXL=toX(l1Range[0]);
+  const tanXR=toX(l1Range[1]);
+  // At ref: tangent value = Aref + g dot (l - ref)
+  const tanAtL = (l) => Aref + g[0]*(l-ref[0]) + g[1]*(toY(l,0)-toY(ref[0],0)); // simplified
+  // Just draw a line through ref point with slope g
+  const slope = g[0];
+  const dx=60;
+  const y1=refY - slope*dx*0.6;
+  const y2=refY + slope*dx*0.6;
+  ctx.beginPath();
+  ctx.moveTo(refX-dx,y1);
+  ctx.lineTo(refX+dx,y2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='rgba(129,140,248,0.5)';
+  ctx.font='11px Segoe UI,sans-serif';
+  ctx.textAlign='right';
+  ctx.fillText('tangent ∇A(λ)',refX+dx-4,y2-6);
+
+  // Axes
+  ctx.strokeStyle='rgba(255,255,255,.1)';
+  ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(pad.l,H-pad.b); ctx.lineTo(W-pad.r,H-pad.b); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(pad.l,pad.t); ctx.lineTo(pad.l,H-pad.b); ctx.stroke();
+  ctx.fillStyle='#6b7280';
+  ctx.font='11px Segoe UI,sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('λ₁',W/2,H-8);
+  ctx.save(); ctx.translate(14,H/2); ctx.rotate(-Math.PI/2); ctx.fillText('λ₂ / A(λ)',0,0); ctx.restore();
+
+  // Value display
+  const bregDisp = isFinite(bregman) ? bregman.toFixed(4) : '∞';
+  document.getElementById('bregmanValueLabel').textContent=`Bregman Divergence = DKL = ${bregDisp}`;
+}
+
+// ── Wire event listeners ──
+document.addEventListener('DOMContentLoaded',()=>{
+  // Section 1
+  ['crossLambda1','crossLambda2','crossLambda3'].forEach(id=>document.getElementById(id).addEventListener('input',drawCross));
+  // Section 2
+  ['flowL1','flowL2','flowL3'].forEach(id=>document.getElementById(id).addEventListener('input',drawFlow));
+  // Section 3
+  ['klRef1','klRef2','klRef3','klCmp1','klCmp2','klCmp3'].forEach(id=>document.getElementById(id).addEventListener('input',drawKL));
+  // Section 4
+  ['expL1','expL2','expL3'].forEach(id=>document.getElementById(id).addEventListener('input',drawExp));
+  // Section 5
+  ['brL1','brL2','brL1p','brL2p'].forEach(id=>document.getElementById(id).addEventListener('input',drawBregman));
+
+  // Initial draws
+  drawCross(); drawFlow(); drawKL(); drawExp(); drawBregman();
+
+  // Nav highlight
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+        const link=document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if(link) link.classList.add('active');
+      }
+    });
+  },{threshold:0.3});
+  document.querySelectorAll('section[id]').forEach(s=>observer.observe(s));
+});
+</script>
+</body>
+</html>

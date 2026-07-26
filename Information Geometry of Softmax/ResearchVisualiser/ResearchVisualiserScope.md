@@ -5,6 +5,17 @@
 
 ---
 
+## 🚀 View Online
+
+Click the links below to open the visualisers directly in your browser (no download needed):
+
+| Part | Link |
+|------|------|
+| **Part 1 — Softmax Foundation** | [Open in Browser](https://htmlpreview.github.io/?https://github.com/divyamtewary/research/blob/main/Information%20Geometry%20of%20Softmax/ResearchVisualiser/Part1_SoftmaxFoundation.html) |
+| **Part 2 — Geometry & KL Divergence** | [Open in Browser](https://htmlpreview.github.io/?https://github.com/divyamtewary/research/blob/main/Information%20Geometry%20of%20Softmax/ResearchVisualiser/Part2_GeometryAndKL.html) |
+
+---
+
 ## Aim
 
 To build an interactive, browser-based educational artifact that makes the first half of *The Information Geometry of Softmax* paper accessible to learners without requiring them to read the original arxiv paper.
@@ -89,7 +100,3 @@ ResearchVisualiser/
 ├── Part1_SoftmaxFoundation.html  ← Sections 1-5 from ResearchScope_01
 └── Part2_GeometryAndKL.html      ← Sections 1-5 from ResearchScope_02
 ```
-
----
-
-> **Next step:** Build `Part1_SoftmaxFoundation.html` and `Part2_GeometryAndKL.html` following the structure above.

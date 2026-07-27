@@ -64,18 +64,18 @@ This creates a high barrier for newcomers. The visualiser bridges that gap by:
 |---------|---------|-------------------|
 | 1 | Euclidean representation space vs. probability space | Side-by-side comparison canvas |
 | 2 | The Softmax transformation (exp + normalize) | Live bar chart: logits → probabilities with sliders |
-| 3 | Partition function <img src="math_svgs/i21c2e59531c8.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/>g src="math_svgs/i21c2e59531c8.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> and log-normaliser <img src="math_svgs/i0a365f67af7f.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> | Real-time <img src="math_svgs/i21c2e59531c8.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> calculator with animated sensitivity |
-| 4 | Gradient of the log-normaliser <img src="math_svgs/if6a85aa18dd8.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> | Visual proof that gradient components equal probabilities |
-| 5 | Self-derivative <img src="math_svgs/i66a83cc1b71f.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> | Sigmoid-like curve explorer |
+| 3 | Partition function ![Z](math_svgs/i21c2e59531c8.svg)](math_svgs/i21c2e59531c8.svg) and log-normaliser ![A\lambda](math_svgs/i0a365f67af7f.svg) | Real-time $Z$ calculator with animated sensitivity |
+| 4 | Gradient of the log-normaliser ![\nabla A = P](math_svgs/if6a85aa18dd8.svg) | Visual proof that gradient components equal probabilities |
+| 5 | Self-derivative ![\partial P_i / ](math_svgs/i66a83cc1b71f.svg) | Sigmoid-like curve explorer |
 
 ## Scope — Part 2 (ResearchScope_02)
 
 | Section | Concept | Interactive Element |
 |---------|---------|-------------------|
-| 1 | Cross-derivative <img src="math_svgs/i94306ae8dbc7.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> | Coupled sliders showing token competition |
+| 1 | Cross-derivative ![\partial P_j / ](math_svgs/i94306ae8dbc7.svg) | Coupled sliders showing token competition |
 | 2 | Global coupling & probability stealing | Waterfall / flow diagram of probability mass |
 | 3 | Behavioral distance via KL divergence | Two-distribution comparison with KL heatmap |
-| 4 | Expectation <img src="math_svgs/ia7536de6a5a3.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> and gradient identity | Weighted average visualization with center of mass |
+| 4 | Expectation ![EY](math_svgs/ia7536de6a5a3.svg) and gradient identity | Weighted average visualization with center of mass |
 | 5 | Bregman divergence from KL | Geometric diagram showing the tangent plane interpretation |
 
 ---

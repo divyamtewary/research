@@ -12,21 +12,28 @@ Previously we established
 
 1. The partition function
 
-<img src="math_svgs/dea77eeb40be8.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![Z=\sum_i e^{\lambda_](math_svgs/dea77eeb40be8.svg)
+
 
 2. The log-normaliser
 
-<img src="math_svgs/dd754f85dcbd0.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>f85dcbd0.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![A\lambda=\log Z](math_svgs/dd754f85dcbd0.svg)
+svgs/dd754f85dcbd0.svg)
+
 
 3. The gradient of the log-normaliser
 
-<img src="math_svgs/d0a6f2c23f0a7.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\nabla A\lambda=P](math_svgs/d0a6f2c23f0a7.svg)
+
 
 4. The self-derivative of Softmax
 
-<img src="math_svgs/da0f22a7f09da.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>lay:block;margin:1em auto;max-width:100%"/>lay:block;margin:1em auto;max-width:100%"/>
 
-This section answers two new questions:
+![\frac{\partial P_i}{](math_svgs/da0f22a7f09da.svg)
+on answers two new questions:
 
 - How do the probabilities of *other* tokens change when one logit changes?
 - How does this lead naturally to the geometry induced by Softmax?
@@ -37,11 +44,15 @@ This section answers two new questions:
 
 Suppose
 
-<img src="math_svgs/d74a42273ab38.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![P_2=\frac{e^{\lambda](math_svgs/d74a42273ab38.svg)
+
 
 We now increase
 
-<img src="math_svgs/def8865f6e97b.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\lambda_1](math_svgs/def8865f6e97b.svg)
+
 
 instead.
 
@@ -49,17 +60,23 @@ Notice something important.
 
 The numerator
 
-<img src="math_svgs/d88d96debf646.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![e^{\lambda_2}](math_svgs/d88d96debf646.svg)
+
 
 does **not** change.
 
 Only the denominator changes because
 
-<img src="math_svgs/d01825d4d45bf.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![Z=e^{\lambda_1}+e^{\](math_svgs/d01825d4d45bf.svg)
+
 
 still contains
 
-<img src="math_svgs/d6de86b8f500a.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\lambda_1.](math_svgs/d6de86b8f500a.svg)
+
 
 ---
 
@@ -67,27 +84,42 @@ still contains
 
 Since
 
-<img src="math_svgs/d954640138d5e.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\frac{d}{d\lambda_1}](math_svgs/d954640138d5e.svg)
+
 
 and
 
-<img src="math_svgs/dddbcb767452e.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\frac{\partial Z}{\p](math_svgs/dddbcb767452e.svg)
+
 
 we obtain
 
-<img src="math_svgs/d426c7f20b592.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\frac{\partial P_2}{](math_svgs/d426c7f20b592.svg)
+
 
 Recognizing
 
-<img src="math_svgs/d9d302358232f.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![P_i=\frac{e^{\lambda](math_svgs/d9d302358232f.svg)
+s/d9d302358232f.svg)
+
 
 gives
 
-<img src="math_svgs/deb33622ef288.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\boxed{
+\frac{\part](math_svgs/deb33622ef288.svg)
+
 
 Likewise,
 
-<img src="math_svgs/dca06266e7206.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\boxed{
+\frac{\part](math_svgs/dca06266e7206.svg)
+
 
 ---
 
@@ -97,11 +129,17 @@ Two complementary results have now emerged.
 
 Self influence:
 
-<img src="math_svgs/da0f22a7f09da.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>display:block;margin:1em auto;max-width:100%"/>
+$$
+\frac{\partial P_i}{\partial\lambda_i}
+=
+P_i(1-P_i)
+$$
 
 Cross influence:
 
-<img src="math_svgs/db6688e101848.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\frac{\partial P_j}{](math_svgs/db6688e101848.svg)
+
 
 These equations reveal a competition between tokens.
 
@@ -146,21 +184,29 @@ Suppose
 
 Current hidden state
 
-<img src="math_svgs/dc6a6eb61fd9c.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\lambda](math_svgs/dc6a6eb61fd9c.svg)
+
 
 moves to
 
-<img src="math_svgs/d32a5abceaf78.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\lambda'.](math_svgs/d32a5abceaf78.svg)
+
 
 The correct notion of distance is therefore
 
 the difference between
 
-<img src="math_svgs/d0d370d005e07.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![P_\lambda](math_svgs/d0d370d005e07.svg)
+
 
 and
 
-<img src="math_svgs/d84ef3c2a3be7.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![P_{\lambda'}.](math_svgs/d84ef3c2a3be7.svg)
+
 
 ---
 
@@ -172,7 +218,10 @@ the Kullback-Leibler divergence.
 
 Definition
 
-<img src="math_svgs/db4abb600d0f3.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![D_{KL}
+P_\lambda\|](math_svgs/db4abb600d0f3.svg)
+
 
 KL divergence measures how surprising one probability distribution appears when compared with another.
 
@@ -192,15 +241,20 @@ It measures behavioral change.
 
 Recall
 
-<img src="math_svgs/d4f660d81b90b.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\log P_\lambda
+=
+\](math_svgs/d4f660d81b90b.svg)
+
 
 Substituting this into KL divergence gives
 
-<img src="math_svgs/d92718414433a.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
-# Expected Value
-
-Before simplifying this equation,
+![D_{KL}
+=
+\sum_y
+P](math_svgs/d92718414433a.svg)
+ation,
 
 the paper introduces expectation.
 
@@ -215,7 +269,11 @@ Suppose a game pays
 
 Expected payout
 
-<img src="math_svgs/d76ac90fb76e5.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![0.20\times10
++
+0.8](math_svgs/d76ac90fb76e5.svg)
+
 
 Neural networks follow exactly the same idea.
 
@@ -227,7 +285,12 @@ the output embeddings.
 
 Therefore
 
-<img src="math_svgs/d37a8bd02aa9b.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\boxed{
+EY
+=
+\s](math_svgs/d37a8bd02aa9b.svg)
+
 
 This is the probability-weighted average output embedding.
 
@@ -241,23 +304,34 @@ it represents the center of mass of the output embeddings.
 
 Earlier we proved
 
-<img src="math_svgs/d697b10ea82bc.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\frac{\partial A}{\p](math_svgs/d697b10ea82bc.svg)
+
 
 Collecting all partial derivatives produces
 
 the gradient
 
-<img src="math_svgs/dde6ed4904821.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>d4904821.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\nabla A\lambda](math_svgs/dde6ed4904821.svg)
+svgs/dde6ed4904821.svg)
+
 
 Since every component equals a probability,
 
 the complete gradient becomes
 
-<img src="math_svgs/d2771d74c298b.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\boxed{
+\nabla A\l](math_svgs/d2771d74c298b.svg)
+
 
 Recognize immediately that
 
-<img src="math_svgs/dca12851f7ef7.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\boxed{
+\nabla A\l](math_svgs/dca12851f7ef7.svg)
+
 
 This is one of the most important identities in the paper.
 
@@ -269,21 +343,39 @@ The gradient is literally the expected output representation.
 
 Starting from
 
-<img src="math_svgs/d92718414433a.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+$$
+D_{KL}
+=
+\sum_y
+P_\lambda(y)
+\left[
+(\lambda-\lambda')^TY_y
+-
+A(\lambda)
++
+A(\lambda')
+\right]
+$$
 
 Notice
 
-<img src="math_svgs/d0a365f67af7f.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![A\lambda](math_svgs/d0a365f67af7f.svg)
+
 
 and
 
-<img src="math_svgs/d2dca3fdfc0f4.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![A\lambda'](math_svgs/d2dca3fdfc0f4.svg)
+
 
 are constants with respect to the summation.
 
 Since
 
-<img src="math_svgs/d4ae6bf6f1a86.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\sum_yP_\lambday=1](math_svgs/d4ae6bf6f1a86.svg)
+
 
 they simplify immediately.
 
@@ -291,15 +383,21 @@ The first vector term can also be factored outside the summation.
 
 This produces
 
-<img src="math_svgs/d3fb38ab66360.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\lambda-\lambda'^T](math_svgs/d3fb38ab66360.svg)
+
 
 Replacing the summation with
 
-<img src="math_svgs/dde6ed4904821.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+$$
+\nabla A(\lambda)
+$$
 
 gives
 
-<img src="math_svgs/df96ce0126cc7.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\lambda-\lambda'^T](math_svgs/df96ce0126cc7.svg)
+
 
 ---
 
@@ -309,7 +407,11 @@ Putting everything together,
 
 the KL divergence becomes
 
-<img src="math_svgs/d9553f4bfa971.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\boxed{
+D_{KL}
+P_](math_svgs/d9553f4bfa971.svg)
+
 
 This is exactly the definition of a **Bregman divergence**.
 
@@ -339,7 +441,9 @@ It induces an entirely new geometry on the representation space.
 
 The curvature of that geometry is governed by
 
-<img src="math_svgs/d6230fb62c903.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![A\lambda.](math_svgs/d6230fb62c903.svg)
+
 
 The hidden representation space is therefore **not Euclidean**.
 
@@ -355,19 +459,27 @@ The first half of the paper establishes several foundational identities.
 
 ### Softmax
 
-<img src="math_svgs/d9d302358232f.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+$$
+P_i=\frac{e^{\lambda_i}}Z
+$$
 
 ### Partition Function
 
-<img src="math_svgs/d602b7acfb9de.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![Z=\sum_ie^{\lambda_i](math_svgs/d602b7acfb9de.svg)
+
 
 ### Log-Normaliser
 
-<img src="math_svgs/dd754f85dcbd0.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+$$
+A(\lambda)=\log Z
+$$
 
 ### Gradient
 
-<img src="math_svgs/d7be4db7041f3.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\nabla A=P](math_svgs/d7be4db7041f3.svg)
+
 
 ### Self-Derivative
 
@@ -375,19 +487,32 @@ The first half of the paper establishes several foundational identities.
 
 ### Cross-Derivative
 
-<img src="math_svgs/d560901de3e3d.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\frac{\partial P_j}{](math_svgs/d560901de3e3d.svg)
+
 
 ### Expected Value
 
-<img src="math_svgs/dea44e6fe00c8.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![EY
+=
+\sum_yPyY](math_svgs/dea44e6fe00c8.svg)
+
 
 ### Gradient Identity
 
-<img src="math_svgs/d383474297d4b.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![\nabla A\lambda
+=](math_svgs/d383474297d4b.svg)
+
 
 ### KL Divergence
 
-<img src="math_svgs/db6f2812c1651.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
+
+![D_{KL}
+=
+A\lambda](math_svgs/db6f2812c1651.svg)
+
 
 ---
 

@@ -27,6 +27,11 @@ async function processFile(mjAPI, filePath) {
   const fileDir = path.dirname(filePath);
   const svgDir = path.join(fileDir, SVG_DIR);
   if (!fs.existsSync(svgDir)) fs.mkdirSync(svgDir, { recursive: true });
+
+  // Build the raw GitHub URL prefix from the relative path
+  // e.g. "Information Geometry of Softmax/math_svgs/" → raw.githubusercontent.com/.../main/...
+  const svgUrlPrefix = SVG_DIR + '/';  // relative URL for markdown ![alt](path)
+
   const reps = []; let m;
 
   DISPLAY_RE.lastIndex = 0;
@@ -35,7 +40,8 @@ async function processFile(mjAPI, filePath) {
     const svg = await render(mjAPI, expr, true); if (!svg) continue;
     const fn = 'd'+hash(expr)+'.svg';
     fs.writeFileSync(path.join(svgDir,fn), svg, 'utf8');
-    reps.push({from:m[0], to:'<img src="'+SVG_DIR+'/'+fn+'" alt="math" style="display:block;margin:1em auto;max-width:100%"/>'});
+    // Use Markdown image syntax: ![alt](path) which GitHub renders natively
+    reps.push({from:m[0], to:'\n!['+expr.substring(0,20).replace(/[\[\]()]/g,'')+']('+svgUrlPrefix+fn+')\n'});
   }
 
   INLINE_RE.lastIndex = 0;
@@ -44,7 +50,8 @@ async function processFile(mjAPI, filePath) {
     const svg = await render(mjAPI, expr, false); if (!svg) continue;
     const fn = 'i'+hash(expr)+'.svg';
     fs.writeFileSync(path.join(svgDir,fn), svg, 'utf8');
-    reps.push({from:m[0], to:'<img src="'+SVG_DIR+'/'+fn+'" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/>'});
+    // Inline markdown image
+    reps.push({from:m[0], to:'!['+expr.substring(0,15).replace(/[\[\]()]/g,'')+']('+svgUrlPrefix+fn+')'});
   }
 
   if (reps.length > 0) {

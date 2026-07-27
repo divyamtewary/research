@@ -16,7 +16,13 @@ function hash(s) { return crypto.createHash('md5').update(s.replace(/\s+/g,' ').
 async function render(mjAPI, math, isDisplay) {
   return new Promise(resolve => {
     mjAPI.typeset({ math, format:'TeX', svg:true, ex:6, display:isDisplay }, d => {
-      resolve((!d.errors && d.svg && d.svg.length > 50) ? d.svg : null);
+      if (d.errors || !d.svg || d.svg.length < 50) { resolve(null); return; }
+      // Inject white fill into the SVG so it's visible on dark backgrounds
+      const svg = d.svg
+        .replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ')
+        .replace(/fill="currentColor"/g, 'fill="#e0e4ef"')
+        .replace(/stroke="currentColor"/g, 'stroke="#e0e4ef"');
+      resolve(svg.includes('fill=') ? svg : svg.replace('<svg ', '<svg fill="#e0e4ef" '));
     });
   });
 }
@@ -32,7 +38,8 @@ async function processFile(mjAPI, filePath) {
   // e.g. "Information Geometry of Softmax/math_svgs/" → raw.githubusercontent.com/.../main/...
   const svgUrlPrefix = SVG_DIR + '/';  // relative URL for markdown ![alt](path)
 
-  const reps = []; let m;
+  const replaces = [];
+  const usedRanges = []; // track {start, end} positions already claimed
 
   DISPLAY_RE.lastIndex = 0;
   while ((m = DISPLAY_RE.exec(content)) !== null) {
@@ -40,26 +47,36 @@ async function processFile(mjAPI, filePath) {
     const svg = await render(mjAPI, expr, true); if (!svg) continue;
     const fn = 'd'+hash(expr)+'.svg';
     fs.writeFileSync(path.join(svgDir,fn), svg, 'utf8');
-    // Use safe markdown: just equation number as alt text
-    reps.push({from:m[0], to:'\n![equation](math_svgs/'+fn+')\n'});
+    replaces.push({from:m[0], to:'\n![equation](math_svgs/'+fn+')\n'});
+    usedRanges.push({start: m.index, end: m.index + m[0].length});
   }
 
   INLINE_RE.lastIndex = 0;
   while ((m = INLINE_RE.exec(content)) !== null) {
     const expr = m[1].trim(); if (!expr) continue;
+    const start = m.index, end = start + m[0].length;
+    // Skip if this range overlaps any already-used range
+    if (usedRanges.some(r => start >= r.start && end <= r.end)) continue;
+    if (usedRanges.some(r => !(end <= r.start || start >= r.end))) continue;
+    usedRanges.push({start, end});
     const svg = await render(mjAPI, expr, false); if (!svg) continue;
     const fn = 'i'+hash(expr)+'.svg';
     fs.writeFileSync(path.join(svgDir,fn), svg, 'utf8');
-    reps.push({from:m[0], to:'![eq](math_svgs/'+fn+')'});
+    replaces.push({from:m[0], to:'![eq](math_svgs/'+fn+')'});
   }
 
-  if (reps.length > 0) {
+  if (replaces.length > 0) {
     let nc = content;
-    reps.map(r=>({...r,idx:content.indexOf(r.from)})).filter(r=>r.idx>=0).sort((a,b)=>b.idx-a.idx).forEach(r=>{
+    const sorted = replaces.map(r=>({...r,idx:content.indexOf(r.from)})).filter(r=>r.idx>=0).sort((a,b)=>b.idx-a.idx);
+    // Deduplicate: skip replacements at the same position
+    const seen = new Set();
+    for (const r of sorted) {
+      if (seen.has(r.idx)) continue;
+      seen.add(r.idx);
       nc = nc.substring(0,r.idx) + r.to + nc.substring(r.idx+r.from.length);
-    });
+    }
     fs.writeFileSync(filePath, nc, 'utf8');
-    console.log(filePath + ' — ' + reps.length + ' expressions');
+    console.log(filePath + ' — ' + seen.size + ' expressions');
   }
 }
 

@@ -1,7 +1,6 @@
 # The Information Geometry of Softmax
 
 > Personal study notes based on *The Information Geometry of Softmax* paper.
-> *(Math rendered with KaTeX SVGs via GitHub Actions)*
 
 ---
 
@@ -85,7 +84,7 @@ Assume the model produces a hidden representation
 
 where
 
-- ![eq](math_svgs/ic6a6eb61fd9c.svg)h_svgs/ic6a6eb61fd9c.svg)h_svgs/ic6a6eb61fd9c.svg) is a hidden vector
+- ![eq](math_svgs/ic6a6eb61fd9c.svg) is a hidden vector
 - ![eq](math_svgs/i8277e0910d75.svg) is the dimensionality of the hidden space
 
 Example
@@ -122,7 +121,7 @@ meaning every output embedding has exactly the same dimensionality as the hidden
 
 # Softmax Probability Distribution
 
-The probability of selecting token ![eq](math_svgs/i8a08bb342996.svg)(math_svgs/i8a08bb342996.svg) given hidden representation $\lambda$ is
+The probability of selecting token ![eq](math_svgs/i8a08bb342996.svg) given hidden representation $\lambda$ is
 
 
 ![equation](math_svgs/df1290c0e2b81.svg)
@@ -210,8 +209,6 @@ Instead,
 
 
 ![equation](math_svgs/dd754f85dcbd0.svg)
-754f85dcbd0.svg)
-754f85dcbd0.svg)
 
 
 where
@@ -391,7 +388,6 @@ Recognize that
 
 
 ![equation](math_svgs/d7305a7167da4.svg)
-da4.svg)
 
 
 Therefore

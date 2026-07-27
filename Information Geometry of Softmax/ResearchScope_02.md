@@ -1,6 +1,5 @@
 # The Information Geometry of Softmax
 ## Part 2 — Probability Geometry, KL Divergence and Bregman Geometry
-> *(Math rendered with KaTeX SVGs via GitHub Actions)*
 
 ---
 
@@ -20,7 +19,6 @@ Previously we established
 
 
 ![equation](math_svgs/dd754f85dcbd0.svg)
-754f85dcbd0.svg)
 
 
 3. The gradient of the log-normaliser
@@ -33,7 +31,9 @@ Previously we established
 
 
 ![equation](math_svgs/da0f22a7f09da.svg)
-ions:
+
+
+This section answers two new questions:
 
 - How do the probabilities of *other* tokens change when one logit changes?
 - How does this lead naturally to the geometry induced by Softmax?
@@ -104,7 +104,6 @@ Recognizing
 
 
 ![equation](math_svgs/d9d302358232f.svg)
-32f.svg)
 
 
 gives
@@ -246,7 +245,15 @@ Substituting this into KL divergence gives
 
 
 ![equation](math_svgs/d92718414433a.svg)
-e paper introduces expectation.
+
+
+---
+
+# Expected Value
+
+Before simplifying this equation,
+
+the paper introduces expectation.
 
 Expectation is simply a weighted average.
 
@@ -299,7 +306,6 @@ the gradient
 
 
 ![equation](math_svgs/dde6ed4904821.svg)
-e6ed4904821.svg)
 
 
 Since every component equals a probability,

@@ -124,7 +124,7 @@ The probability of selecting token <img src="math_svgs/i8a08bb342996.svg" alt="m
 
 <img src="math_svgs/d4ea70834d831.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
-This represents the probability that the model predicts token <img src="math_svgs/i8a08bb342996.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> given hidden representation $\lambda$.
+This represents the probability that the model predicts token <img src="math_svgs/i8a08bb342996.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> given hidden representation <img src="math_svgs/ic6a6eb61fd9c.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/>.
 
 ---
 
@@ -301,9 +301,7 @@ This measures how rapidly the partition function grows as <img src="math_svgs/ie
 
 Since
 
-$$
-A(\lambda)=\log Z
-$$
+<img src="math_svgs/dd754f85dcbd0.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 Chain rule gives
 

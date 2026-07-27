@@ -122,7 +122,7 @@ meaning every output embedding has exactly the same dimensionality as the hidden
 
 # Softmax Probability Distribution
 
-The probability of selecting token ![eq](math_svgs/i8a08bb342996.svg)(math_svgs/i8a08bb342996.svg) given hidden representation $\lambda$ is
+The probability of selecting token ![eq](math_svgs/i8a08bb342996.svg)(math_svgs/i8a08bb342996.svg) given hidden representation ![eq](math_svgs/ic6a6eb61fd9c.svg)h_svgs/ic6a6eb61fd9c.svg) is
 
 
 ![equation](math_svgs/df1290c0e2b81.svg)
@@ -138,7 +138,7 @@ The probability of selecting token ![eq](math_svgs/i8a08bb342996.svg)(math_svgs/
 ![equation](math_svgs/d4ea70834d831.svg)
 
 
-This represents the probability that the model predicts token $Y_j$ given hidden representation $\lambda$.
+This represents the probability that the model predicts token ![eq](math_svgs/i8a08bb342996.svg) given hidden representation $\lambda$.
 
 ---
 
@@ -293,9 +293,10 @@ Now
 
 Also,
 
-$$
-A(\lambda)=\log Z
-$$
+
+![equation](math_svgs/dd754f85dcbd0.svg)
+dd754f85dcbd0.svg)
+
 
 ---
 
@@ -418,9 +419,9 @@ This is one of the central geometric results of the paper.
 
 Recall
 
-$$
-P_1=\frac{e^{\lambda_1}}Z
-$$
+
+![equation](math_svgs/d7305a7167da4.svg)
+
 
 Using the quotient rule,
 

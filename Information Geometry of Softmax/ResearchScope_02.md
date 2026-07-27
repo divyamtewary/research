@@ -455,11 +455,9 @@ The first half of the paper establishes several foundational identities.
 
 ### Self-Derivative
 
-$$
-\frac{\partial P_i}{\partial\lambda_i}
-=
-P_i(1-P_i)
-$$
+
+![equation](math_svgs/da0f22a7f09da.svg)
+
 
 ### Cross-Derivative
 

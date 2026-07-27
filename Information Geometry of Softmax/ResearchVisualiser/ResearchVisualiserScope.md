@@ -64,7 +64,7 @@ This creates a high barrier for newcomers. The visualiser bridges that gap by:
 |---------|---------|-------------------|
 | 1 | Euclidean representation space vs. probability space | Side-by-side comparison canvas |
 | 2 | The Softmax transformation (exp + normalize) | Live bar chart: logits → probabilities with sliders |
-| 3 | Partition function ![Z](math_svgs/i21c2e59531c8.svg)](math_svgs/i21c2e59531c8.svg) and log-normaliser ![A\lambda](math_svgs/i0a365f67af7f.svg) | Real-time $Z$ calculator with animated sensitivity |
+| 3 | Partition function ![Z](math_svgs/i21c2e59531c8.svg)](math_svgs/i21c2e59531c8.svg) and log-normaliser ![A\lambda](math_svgs/i0a365f67af7f.svg) | Real-time ![Z](math_svgs/i21c2e59531c8.svg) calculator with animated sensitivity |
 | 4 | Gradient of the log-normaliser ![\nabla A = P](math_svgs/if6a85aa18dd8.svg) | Visual proof that gradient components equal probabilities |
 | 5 | Self-derivative ![\partial P_i / ](math_svgs/i66a83cc1b71f.svg) | Sigmoid-like curve explorer |
 

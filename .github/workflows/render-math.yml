@@ -1,0 +1,43 @@
+name: Render LaTeX Math to SVGs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.md'
+      - '**.html'
+
+jobs:
+  render-math:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Render LaTeX Math
+        uses: subbota/latex-math-render-action@v1.1.1
+        with:
+          pattern: '**.md'
+          output_format: 'svg'
+
+      - name: Render LaTeX in HTML files
+        uses: subbota/latex-math-render-action@v1.1.1
+        with:
+          pattern: '**.html'
+          output_format: 'svg'
+
+      - name: Commit and Push Rendered SVGs
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "chore: auto-render latex math to proxy-friendly SVGs [skip ci]"
+            git push
+          else
+            echo "No LaTeX changes detected. Skipping commit."
+          fi

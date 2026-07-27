@@ -57,9 +57,7 @@ Softmax performs two important operations.
 
 Each logit is exponentiated.
 
-
-<img src="math_svgs/d2mjztl.svg" alt="LaTeX: e^{z_i}" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d7af766372cc6.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 2. Normalization
 
@@ -79,22 +77,18 @@ Softmax effectively bends the geometry.
 
 Assume the model produces a hidden representation
 
-
-<img src="math_svgs/dxo2734.svg" alt="LaTeX: \lambda \in \Lambda \cong \mathbb{R}^d" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/df32391eab29c.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 where
 
-- <img src="math_svgs/ic1amit.svg" alt="LaTeX: \lambda" style="display:inline;vertical-align:middle;max-width:100%" />"math_svgs/ic1amit.svg" alt="LaTeX: \lambda" style="display:inline;vertical-align:middle;max-width:100%" />"math_svgs/ic1amit.svg" alt="LaTeX: \lambda" style="display:inline;vertical-align:middle;max-width:100%" /> is a hidden vector
-- <img src="math_svgs/it44.svg" alt="LaTeX: d" style="display:inline;vertical-align:middle;max-width:100%" /> is the dimensionality of the hidden space
+- <img src="math_svgs/ic6a6eb61fd9c.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/>"math_svgs/ic6a6eb61fd9c.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/>"math_svgs/ic6a6eb61fd9c.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> is a hidden vector
+- <img src="math_svgs/i8277e0910d75.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> is the dimensionality of the hidden space
 
 Example
 
 If
 
-
-<img src="math_svgs/djssvfj.svg" alt="LaTeX: d = 2048" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/de6e97dca122c.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 then every hidden representation is simply a vector containing 2048 real numbers.
 
@@ -106,15 +100,11 @@ The focus of this paper is understanding how this hidden vector is converted int
 
 For every candidate output token
 
-
-<img src="math_svgs/dwnv58x.svg" alt="LaTeX: \{Y_1,Y_2,\dots,Y_n\}" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/df80dbd02f151.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 each output embedding satisfies
 
-
-<img src="math_svgs/dgtjow3.svg" alt="LaTeX: Y_j \in \mathbb{R}^d" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d4b9fba364c1f.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 meaning every output embedding has exactly the same dimensionality as the hidden representation.
 
@@ -122,11 +112,9 @@ meaning every output embedding has exactly the same dimensionality as the hidden
 
 # Softmax Probability Distribution
 
-The probability of selecting token <img src="math_svgs/ilfg78.svg" alt="LaTeX: Y_j" style="display:inline;vertical-align:middle;max-width:100%" />src="math_svgs/ilfg78.svg" alt="LaTeX: Y_j" style="display:inline;vertical-align:middle;max-width:100%" /> given hidden representation $\lambda$ is
+The probability of selecting token <img src="math_svgs/i8a08bb342996.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/>src="math_svgs/i8a08bb342996.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> given hidden representation $\lambda$ is
 
-
-<img src="math_svgs/dyclu5z.svg" alt="LaTeX: P(Y=Y_j\mid\lambda) = \exp\left( \lambda^T Y_j - A(\lambda) \right)" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/df1290c0e2b81.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 ---
 
@@ -134,9 +122,7 @@ The probability of selecting token <img src="math_svgs/ilfg78.svg" alt="LaTeX: Y
 
 ## 1. Probability
 
-
-<img src="math_svgs/d22hu7u.svg" alt="LaTeX: P(Y=Y_j|\lambda)" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d4ea70834d831.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 This represents the probability that the model predicts token $Y_j$ given hidden representation $\lambda$.
 
@@ -144,9 +130,7 @@ This represents the probability that the model predicts token $Y_j$ given hidden
 
 ## 2. Exponential
 
-
-<img src="math_svgs/dp2gt4q.svg" alt="LaTeX: \exp(\cdot)" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d67ea91d42969.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 Exponentiation ensures every score becomes positive.
 
@@ -158,9 +142,7 @@ Large logits become much larger.
 
 ## 3. Dot Product
 
-
-<img src="math_svgs/dhj0ik7.svg" alt="LaTeX: \lambda^T Y_j" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/db44b0fa2d3d6.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 This is the similarity score between
 
@@ -178,9 +160,7 @@ Properties
 
 The collection
 
-
-<img src="math_svgs/doytl1a.svg" alt="LaTeX: \lambda^T Y_1,\, \lambda^T Y_2,\, \dots, \lambda^T Y_n" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d525134a32b81.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 forms the **logit vector**.
 
@@ -190,9 +170,7 @@ forms the **logit vector**.
 
 The term
 
-
-<img src="math_svgs/da7c05p.svg" alt="LaTeX: A(\lambda)" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d0a365f67af7f.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 is called the **log-normaliser**.
 
@@ -200,25 +178,17 @@ Its role is to ensure that all probabilities sum to one.
 
 Since probabilities must satisfy
 
-
-<img src="math_svgs/dqm5v6v.svg" alt="LaTeX: \sum_i P_i=1" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d06077577d665.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 the raw logits cannot be used directly.
 
 Instead,
 
-
-<img src="math_svgs/dx1wo8u.svg" alt="LaTeX: A(\lambda)=\log Z" style="display:block;margin:1em auto;max-width:100%" />
-1wo8u.svg" alt="LaTeX: A(\lambda)=\log Z" style="display:block;margin:1em auto;max-width:100%" />
-1wo8u.svg" alt="LaTeX: A(\lambda)=\log Z" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/dd754f85dcbd0.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>f85dcbd0.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>f85dcbd0.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 where
 
-
-<img src="math_svgs/djleyo1.svg" alt="LaTeX: Z=\sum_i e^{\lambda^T Y_i}" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d4dff91a07cf8.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 ---
 
@@ -240,17 +210,11 @@ These are **not probabilities.**
 
 Exponentiate each logit.
 
+<img src="math_svgs/d1effbc553453.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
-<img src="math_svgs/dv94adb.svg" alt="LaTeX: e^2=7.39" style="display:block;margin:1em auto;max-width:100%" />
+<img src="math_svgs/df365d25d4004.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
-
-
-<img src="math_svgs/dc6oeho.svg" alt="LaTeX: e^1=2.72" style="display:block;margin:1em auto;max-width:100%" />
-
-
-
-<img src="math_svgs/dcikd07.svg" alt="LaTeX: e^0=1" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d1945592150dc.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 ---
 
@@ -258,15 +222,11 @@ Exponentiate each logit.
 
 Compute the partition function.
 
-
-<img src="math_svgs/dcoik0f.svg" alt="LaTeX: Z = 7.39+2.72+1 = 11.11" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/dbc2b2c0ad075.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 or generally
 
-
-<img src="math_svgs/dm4wwh5.svg" alt="LaTeX: Z=\sum_i e^{z_i}" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/dfa7d53c8e7f7.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 ---
 
@@ -274,17 +234,11 @@ or generally
 
 Normalize
 
+<img src="math_svgs/ddf2e0465f2f1.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
-<img src="math_svgs/dtdghto.svg" alt="LaTeX: P(A)=\frac{7.39}{11.11}\approx0.66" style="display:block;margin:1em auto;max-width:100%" />
+<img src="math_svgs/db79c0de486f4.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
-
-
-<img src="math_svgs/d9xs7qb.svg" alt="LaTeX: P(B)=\frac{2.72}{11.11}\approx0.24" style="display:block;margin:1em auto;max-width:100%" />
-
-
-
-<img src="math_svgs/dg70ce3.svg" alt="LaTeX: P(C)=\frac{1}{11.11}\approx0.09" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d39939d19af03.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 Now
 
@@ -307,45 +261,31 @@ Question:
 
 Suppose
 
-
-<img src="math_svgs/d8h2jea.svg" alt="LaTeX: Z=e^{\lambda_1}+e^{\lambda_2}+e^{\lambda_3}" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d01825d4d45bf.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 Increase only
 
-
-<img src="math_svgs/dd8wtk1.svg" alt="LaTeX: \lambda_1 \rightarrow \lambda_1+\varepsilon" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/ddc92bad16a4b.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 Then
 
-
-<img src="math_svgs/dr397zq.svg" alt="LaTeX: Z_{\text{new}} = e^{\lambda_1+\varepsilon} + e^{\lambda_2} + e^{\lambda_3}" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/de91fbc4c377b.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 Using
 
-
-<img src="math_svgs/d8t4k1j.svg" alt="LaTeX: e^{a+b}=e^ae^b" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d1f0042217308.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 and
 
-
-<img src="math_svgs/dl0kgch.svg" alt="LaTeX: e^\varepsilon\approx1+\varepsilon" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/dfc7a24a80014.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 we obtain
 
-
-<img src="math_svgs/dccjeft.svg" alt="LaTeX: Z_{\text{new}} = Z+\varepsilon e^{\lambda_1}" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/ddb9656e32d2c.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 Therefore
 
-
-<img src="math_svgs/dvf10fs.svg" alt="LaTeX: \Delta Z = \varepsilon e^{\lambda_1}" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d806e2471b792.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 ---
 
@@ -353,11 +293,9 @@ Therefore
 
 Taking the derivative,
 
+<img src="math_svgs/dbd6ab9a1fced.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
-<img src="math_svgs/d5xpham.svg" alt="LaTeX: \frac{\partial Z}{\partial\lambda_1} = e^{\lambda_1}" style="display:block;margin:1em auto;max-width:100%" />
-
-
-This measures how rapidly the partition function grows as <img src="math_svgs/ibgoh0t.svg" alt="LaTeX: \lambda_1" style="display:inline;vertical-align:middle;max-width:100%" /> changes.
+This measures how rapidly the partition function grows as <img src="math_svgs/ief8865f6e97b.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> changes.
 
 ---
 
@@ -371,34 +309,23 @@ $$
 
 Chain rule gives
 
-
-<img src="math_svgs/d95cv7x.svg" alt="LaTeX: \frac{\partial A}{\partial\lambda_1} = \frac1Z \frac{\partial Z}{\partial\lambda" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/de722d38193bf.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 Substituting
 
-
-<img src="math_svgs/djw4xjc.svg" alt="LaTeX: \frac{\partial Z}{\partial\lambda_1}=e^{\lambda_1}" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/dddbcb767452e.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 gives
 
-
-<img src="math_svgs/dq6wakl.svg" alt="LaTeX: \frac{\partial A}{\partial\lambda_1} = \frac{e^{\lambda_1}}{Z}" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/dae9c694a39a2.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 Recognize that
 
-
-<img src="math_svgs/d9xfwwp.svg" alt="LaTeX: P_1=\frac{e^{\lambda_1}}Z" style="display:block;margin:1em auto;max-width:100%" />
-g" alt="LaTeX: P_1=\frac{e^{\lambda_1}}Z" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d7305a7167da4.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 Therefore
 
-
-<img src="math_svgs/dobxblj.svg" alt="LaTeX: \boxed{ \frac{\partial A}{\partial\lambda_1}=P_1 }" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/dc8981073014b.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 ---
 
@@ -406,9 +333,7 @@ Therefore
 
 The gradient of the log-normaliser equals the Softmax probability.
 
-
-<img src="math_svgs/d7dsbes.svg" alt="LaTeX: \nabla A=P" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d7be4db7041f3.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 This is one of the central geometric results of the paper.
 
@@ -424,15 +349,11 @@ $$
 
 Using the quotient rule,
 
-
-<img src="math_svgs/drgx8w3.svg" alt="LaTeX: \frac{\partial P_1}{\partial\lambda_1} = \frac{e^{\lambda_1}Z-e^{2\lambda_1}}{Z^" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/dd72c34901627.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 Rearranging,
 
-
-<img src="math_svgs/dirnq8v.svg" alt="LaTeX: \boxed{ \frac{\partial P_1}{\partial\lambda_1} = P_1(1-P_1) }" style="display:block;margin:1em auto;max-width:100%" />
-
+<img src="math_svgs/d4be1aefab8af.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 This describes how a token's probability changes as its own logit changes.
 

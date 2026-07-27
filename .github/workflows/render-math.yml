@@ -25,7 +25,7 @@ jobs:
         working-directory: .github/scripts
 
       - name: Render LaTeX in Markdown files
-        run: node .github/scripts/render-math-to-svg.js "**/*.md"
+        run: node .github/scripts/render-math-to-svg.js
 
       - name: Commit and Push Rendered SVGs
         run: |

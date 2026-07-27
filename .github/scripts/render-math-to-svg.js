@@ -17,11 +17,17 @@ async function render(mjAPI, math, isDisplay) {
   return new Promise(resolve => {
     mjAPI.typeset({ math, format:'TeX', svg:true, ex:6, display:isDisplay }, d => {
       if (d.errors || !d.svg || d.svg.length < 50) { resolve(null); return; }
+      // Strip currentColor AND inject light fill for dark backgrounds
+      // Also remove duplicate xmlns attrib that mathjax-node sometimes adds
       const svg = d.svg
-        .replace(/fill="currentColor"/g, 'fill="#e0e4ef"')
-        .replace(/stroke="currentColor"/g, 'stroke="#e0e4ef"')
-        .replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ');
-      resolve(svg.includes('fill=') ? svg : svg.replace('<svg ', '<svg fill="#e0e4ef" '));
+        .replace(/ fill="currentColor"/g, '')
+        .replace(/ stroke="currentColor"/g, '')
+        .replace(/fill="currentColor"/g, '')
+        .replace(/stroke="currentColor"/g, '')
+        .replace(/ xmlns="http:\/\/www\.w3\.org\/2000\/svg"/g, '')
+        .replace(/<svg /, '<svg fill="#e0e4ef" stroke="#e0e4ef" xmlns="http://www.w3.org/2000/svg" ')
+        .replace(/<g /g, '<g fill="#e0e4ef" stroke="#e0e4ef" ');
+      resolve(svg);
     });
   });
 }

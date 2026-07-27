@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50.44ex" height="4.509ex" style="vertical-align: -1.505ex;" viewBox="0 -1293.7 21717.1 1941.5" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" aria-labelledby="MathJax-SVG-1-Title">
+<svg fill="#e0e4ef" stroke="#e0e4ef" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50.44ex" height="4.509ex" style="vertical-align: -1.505ex;" viewBox="0 -1293.7 21717.1 1941.5" role="img" focusable="false" aria-labelledby="MathJax-SVG-1-Title">
 <title id="MathJax-SVG-1-Title">\boxed{
 D_{KL}
 (P_\lambda\|P_{\lambda'})
@@ -26,22 +26,22 @@ A(\lambda)
 <path stroke-width="1" id="E1-MJMAIN-2207" d="M46 676Q46 679 51 683H781Q786 679 786 676Q786 674 617 326T444 -26Q439 -33 416 -33T388 -26Q385 -22 216 326T46 676ZM697 596Q697 597 445 597T193 596Q195 591 319 336T445 80L697 596Z"></path>
 <path stroke-width="1" id="E1-MJMATHI-54" d="M40 437Q21 437 21 445Q21 450 37 501T71 602L88 651Q93 669 101 677H569H659Q691 677 697 676T704 667Q704 661 687 553T668 444Q668 437 649 437Q640 437 637 437T631 442L629 445Q629 451 635 490T641 551Q641 586 628 604T573 629Q568 630 515 631Q469 631 457 630T439 622Q438 621 368 343T298 60Q298 48 386 46Q418 46 427 45T436 36Q436 31 433 22Q429 4 424 1L422 0Q419 0 415 0Q410 0 363 1T228 2Q99 2 64 0H49Q43 6 43 9T45 27Q49 40 55 46H83H94Q174 46 189 55Q190 56 191 56Q196 59 201 76T241 233Q258 301 269 344Q339 619 339 625Q339 630 310 630H279Q212 630 191 624Q146 614 121 583T67 467Q60 445 57 441T43 437H40Z"></path>
 </defs>
-<g stroke="#e0e4ef" fill="#e0e4ef" stroke-width="0" transform="matrix(1 0 0 -1 0 0)" aria-hidden="true">
-<g transform="translate(275,0)">
+<g fill="#e0e4ef" stroke="#e0e4ef" stroke-width="0" transform="matrix(1 0 0 -1 0 0)" aria-hidden="true">
+<g fill="#e0e4ef" stroke="#e0e4ef" transform="translate(275,0)">
  <use xlink:href="#E1-MJMATHI-44" x="0" y="0"></use>
-<g transform="translate(828,-150)">
+<g fill="#e0e4ef" stroke="#e0e4ef" transform="translate(828,-150)">
  <use transform="scale(0.707)" xlink:href="#E1-MJMATHI-4B" x="0" y="0"></use>
  <use transform="scale(0.707)" xlink:href="#E1-MJMATHI-4C" x="889" y="0"></use>
 </g>
  <use xlink:href="#E1-MJMAIN-28" x="2039" y="0"></use>
-<g transform="translate(2428,0)">
+<g fill="#e0e4ef" stroke="#e0e4ef" transform="translate(2428,0)">
  <use xlink:href="#E1-MJMATHI-50" x="0" y="0"></use>
  <use transform="scale(0.707)" xlink:href="#E1-MJMATHI-3BB" x="908" y="-213"></use>
 </g>
  <use xlink:href="#E1-MJMAIN-2225" x="3583" y="0"></use>
-<g transform="translate(4084,0)">
+<g fill="#e0e4ef" stroke="#e0e4ef" transform="translate(4084,0)">
  <use xlink:href="#E1-MJMATHI-50" x="0" y="0"></use>
-<g transform="translate(642,-248)">
+<g fill="#e0e4ef" stroke="#e0e4ef" transform="translate(642,-248)">
  <use transform="scale(0.707)" xlink:href="#E1-MJMATHI-3BB" x="0" y="0"></use>
  <use transform="scale(0.574)" xlink:href="#E1-MJMAIN-2032" x="718" y="469"></use>
 </g>
@@ -50,7 +50,7 @@ A(\lambda)
  <use xlink:href="#E1-MJMAIN-3D" x="6135" y="0"></use>
  <use xlink:href="#E1-MJMATHI-41" x="7191" y="0"></use>
  <use xlink:href="#E1-MJMAIN-28" x="7942" y="0"></use>
-<g transform="translate(8331,0)">
+<g fill="#e0e4ef" stroke="#e0e4ef" transform="translate(8331,0)">
  <use xlink:href="#E1-MJMATHI-3BB" x="0" y="0"></use>
  <use transform="scale(0.707)" xlink:href="#E1-MJMAIN-2032" x="825" y="583"></use>
 </g>
@@ -65,14 +65,14 @@ A(\lambda)
  <use xlink:href="#E1-MJMATHI-41" x="14992" y="0"></use>
  <use xlink:href="#E1-MJMAIN-28" x="15742" y="0"></use>
  <use xlink:href="#E1-MJMATHI-3BB" x="16132" y="0"></use>
-<g transform="translate(16715,0)">
+<g fill="#e0e4ef" stroke="#e0e4ef" transform="translate(16715,0)">
  <use xlink:href="#E1-MJMAIN-29" x="0" y="0"></use>
  <use transform="scale(0.707)" xlink:href="#E1-MJMATHI-54" x="550" y="583"></use>
 </g>
  <use xlink:href="#E1-MJMAIN-28" x="17703" y="0"></use>
  <use xlink:href="#E1-MJMATHI-3BB" x="18092" y="0"></use>
  <use xlink:href="#E1-MJMAIN-2212" x="18898" y="0"></use>
-<g transform="translate(19899,0)">
+<g fill="#e0e4ef" stroke="#e0e4ef" transform="translate(19899,0)">
  <use xlink:href="#E1-MJMATHI-3BB" x="0" y="0"></use>
  <use transform="scale(0.707)" xlink:href="#E1-MJMAIN-2032" x="825" y="583"></use>
 </g>

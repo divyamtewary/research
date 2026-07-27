@@ -1,6 +1,7 @@
 # The Information Geometry of Softmax
 
 > Personal study notes based on *The Information Geometry of Softmax* paper.
+> *(Math rendered with KaTeX SVGs via GitHub Actions)*
 
 ---
 

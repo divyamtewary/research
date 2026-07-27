@@ -1,5 +1,6 @@
 # The Information Geometry of Softmax
 ## Part 2 — Probability Geometry, KL Divergence and Bregman Geometry
+> *(Math rendered with KaTeX SVGs via GitHub Actions)*
 
 ---
 

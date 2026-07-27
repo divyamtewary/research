@@ -58,7 +58,7 @@ Softmax performs two important operations.
 Each logit is exponentiated.
 
 
-![e^{z_i}](math_svgs/d7af766372cc6.svg)
+![equation](math_svgs/d7af766372cc6.svg)
 
 
 2. Normalization
@@ -80,20 +80,20 @@ Softmax effectively bends the geometry.
 Assume the model produces a hidden representation
 
 
-![\lambda \in \Lambda ](math_svgs/df32391eab29c.svg)
+![equation](math_svgs/df32391eab29c.svg)
 
 
 where
 
-- ![\lambda](math_svgs/ic6a6eb61fd9c.svg)](math_svgs/ic6a6eb61fd9c.svg)](math_svgs/ic6a6eb61fd9c.svg) is a hidden vector
-- ![d](math_svgs/i8277e0910d75.svg) is the dimensionality of the hidden space
+- ![eq](math_svgs/ic6a6eb61fd9c.svg)h_svgs/ic6a6eb61fd9c.svg)h_svgs/ic6a6eb61fd9c.svg) is a hidden vector
+- ![eq](math_svgs/i8277e0910d75.svg) is the dimensionality of the hidden space
 
 Example
 
 If
 
 
-![d = 2048](math_svgs/de6e97dca122c.svg)
+![equation](math_svgs/de6e97dca122c.svg)
 
 
 then every hidden representation is simply a vector containing 2048 real numbers.
@@ -107,13 +107,13 @@ The focus of this paper is understanding how this hidden vector is converted int
 For every candidate output token
 
 
-![\{Y_1,Y_2,\dots,Y_n\](math_svgs/df80dbd02f151.svg)
+![equation](math_svgs/df80dbd02f151.svg)
 
 
 each output embedding satisfies
 
 
-![Y_j \in \mathbb{R}^d](math_svgs/d4b9fba364c1f.svg)
+![equation](math_svgs/d4b9fba364c1f.svg)
 
 
 meaning every output embedding has exactly the same dimensionality as the hidden representation.
@@ -122,10 +122,10 @@ meaning every output embedding has exactly the same dimensionality as the hidden
 
 # Softmax Probability Distribution
 
-The probability of selecting token ![Y_j](math_svgs/i8a08bb342996.svg)](math_svgs/i8a08bb342996.svg) given hidden representation ![\lambda](math_svgs/ic6a6eb61fd9c.svg)](math_svgs/ic6a6eb61fd9c.svg) is
+The probability of selecting token ![eq](math_svgs/i8a08bb342996.svg)(math_svgs/i8a08bb342996.svg) given hidden representation $\lambda$ is
 
 
-![PY=Y_j\mid\lambda](math_svgs/df1290c0e2b81.svg)
+![equation](math_svgs/df1290c0e2b81.svg)
 
 
 ---
@@ -135,17 +135,17 @@ The probability of selecting token ![Y_j](math_svgs/i8a08bb342996.svg)](math_svg
 ## 1. Probability
 
 
-![PY=Y_j|\lambda](math_svgs/d4ea70834d831.svg)
+![equation](math_svgs/d4ea70834d831.svg)
 
 
-This represents the probability that the model predicts token ![Y_j](math_svgs/i8a08bb342996.svg) given hidden representation $\lambda$.
+This represents the probability that the model predicts token $Y_j$ given hidden representation $\lambda$.
 
 ---
 
 ## 2. Exponential
 
 
-![\exp\cdot](math_svgs/d67ea91d42969.svg)
+![equation](math_svgs/d67ea91d42969.svg)
 
 
 Exponentiation ensures every score becomes positive.
@@ -159,7 +159,7 @@ Large logits become much larger.
 ## 3. Dot Product
 
 
-![\lambda^T Y_j](math_svgs/db44b0fa2d3d6.svg)
+![equation](math_svgs/db44b0fa2d3d6.svg)
 
 
 This is the similarity score between
@@ -179,8 +179,7 @@ Properties
 The collection
 
 
-![\lambda^T Y_1,\,
-\l](math_svgs/d525134a32b81.svg)
+![equation](math_svgs/d525134a32b81.svg)
 
 
 forms the **logit vector**.
@@ -192,7 +191,7 @@ forms the **logit vector**.
 The term
 
 
-![A\lambda](math_svgs/d0a365f67af7f.svg)
+![equation](math_svgs/d0a365f67af7f.svg)
 
 
 is called the **log-normaliser**.
@@ -202,7 +201,7 @@ Its role is to ensure that all probabilities sum to one.
 Since probabilities must satisfy
 
 
-![\sum_i P_i=1](math_svgs/d06077577d665.svg)
+![equation](math_svgs/d06077577d665.svg)
 
 
 the raw logits cannot be used directly.
@@ -210,15 +209,15 @@ the raw logits cannot be used directly.
 Instead,
 
 
-![A\lambda=\log Z](math_svgs/dd754f85dcbd0.svg)
-svgs/dd754f85dcbd0.svg)
-svgs/dd754f85dcbd0.svg)
+![equation](math_svgs/dd754f85dcbd0.svg)
+754f85dcbd0.svg)
+754f85dcbd0.svg)
 
 
 where
 
 
-![Z=\sum_i e^{\lambda^](math_svgs/d4dff91a07cf8.svg)
+![equation](math_svgs/d4dff91a07cf8.svg)
 
 
 ---
@@ -242,15 +241,15 @@ These are **not probabilities.**
 Exponentiate each logit.
 
 
-![e^2=7.39](math_svgs/d1effbc553453.svg)
+![equation](math_svgs/d1effbc553453.svg)
 
 
 
-![e^1=2.72](math_svgs/df365d25d4004.svg)
+![equation](math_svgs/df365d25d4004.svg)
 
 
 
-![e^0=1](math_svgs/d1945592150dc.svg)
+![equation](math_svgs/d1945592150dc.svg)
 
 
 ---
@@ -260,16 +259,13 @@ Exponentiate each logit.
 Compute the partition function.
 
 
-![Z
-=
-7.39+2.72+1
-=](math_svgs/dbc2b2c0ad075.svg)
+![equation](math_svgs/dbc2b2c0ad075.svg)
 
 
 or generally
 
 
-![Z=\sum_i e^{z_i}](math_svgs/dfa7d53c8e7f7.svg)
+![equation](math_svgs/dfa7d53c8e7f7.svg)
 
 
 ---
@@ -279,15 +275,15 @@ or generally
 Normalize
 
 
-![PA=\frac{7.39}{11.](math_svgs/ddf2e0465f2f1.svg)
+![equation](math_svgs/ddf2e0465f2f1.svg)
 
 
 
-![PB=\frac{2.72}{11.](math_svgs/db79c0de486f4.svg)
+![equation](math_svgs/db79c0de486f4.svg)
 
 
 
-![PC=\frac{1}{11.11}](math_svgs/d39939d19af03.svg)
+![equation](math_svgs/d39939d19af03.svg)
 
 
 Now
@@ -297,10 +293,9 @@ Now
 
 Also,
 
-
-![A\lambda=\log Z](math_svgs/dd754f85dcbd0.svg)
-svgs/dd754f85dcbd0.svg)
-
+$$
+A(\lambda)=\log Z
+$$
 
 ---
 
@@ -313,50 +308,43 @@ Question:
 Suppose
 
 
-![Z=e^{\lambda_1}+e^{\](math_svgs/d01825d4d45bf.svg)
+![equation](math_svgs/d01825d4d45bf.svg)
 
 
 Increase only
 
 
-![\lambda_1
-\rightarr](math_svgs/ddc92bad16a4b.svg)
+![equation](math_svgs/ddc92bad16a4b.svg)
 
 
 Then
 
 
-![Z_{\text{new}}
-=
-e](math_svgs/de91fbc4c377b.svg)
+![equation](math_svgs/de91fbc4c377b.svg)
 
 
 Using
 
 
-![e^{a+b}=e^ae^b](math_svgs/d1f0042217308.svg)
+![equation](math_svgs/d1f0042217308.svg)
 
 
 and
 
 
-![e^\varepsilon\approx](math_svgs/dfc7a24a80014.svg)
+![equation](math_svgs/dfc7a24a80014.svg)
 
 
 we obtain
 
 
-![Z_{\text{new}}
-=
-Z](math_svgs/ddb9656e32d2c.svg)
+![equation](math_svgs/ddb9656e32d2c.svg)
 
 
 Therefore
 
 
-![\Delta Z
-=
-\vareps](math_svgs/d806e2471b792.svg)
+![equation](math_svgs/d806e2471b792.svg)
 
 
 ---
@@ -366,10 +354,10 @@ Therefore
 Taking the derivative,
 
 
-![\frac{\partial Z}{\p](math_svgs/dbd6ab9a1fced.svg)
+![equation](math_svgs/dbd6ab9a1fced.svg)
 
 
-This measures how rapidly the partition function grows as ![\lambda_1](math_svgs/ief8865f6e97b.svg) changes.
+This measures how rapidly the partition function grows as ![eq](math_svgs/ief8865f6e97b.svg) changes.
 
 ---
 
@@ -384,33 +372,32 @@ $$
 Chain rule gives
 
 
-![\frac{\partial A}{\p](math_svgs/de722d38193bf.svg)
+![equation](math_svgs/de722d38193bf.svg)
 
 
 Substituting
 
 
-![\frac{\partial Z}{\p](math_svgs/dddbcb767452e.svg)
+![equation](math_svgs/dddbcb767452e.svg)
 
 
 gives
 
 
-![\frac{\partial A}{\p](math_svgs/dae9c694a39a2.svg)
+![equation](math_svgs/dae9c694a39a2.svg)
 
 
 Recognize that
 
 
-![P_1=\frac{e^{\lambda](math_svgs/d7305a7167da4.svg)
-s/d7305a7167da4.svg)
+![equation](math_svgs/d7305a7167da4.svg)
+da4.svg)
 
 
 Therefore
 
 
-![\boxed{
-\frac{\part](math_svgs/dc8981073014b.svg)
+![equation](math_svgs/dc8981073014b.svg)
 
 
 ---
@@ -420,7 +407,7 @@ Therefore
 The gradient of the log-normaliser equals the Softmax probability.
 
 
-![\nabla A=P](math_svgs/d7be4db7041f3.svg)
+![equation](math_svgs/d7be4db7041f3.svg)
 
 
 This is one of the central geometric results of the paper.
@@ -431,21 +418,20 @@ This is one of the central geometric results of the paper.
 
 Recall
 
-
-![P_1=\frac{e^{\lambda](math_svgs/d7305a7167da4.svg)
-
+$$
+P_1=\frac{e^{\lambda_1}}Z
+$$
 
 Using the quotient rule,
 
 
-![\frac{\partial P_1}{](math_svgs/dd72c34901627.svg)
+![equation](math_svgs/dd72c34901627.svg)
 
 
 Rearranging,
 
 
-![\boxed{
-\frac{\part](math_svgs/d4be1aefab8af.svg)
+![equation](math_svgs/d4be1aefab8af.svg)
 
 
 This describes how a token's probability changes as its own logit changes.

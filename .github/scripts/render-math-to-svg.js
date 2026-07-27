@@ -40,8 +40,8 @@ async function processFile(mjAPI, filePath) {
     const svg = await render(mjAPI, expr, true); if (!svg) continue;
     const fn = 'd'+hash(expr)+'.svg';
     fs.writeFileSync(path.join(svgDir,fn), svg, 'utf8');
-    // Use Markdown image syntax: ![alt](path) which GitHub renders natively
-    reps.push({from:m[0], to:'\n!['+expr.substring(0,20).replace(/[\[\]()]/g,'')+']('+svgUrlPrefix+fn+')\n'});
+    // Use safe markdown: just equation number as alt text
+    reps.push({from:m[0], to:'\n![equation](math_svgs/'+fn+')\n'});
   }
 
   INLINE_RE.lastIndex = 0;
@@ -50,8 +50,7 @@ async function processFile(mjAPI, filePath) {
     const svg = await render(mjAPI, expr, false); if (!svg) continue;
     const fn = 'i'+hash(expr)+'.svg';
     fs.writeFileSync(path.join(svgDir,fn), svg, 'utf8');
-    // Inline markdown image
-    reps.push({from:m[0], to:'!['+expr.substring(0,15).replace(/[\[\]()]/g,'')+']('+svgUrlPrefix+fn+')'});
+    reps.push({from:m[0], to:'![eq](math_svgs/'+fn+')'});
   }
 
   if (reps.length > 0) {

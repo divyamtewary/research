@@ -12,29 +12,30 @@ Previously we established
 
 1. The partition function
 
-$$
-Z=\sum_i e^{\lambda_i}
-$$
+
+<img src="math_svgs/d2u1g32.svg" alt="LaTeX: Z=\sum_i e^{\lambda_i}" style="display:block;margin:1em auto;max-width:100%" />
+
 
 2. The log-normaliser
 
-$$
-A(\lambda)=\log Z
-$$
+
+<img src="math_svgs/dx1wo8u.svg" alt="LaTeX: A(\lambda)=\log Z" style="display:block;margin:1em auto;max-width:100%" />
+1wo8u.svg" alt="LaTeX: A(\lambda)=\log Z" style="display:block;margin:1em auto;max-width:100%" />
+
 
 3. The gradient of the log-normaliser
 
-$$
-\nabla A(\lambda)=P
-$$
+
+<img src="math_svgs/d2dvuv0.svg" alt="LaTeX: \nabla A(\lambda)=P" style="display:block;margin:1em auto;max-width:100%" />
+
 
 4. The self-derivative of Softmax
 
-$$
-\frac{\partial P_i}{\partial\lambda_i}
-=
-P_i(1-P_i)
-$$
+
+<img src="math_svgs/d413ogp.svg" alt="LaTeX: \frac{\partial P_i}{\partial\lambda_i} = P_i(1-P_i)" style="display:block;margin:1em auto;max-width:100%" />
+ial P_i}{\partial\lambda_i} = P_i(1-P_i)" style="display:block;margin:1em auto;max-width:100%" />
+ial P_i}{\partial\lambda_i} = P_i(1-P_i)" style="display:block;margin:1em auto;max-width:100%" />
+
 
 This section answers two new questions:
 
@@ -47,15 +48,15 @@ This section answers two new questions:
 
 Suppose
 
-$$
-P_2=\frac{e^{\lambda_2}}{Z}
-$$
+
+<img src="math_svgs/d6czl85.svg" alt="LaTeX: P_2=\frac{e^{\lambda_2}}{Z}" style="display:block;margin:1em auto;max-width:100%" />
+
 
 We now increase
 
-$$
-\lambda_1
-$$
+
+<img src="math_svgs/d5y0oyn.svg" alt="LaTeX: \lambda_1" style="display:block;margin:1em auto;max-width:100%" />
+
 
 instead.
 
@@ -63,23 +64,23 @@ Notice something important.
 
 The numerator
 
-$$
-e^{\lambda_2}
-$$
+
+<img src="math_svgs/dpgqh11.svg" alt="LaTeX: e^{\lambda_2}" style="display:block;margin:1em auto;max-width:100%" />
+
 
 does **not** change.
 
 Only the denominator changes because
 
-$$
-Z=e^{\lambda_1}+e^{\lambda_2}+e^{\lambda_3}
-$$
+
+<img src="math_svgs/d8h2jea.svg" alt="LaTeX: Z=e^{\lambda_1}+e^{\lambda_2}+e^{\lambda_3}" style="display:block;margin:1em auto;max-width:100%" />
+
 
 still contains
 
-$$
-\lambda_1.
-$$
+
+<img src="math_svgs/dss47tl.svg" alt="LaTeX: \lambda_1." style="display:block;margin:1em auto;max-width:100%" />
+
 
 ---
 
@@ -87,49 +88,40 @@ $$
 
 Since
 
-$$
-\frac{d}{d\lambda_1}e^{\lambda_2}=0
-$$
+
+<img src="math_svgs/d4rqfn7.svg" alt="LaTeX: \frac{d}{d\lambda_1}e^{\lambda_2}=0" style="display:block;margin:1em auto;max-width:100%" />
+
 
 and
 
-$$
-\frac{\partial Z}{\partial\lambda_1}=e^{\lambda_1}
-$$
+
+<img src="math_svgs/djw4xjc.svg" alt="LaTeX: \frac{\partial Z}{\partial\lambda_1}=e^{\lambda_1}" style="display:block;margin:1em auto;max-width:100%" />
+
 
 we obtain
 
-$$
-\frac{\partial P_2}{\partial\lambda_1}
-=
--\frac{e^{\lambda_2}e^{\lambda_1}}{Z^2}
-$$
+
+<img src="math_svgs/d1kl7jb.svg" alt="LaTeX: \frac{\partial P_2}{\partial\lambda_1} = -\frac{e^{\lambda_2}e^{\lambda_1}}{Z^2}" style="display:block;margin:1em auto;max-width:100%" />
+
 
 Recognizing
 
-$$
-P_i=\frac{e^{\lambda_i}}Z
-$$
+
+<img src="math_svgs/d88jfq1.svg" alt="LaTeX: P_i=\frac{e^{\lambda_i}}Z" style="display:block;margin:1em auto;max-width:100%" />
+g" alt="LaTeX: P_i=\frac{e^{\lambda_i}}Z" style="display:block;margin:1em auto;max-width:100%" />
+
 
 gives
 
-$$
-\boxed{
-\frac{\partial P_2}{\partial\lambda_1}
-=
--P_2P_1
-}
-$$
+
+<img src="math_svgs/dgwzv93.svg" alt="LaTeX: \boxed{ \frac{\partial P_2}{\partial\lambda_1} = -P_2P_1 }" style="display:block;margin:1em auto;max-width:100%" />
+
 
 Likewise,
 
-$$
-\boxed{
-\frac{\partial P_3}{\partial\lambda_1}
-=
--P_3P_1
-}
-$$
+
+<img src="math_svgs/dja1jrr.svg" alt="LaTeX: \boxed{ \frac{\partial P_3}{\partial\lambda_1} = -P_3P_1 }" style="display:block;margin:1em auto;max-width:100%" />
+
 
 ---
 
@@ -147,13 +139,9 @@ $$
 
 Cross influence:
 
-$$
-\frac{\partial P_j}{\partial\lambda_i}
-=
--P_iP_j
-\qquad
-(i\neq j)
-$$
+
+<img src="math_svgs/dvg2237.svg" alt="LaTeX: \frac{\partial P_j}{\partial\lambda_i} = -P_iP_j \qquad (i\neq j)" style="display:block;margin:1em auto;max-width:100%" />
+
 
 These equations reveal a competition between tokens.
 
@@ -198,29 +186,29 @@ Suppose
 
 Current hidden state
 
-$$
-\lambda
-$$
+
+<img src="math_svgs/do3mfip.svg" alt="LaTeX: \lambda" style="display:block;margin:1em auto;max-width:100%" />
+
 
 moves to
 
-$$
-\lambda'.
-$$
+
+<img src="math_svgs/d536aru.svg" alt="LaTeX: \lambda'." style="display:block;margin:1em auto;max-width:100%" />
+
 
 The correct notion of distance is therefore
 
 the difference between
 
-$$
-P_\lambda
-$$
+
+<img src="math_svgs/djfuy8w.svg" alt="LaTeX: P_\lambda" style="display:block;margin:1em auto;max-width:100%" />
+
 
 and
 
-$$
-P_{\lambda'}.
-$$
+
+<img src="math_svgs/d9b1ofn.svg" alt="LaTeX: P_{\lambda'}." style="display:block;margin:1em auto;max-width:100%" />
+
 
 ---
 
@@ -232,18 +220,9 @@ the Kullback-Leibler divergence.
 
 Definition
 
-$$
-D_{KL}
-(P_\lambda\|P_{\lambda'})
-=
-\sum_y
-P_\lambda(y)
-\left[
-\log P_\lambda
--
-\log P_{\lambda'}
-\right]
-$$
+
+<img src="math_svgs/dshisth.svg" alt="LaTeX: D_{KL} (P_\lambda\|P_{\lambda'}) = \sum_y P_\lambda(y) \left[ \log P_\lambda - \" style="display:block;margin:1em auto;max-width:100%" />
+
 
 KL divergence measures how surprising one probability distribution appears when compared with another.
 
@@ -263,29 +242,16 @@ It measures behavioral change.
 
 Recall
 
-$$
-\log P_\lambda
-=
-\lambda^TY_y
--
-A(\lambda)
-$$
+
+<img src="math_svgs/dgt8yhr.svg" alt="LaTeX: \log P_\lambda = \lambda^TY_y - A(\lambda)" style="display:block;margin:1em auto;max-width:100%" />
+
 
 Substituting this into KL divergence gives
 
-$$
-D_{KL}
-=
-\sum_y
-P_\lambda(y)
-\left[
-(\lambda-\lambda')^TY_y
--
-A(\lambda)
-+
-A(\lambda')
-\right]
-$$
+
+<img src="math_svgs/d6gt7ng.svg" alt="LaTeX: D_{KL} = \sum_y P_\lambda(y) \left[ (\lambda-\lambda')^TY_y - A(\lambda) + A(\la" style="display:block;margin:1em auto;max-width:100%" />
+^TY_y - A(\lambda) + A(\la" style="display:block;margin:1em auto;max-width:100%" />
+
 
 ---
 
@@ -306,13 +272,9 @@ Suppose a game pays
 
 Expected payout
 
-$$
-0.20\times10
-+
-0.80\times1
-=
-₹2.80
-$$
+
+<img src="math_svgs/dxm7sdf.svg" alt="LaTeX: 0.20\times10 + 0.80\times1 = ₹2.80" style="display:block;margin:1em auto;max-width:100%" />
+
 
 Neural networks follow exactly the same idea.
 
@@ -324,14 +286,9 @@ the output embeddings.
 
 Therefore
 
-$$
-\boxed{
-E[Y]
-=
-\sum_y
-P_\lambda(y)Y_y
-}
-$$
+
+<img src="math_svgs/dspulub.svg" alt="LaTeX: \boxed{ E[Y] = \sum_y P_\lambda(y)Y_y }" style="display:block;margin:1em auto;max-width:100%" />
+
 
 This is the probability-weighted average output embedding.
 
@@ -345,40 +302,32 @@ it represents the center of mass of the output embeddings.
 
 Earlier we proved
 
-$$
-\frac{\partial A}{\partial\lambda_i}
-=
-P_i
-$$
+
+<img src="math_svgs/dtwqhjh.svg" alt="LaTeX: \frac{\partial A}{\partial\lambda_i} = P_i" style="display:block;margin:1em auto;max-width:100%" />
+
 
 Collecting all partial derivatives produces
 
 the gradient
 
-$$
-\nabla A(\lambda)
-$$
+
+<img src="math_svgs/d4fldm9.svg" alt="LaTeX: \nabla A(\lambda)" style="display:block;margin:1em auto;max-width:100%" />
+fldm9.svg" alt="LaTeX: \nabla A(\lambda)" style="display:block;margin:1em auto;max-width:100%" />
+
 
 Since every component equals a probability,
 
 the complete gradient becomes
 
-$$
-\boxed{
-\nabla A(\lambda)
-=
-\sum_y
-P_\lambda(y)Y_y
-}
-$$
+
+<img src="math_svgs/d8xkhow.svg" alt="LaTeX: \boxed{ \nabla A(\lambda) = \sum_y P_\lambda(y)Y_y }" style="display:block;margin:1em auto;max-width:100%" />
+
 
 Recognize immediately that
 
-$$
-\boxed{
-\nabla A(\lambda)=E[Y]
-}
-$$
+
+<img src="math_svgs/dcgd88u.svg" alt="LaTeX: \boxed{ \nabla A(\lambda)=E[Y] }" style="display:block;margin:1em auto;max-width:100%" />
+
 
 This is one of the most important identities in the paper.
 
@@ -406,23 +355,23 @@ $$
 
 Notice
 
-$$
-A(\lambda)
-$$
+
+<img src="math_svgs/da7c05p.svg" alt="LaTeX: A(\lambda)" style="display:block;margin:1em auto;max-width:100%" />
+
 
 and
 
-$$
-A(\lambda')
-$$
+
+<img src="math_svgs/dw7g8ui.svg" alt="LaTeX: A(\lambda')" style="display:block;margin:1em auto;max-width:100%" />
+
 
 are constants with respect to the summation.
 
 Since
 
-$$
-\sum_yP_\lambda(y)=1
-$$
+
+<img src="math_svgs/dnmzv35.svg" alt="LaTeX: \sum_yP_\lambda(y)=1" style="display:block;margin:1em auto;max-width:100%" />
+
 
 they simplify immediately.
 
@@ -430,11 +379,9 @@ The first vector term can also be factored outside the summation.
 
 This produces
 
-$$
-(\lambda-\lambda')^T
-\sum_y
-P_\lambda(y)Y_y
-$$
+
+<img src="math_svgs/dtvsyuz.svg" alt="LaTeX: (\lambda-\lambda')^T \sum_y P_\lambda(y)Y_y" style="display:block;margin:1em auto;max-width:100%" />
+
 
 Replacing the summation with
 
@@ -444,9 +391,9 @@ $$
 
 gives
 
-$$
-(\lambda-\lambda')^T\nabla A(\lambda)
-$$
+
+<img src="math_svgs/d8zvwoo.svg" alt="LaTeX: (\lambda-\lambda')^T\nabla A(\lambda)" style="display:block;margin:1em auto;max-width:100%" />
+
 
 ---
 
@@ -456,19 +403,9 @@ Putting everything together,
 
 the KL divergence becomes
 
-$$
-\boxed{
-D_{KL}
-(P_\lambda\|P_{\lambda'})
-=
-A(\lambda')
--
-A(\lambda)
--
-\nabla A(\lambda)^T
-(\lambda-\lambda')
-}
-$$
+
+<img src="math_svgs/dpbapiq.svg" alt="LaTeX: \boxed{ D_{KL} (P_\lambda\|P_{\lambda'}) = A(\lambda') - A(\lambda) - \nabla A(\" style="display:block;margin:1em auto;max-width:100%" />
+
 
 This is exactly the definition of a **Bregman divergence**.
 
@@ -498,9 +435,9 @@ It induces an entirely new geometry on the representation space.
 
 The curvature of that geometry is governed by
 
-$$
-A(\lambda).
-$$
+
+<img src="math_svgs/dw69gq5.svg" alt="LaTeX: A(\lambda)." style="display:block;margin:1em auto;max-width:100%" />
+
 
 The hidden representation space is therefore **not Euclidean**.
 
@@ -522,9 +459,9 @@ $$
 
 ### Partition Function
 
-$$
-Z=\sum_ie^{\lambda_i}
-$$
+
+<img src="math_svgs/dbhyyda.svg" alt="LaTeX: Z=\sum_ie^{\lambda_i}" style="display:block;margin:1em auto;max-width:100%" />
+
 
 ### Log-Normaliser
 
@@ -534,9 +471,9 @@ $$
 
 ### Gradient
 
-$$
-\nabla A=P
-$$
+
+<img src="math_svgs/d7dsbes.svg" alt="LaTeX: \nabla A=P" style="display:block;margin:1em auto;max-width:100%" />
+
 
 ### Self-Derivative
 
@@ -548,39 +485,27 @@ $$
 
 ### Cross-Derivative
 
-$$
-\frac{\partial P_j}{\partial\lambda_i}
-=
--P_iP_j
-$$
+
+<img src="math_svgs/dvn0hyz.svg" alt="LaTeX: \frac{\partial P_j}{\partial\lambda_i} = -P_iP_j" style="display:block;margin:1em auto;max-width:100%" />
+
 
 ### Expected Value
 
-$$
-E[Y]
-=
-\sum_yP(y)Y_y
-$$
+
+<img src="math_svgs/ddt29bv.svg" alt="LaTeX: E[Y] = \sum_yP(y)Y_y" style="display:block;margin:1em auto;max-width:100%" />
+
 
 ### Gradient Identity
 
-$$
-\nabla A(\lambda)
-=
-E[Y]
-$$
+
+<img src="math_svgs/dnnzq30.svg" alt="LaTeX: \nabla A(\lambda) = E[Y]" style="display:block;margin:1em auto;max-width:100%" />
+
 
 ### KL Divergence
 
-$$
-D_{KL}
-=
-A(\lambda')
--
-A(\lambda)
--
-\nabla A(\lambda)^T(\lambda-\lambda')
-$$
+
+<img src="math_svgs/d7qkwdg.svg" alt="LaTeX: D_{KL} = A(\lambda') - A(\lambda) - \nabla A(\lambda)^T(\lambda-\lambda')" style="display:block;margin:1em auto;max-width:100%" />
+
 
 ---
 

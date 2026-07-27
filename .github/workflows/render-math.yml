@@ -1,9 +1,7 @@
 name: Render LaTeX Math to SVGs
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   render-math:

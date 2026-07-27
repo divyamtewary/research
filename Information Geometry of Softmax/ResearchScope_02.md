@@ -127,9 +127,11 @@ Two complementary results have now emerged.
 
 Self influence:
 
-
-![\frac{\partial P_i}{](math_svgs/da0f22a7f09da.svg)
-
+$$
+\frac{\partial P_i}{\partial\lambda_i}
+=
+P_i(1-P_i)
+$$
 
 Cross influence:
 
@@ -324,12 +326,19 @@ The gradient is literally the expected output representation.
 
 Starting from
 
-
-![D_{KL}
+$$
+D_{KL}
 =
 \sum_y
-P_\l](math_svgs/d92718414433a.svg)
-
+P_\lambda(y)
+\left[
+(\lambda-\lambda')^TY_y
+-
+A(\lambda)
++
+A(\lambda')
+\right]
+$$
 
 Notice
 
@@ -363,9 +372,9 @@ This produces
 
 Replacing the summation with
 
-
-![\nabla A\lambda](math_svgs/dde6ed4904821.svg)
-
+$$
+\nabla A(\lambda)
+$$
 
 gives
 
@@ -431,9 +440,9 @@ The first half of the paper establishes several foundational identities.
 
 ### Softmax
 
-
-![P_i=\frac{e^{\lambda](math_svgs/d9d302358232f.svg)
-
+$$
+P_i=\frac{e^{\lambda_i}}Z
+$$
 
 ### Partition Function
 
@@ -443,9 +452,9 @@ The first half of the paper establishes several foundational identities.
 
 ### Log-Normaliser
 
-
-![A\lambda=\log Z](math_svgs/dd754f85dcbd0.svg)
-
+$$
+A(\lambda)=\log Z
+$$
 
 ### Gradient
 
@@ -455,9 +464,11 @@ The first half of the paper establishes several foundational identities.
 
 ### Self-Derivative
 
-
-![equation](math_svgs/da0f22a7f09da.svg)
-
+$$
+\frac{\partial P_i}{\partial\lambda_i}
+=
+P_i(1-P_i)
+$$
 
 ### Cross-Derivative
 

@@ -64,18 +64,18 @@ This creates a high barrier for newcomers. The visualiser bridges that gap by:
 |---------|---------|-------------------|
 | 1 | Euclidean representation space vs. probability space | Side-by-side comparison canvas |
 | 2 | The Softmax transformation (exp + normalize) | Live bar chart: logits → probabilities with sliders |
-| 3 | Partition function $Z$ and log-normaliser $A(\lambda)$ | Real-time $Z$ calculator with animated sensitivity |
-| 4 | Gradient of the log-normaliser $\nabla A = P$ | Visual proof that gradient components equal probabilities |
-| 5 | Self-derivative $\partial P_i / \partial \lambda_i = P_i(1-P_i)$ | Sigmoid-like curve explorer |
+| 3 | Partition function <img src="math_svgs/isvi.svg" alt="LaTeX: Z" style="display:inline;vertical-align:middle;max-width:100%" />g src="math_svgs/isvi.svg" alt="LaTeX: Z" style="display:inline;vertical-align:middle;max-width:100%" /> and log-normaliser <img src="math_svgs/i32l7il.svg" alt="LaTeX: A(\lambda)" style="display:inline;vertical-align:middle;max-width:100%" /> | Real-time $Z$ calculator with animated sensitivity |
+| 4 | Gradient of the log-normaliser <img src="math_svgs/impp9hy.svg" alt="LaTeX: \nabla A = P" style="display:inline;vertical-align:middle;max-width:100%" /> | Visual proof that gradient components equal probabilities |
+| 5 | Self-derivative <img src="math_svgs/ipalbp4.svg" alt="LaTeX: \partial P_i / \partial \lambda_i = P_i(1-P_i)" style="display:inline;vertical-align:middle;max-width:100%" /> | Sigmoid-like curve explorer |
 
 ## Scope — Part 2 (ResearchScope_02)
 
 | Section | Concept | Interactive Element |
 |---------|---------|-------------------|
-| 1 | Cross-derivative $\partial P_j / \partial \lambda_i = -P_i P_j$ | Coupled sliders showing token competition |
+| 1 | Cross-derivative <img src="math_svgs/iyzax8o.svg" alt="LaTeX: \partial P_j / \partial \lambda_i = -P_i P_j" style="display:inline;vertical-align:middle;max-width:100%" /> | Coupled sliders showing token competition |
 | 2 | Global coupling & probability stealing | Waterfall / flow diagram of probability mass |
 | 3 | Behavioral distance via KL divergence | Two-distribution comparison with KL heatmap |
-| 4 | Expectation $E[Y]$ and gradient identity | Weighted average visualization with center of mass |
+| 4 | Expectation <img src="math_svgs/ii5876u.svg" alt="LaTeX: E[Y]" style="display:inline;vertical-align:middle;max-width:100%" /> and gradient identity | Weighted average visualization with center of mass |
 | 5 | Bregman divergence from KL | Geometric diagram showing the tangent plane interpretation |
 
 ---

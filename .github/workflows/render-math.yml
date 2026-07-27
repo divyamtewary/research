@@ -21,17 +21,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install Dependencies
         run: npm install
         working-directory: .github/scripts
 
       - name: Render LaTeX in Markdown files
-        run: node .github/scripts/render-math-to-svg.js '**/*.md'
+        run: node .github/scripts/render-math-to-svg.js "**/*.md"
 
       - name: Render LaTeX in HTML files
-        run: node .github/scripts/render-math-to-svg.js '**/*.html'
+        run: node .github/scripts/render-math-to-svg.js "**/*.html"
 
       - name: Commit and Push Rendered SVGs
         run: |

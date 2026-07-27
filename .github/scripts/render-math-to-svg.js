@@ -1,13 +1,8 @@
-/**
- * render-math-to-svg.js
- * 
- * Scans Markdown (.md) and HTML (.html) files for LaTeX math expressions
- * ($$...$$ and $...$), renders them to SVG images using KaTeX, saves the SVGs
- * alongside the original files, and rewrites the files to reference the SVGs.
- * 
- * Usage: node render-math-to-svg.js [pattern]
- *   pattern: glob pattern like "**/*.md" or "**/*.html" (default: all .md and .html)
- */
+// render-math-to-svg.js
+// Scans .md and .html files for LaTeX math ($$...$$ and $...$),
+// renders them to SVG images using KaTeX, saves SVGs alongside
+// the original files, and rewrites files to reference the SVGs.
+// Usage: node render-math-to-svg.js '<glob-pattern>'
 
 const fs = require('fs');
 const path = require('path');

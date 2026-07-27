@@ -17,11 +17,10 @@ async function render(mjAPI, math, isDisplay) {
   return new Promise(resolve => {
     mjAPI.typeset({ math, format:'TeX', svg:true, ex:6, display:isDisplay }, d => {
       if (d.errors || !d.svg || d.svg.length < 50) { resolve(null); return; }
-      // Inject white fill into the SVG so it's visible on dark backgrounds
       const svg = d.svg
-        .replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ')
         .replace(/fill="currentColor"/g, 'fill="#e0e4ef"')
-        .replace(/stroke="currentColor"/g, 'stroke="#e0e4ef"');
+        .replace(/stroke="currentColor"/g, 'stroke="#e0e4ef"')
+        .replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ');
       resolve(svg.includes('fill=') ? svg : svg.replace('<svg ', '<svg fill="#e0e4ef" '));
     });
   });

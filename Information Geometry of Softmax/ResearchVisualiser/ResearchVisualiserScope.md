@@ -64,7 +64,7 @@ This creates a high barrier for newcomers. The visualiser bridges that gap by:
 |---------|---------|-------------------|
 | 1 | Euclidean representation space vs. probability space | Side-by-side comparison canvas |
 | 2 | The Softmax transformation (exp + normalize) | Live bar chart: logits → probabilities with sliders |
-| 3 | Partition function <img src="math_svgs/i21c2e59531c8.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/>g src="math_svgs/i21c2e59531c8.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> and log-normaliser <img src="math_svgs/i0a365f67af7f.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> | Real-time $Z$ calculator with animated sensitivity |
+| 3 | Partition function <img src="math_svgs/i21c2e59531c8.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/>g src="math_svgs/i21c2e59531c8.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> and log-normaliser <img src="math_svgs/i0a365f67af7f.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> | Real-time <img src="math_svgs/i21c2e59531c8.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> calculator with animated sensitivity |
 | 4 | Gradient of the log-normaliser <img src="math_svgs/if6a85aa18dd8.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> | Visual proof that gradient components equal probabilities |
 | 5 | Self-derivative <img src="math_svgs/i66a83cc1b71f.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> | Sigmoid-like curve explorer |
 

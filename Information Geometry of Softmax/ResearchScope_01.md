@@ -112,7 +112,7 @@ meaning every output embedding has exactly the same dimensionality as the hidden
 
 # Softmax Probability Distribution
 
-The probability of selecting token <img src="math_svgs/i8a08bb342996.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/>src="math_svgs/i8a08bb342996.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> given hidden representation $\lambda$ is
+The probability of selecting token <img src="math_svgs/i8a08bb342996.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/>src="math_svgs/i8a08bb342996.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> given hidden representation <img src="math_svgs/ic6a6eb61fd9c.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/>"math_svgs/ic6a6eb61fd9c.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> is
 
 <img src="math_svgs/df1290c0e2b81.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
@@ -124,7 +124,7 @@ The probability of selecting token <img src="math_svgs/i8a08bb342996.svg" alt="m
 
 <img src="math_svgs/d4ea70834d831.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
-This represents the probability that the model predicts token $Y_j$ given hidden representation $\lambda$.
+This represents the probability that the model predicts token <img src="math_svgs/i8a08bb342996.svg" alt="math" style="display:inline;vertical-align:middle;max-width:100%"/> given hidden representation $\lambda$.
 
 ---
 
@@ -247,9 +247,7 @@ Now
 
 Also,
 
-$$
-A(\lambda)=\log Z
-$$
+<img src="math_svgs/dd754f85dcbd0.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>54f85dcbd0.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 ---
 
@@ -343,9 +341,7 @@ This is one of the central geometric results of the paper.
 
 Recall
 
-$$
-P_1=\frac{e^{\lambda_1}}Z
-$$
+<img src="math_svgs/d7305a7167da4.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 Using the quotient rule,
 

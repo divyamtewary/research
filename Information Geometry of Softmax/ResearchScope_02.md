@@ -97,11 +97,7 @@ Two complementary results have now emerged.
 
 Self influence:
 
-$$
-\frac{\partial P_i}{\partial\lambda_i}
-=
-P_i(1-P_i)
-$$
+<img src="math_svgs/da0f22a7f09da.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>display:block;margin:1em auto;max-width:100%"/>
 
 Cross influence:
 
@@ -273,19 +269,7 @@ The gradient is literally the expected output representation.
 
 Starting from
 
-$$
-D_{KL}
-=
-\sum_y
-P_\lambda(y)
-\left[
-(\lambda-\lambda')^TY_y
--
-A(\lambda)
-+
-A(\lambda')
-\right]
-$$
+<img src="math_svgs/d92718414433a.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 Notice
 
@@ -311,9 +295,7 @@ This produces
 
 Replacing the summation with
 
-$$
-\nabla A(\lambda)
-$$
+<img src="math_svgs/dde6ed4904821.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 gives
 
@@ -373,9 +355,7 @@ The first half of the paper establishes several foundational identities.
 
 ### Softmax
 
-$$
-P_i=\frac{e^{\lambda_i}}Z
-$$
+<img src="math_svgs/d9d302358232f.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 ### Partition Function
 
@@ -383,9 +363,7 @@ $$
 
 ### Log-Normaliser
 
-$$
-A(\lambda)=\log Z
-$$
+<img src="math_svgs/dd754f85dcbd0.svg" alt="math" style="display:block;margin:1em auto;max-width:100%"/>
 
 ### Gradient
 

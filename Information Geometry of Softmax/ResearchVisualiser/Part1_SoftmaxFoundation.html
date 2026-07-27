@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Information Geometry of Softmax — Part 1: Softmax Foundation</title>
 <script>
-MathJax = { tex: { inlineMath: [['<img src="math_svgs/ikiffq.svg" alt="LaTeX: ','" style="display:inline;vertical-align:middle;max-width:100%" />'],['\\(','\\)']], displayMath: [['
-<img src="math_svgs/dem5nny.svg" alt="LaTeX: ','" style="display:block;margin:1em auto;max-width:100%" />
-'],['\\[','\\]']] }, options: { enableMenu: false } };
+MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] }, options: { enableMenu: false } };
 </script>
 <script src="mathjax/tex-chtml.js" async></script>
 <style>
@@ -229,13 +227,11 @@ table.viz-table tr:hover td{background:rgba(129,140,248,.04)}
 </div>
 <div class="card" style="margin-top:12px;">
 <div class="math" id="softmaxMathDisplay">
+$$Z = e^{2.0} + e^{1.0} + e^{0.0} = 7.39 + 2.72 + 1.00 = \mathbf{11.11}$$
 
-<img src="math_svgs/dck6wec.svg" alt="LaTeX: Z = e^{2.0} + e^{1.0} + e^{0.0} = 7.39 + 2.72 + 1.00 = \mathbf{11.11}" style="display:block;margin:1em auto;max-width:100%" />
-
-
-
-<img src="math_svgs/d7p1baw.svg" alt="LaTeX: P(A) = \frac{7.39}{11.11} \approx 0.66 \qquad P(B) = \frac{2.72}{11.11} \approx " style="display:block;margin:1em auto;max-width:100%" />
-
+$$P(A) = \frac{7.39}{11.11} \approx 0.66 \qquad
+P(B) = \frac{2.72}{11.11} \approx 0.24 \qquad
+P(C) = \frac{1.00}{11.11} \approx 0.09$$
 </div>
 </div>
 </div>
@@ -255,27 +251,27 @@ table.viz-table tr:hover td{background:rgba(129,140,248,.04)}
 <div class="section-header">
 <div class="step">Section 3</div>
 <h2>Big Question: <span class="highlight">What is the partition function and why does it matter?</span></h2>
-<p>The denominator <img src="math_svgs/izf9g4.svg" alt="LaTeX: Z = \sum_i e^{\lambda_i}" style="display:inline;vertical-align:middle;max-width:100%" /> is called the <strong>partition function</strong>. Its logarithm <img src="math_svgs/i8lkff4.svg" alt="LaTeX: A(\lambda) = \log Z" style="display:inline;vertical-align:middle;max-width:100%" />8lkff4.svg" alt="LaTeX: A(\lambda) = \log Z" style="display:inline;vertical-align:middle;max-width:100%" />8lkff4.svg" alt="LaTeX: A(\lambda) = \log Z" style="display:inline;vertical-align:middle;max-width:100%" /> is the <strong>log-normaliser</strong>. Together they control how probability mass is distributed.</p>
+<p>The denominator $Z = \sum_i e^{\lambda_i}$ is called the <strong>partition function</strong>. Its logarithm $A(\lambda) = \log Z$ is the <strong>log-normaliser</strong>. Together they control how probability mass is distributed.</p>
 </div>
 
 <div class="card">
 <h3>Intuition — The Size of the Pie</h3>
-<p>Think of <img src="math_svgs/isvi.svg" alt="LaTeX: Z" style="display:inline;vertical-align:middle;max-width:100%" />g src="math_svgs/isvi.svg" alt="LaTeX: Z" style="display:inline;vertical-align:middle;max-width:100%" />g src="math_svgs/isvi.svg" alt="LaTeX: Z" style="display:inline;vertical-align:middle;max-width:100%" />g src="math_svgs/isvi.svg" alt="LaTeX: Z" style="display:inline;vertical-align:middle;max-width:100%" /> as the total size of the pie. Increase one logit, and the pie grows because that token's share gets larger. But since the pie is bigger, every other token's <em>percentage</em> shrinks — even though their absolute "slice" might stay the same. The log-normaliser $A(\lambda) = \log Z$ is just the log of the total pie size.</p>
+<p>Think of $Z$ as the total size of the pie. Increase one logit, and the pie grows because that token's share gets larger. But since the pie is bigger, every other token's <em>percentage</em> shrinks — even though their absolute "slice" might stay the same. The log-normaliser $A(\lambda) = \log Z$ is just the log of the total pie size.</p>
 </div>
 
 <div class="card">
 <h3>Interactive: Sensitivity of $Z$</h3>
-<p>Move the slider to adjust one logit and see how $Z$ and <img src="math_svgs/i32l7il.svg" alt="LaTeX: A(\lambda)" style="display:inline;vertical-align:middle;max-width:100%" />th_svgs/i32l7il.svg" alt="LaTeX: A(\lambda)" style="display:inline;vertical-align:middle;max-width:100%" /> respond.</p>
+<p>Move the slider to adjust one logit and see how $Z$ and $A(\lambda)$ respond.</p>
 <div class="control-group">
 <div class="control">
-<label><img src="math_svgs/ibgoh0t.svg" alt="LaTeX: \lambda_1" style="display:inline;vertical-align:middle;max-width:100%" />ath_svgs/ibgoh0t.svg" alt="LaTeX: \lambda_1" style="display:inline;vertical-align:middle;max-width:100%" />ath_svgs/ibgoh0t.svg" alt="LaTeX: \lambda_1" style="display:inline;vertical-align:middle;max-width:100%" /> (changing)</label>
+<label>$\lambda_1$ (changing)</label>
 <input type="range" id="sensLambda1" min="-3" max="5" step="0.1" value="1">
 <span class="value" id="sensLambda1val">1.0</span>
 </div>
 </div>
 <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0">
-<span style="background:rgba(255,255,255,.04);padding:8px 18px;border-radius:8px;font-size:14px;white-space:nowrap"><img src="math_svgs/iwgaz5q.svg" alt="LaTeX: \lambda_2 = 0.5" style="display:inline;vertical-align:middle;max-width:100%" /> (fixed)</span>
-<span style="background:rgba(255,255,255,.04);padding:8px 18px;border-radius:8px;font-size:14px;white-space:nowrap"><img src="math_svgs/iibu47m.svg" alt="LaTeX: \lambda_3 = -1.0" style="display:inline;vertical-align:middle;max-width:100%" /> (fixed)</span>
+<span style="background:rgba(255,255,255,.04);padding:8px 18px;border-radius:8px;font-size:14px;white-space:nowrap">$\lambda_2 = 0.5$ (fixed)</span>
+<span style="background:rgba(255,255,255,.04);padding:8px 18px;border-radius:8px;font-size:14px;white-space:nowrap">$\lambda_3 = -1.0$ (fixed)</span>
 </div>
 <div class="viz-container">
 <canvas id="sensitivityCanvas" width="700" height="300"></canvas>
@@ -283,20 +279,16 @@ table.viz-table tr:hover td{background:rgba(129,140,248,.04)}
 </div>
 <div class="card" style="margin-top:12px;">
 <div class="math" id="sensMathDisplay">
+$$Z = e^{1.0} + e^{0.5} + e^{-1.0} = 2.72 + 1.65 + 0.37 = \mathbf{4.74}$$
 
-<img src="math_svgs/dlqpvqg.svg" alt="LaTeX: Z = e^{1.0} + e^{0.5} + e^{-1.0} = 2.72 + 1.65 + 0.37 = \mathbf{4.74}" style="display:block;margin:1em auto;max-width:100%" />
-
-
-
-<img src="math_svgs/dfto25e.svg" alt="LaTeX: A(\lambda) = \log(4.74) = \mathbf{1.55}" style="display:block;margin:1em auto;max-width:100%" />
-
+$$A(\lambda) = \log(4.74) = \mathbf{1.55}$$
 </div>
 </div>
 </div>
 
 <div class="key-insight">
 <h4>✦ Key Insight</h4>
-<p>The derivative <img src="math_svgs/ie6tuf0.svg" alt="LaTeX: \frac{\partial Z}{\partial \lambda_i} = e^{\lambda_i}" style="display:inline;vertical-align:middle;max-width:100%" /> and <img src="math_svgs/is4j29n.svg" alt="LaTeX: \frac{\partial A}{\partial \lambda_i} = P_i" style="display:inline;vertical-align:middle;max-width:100%" />\frac{\partial A}{\partial \lambda_i} = P_i" style="display:inline;vertical-align:middle;max-width:100%" />. The gradient of the log-normaliser <strong>is</strong> the Softmax probability — this is our first bridge between calculus and geometry.</p>
+<p>The derivative $\frac{\partial Z}{\partial \lambda_i} = e^{\lambda_i}$ and $\frac{\partial A}{\partial \lambda_i} = P_i$. The gradient of the log-normaliser <strong>is</strong> the Softmax probability — this is our first bridge between calculus and geometry.</p>
 </div>
 
 <a class="next-link" href="#gradient">Next: The Gradient Identity →</a>
@@ -309,7 +301,7 @@ table.viz-table tr:hover td{background:rgba(129,140,248,.04)}
 <div class="section-header">
 <div class="step">Section 4</div>
 <h2>Big Question: <span class="highlight">What does the gradient of the log-normaliser tell us?</span></h2>
-<p>We just saw $\frac{\partial A}{\partial \lambda_i} = P_i$. Collecting all components, <img src="math_svgs/ix0pbxm.svg" alt="LaTeX: \nabla A(\lambda) = P" style="display:inline;vertical-align:middle;max-width:100%" />. The gradient of <img src="math_svgs/is9z.svg" alt="LaTeX: A" style="display:inline;vertical-align:middle;max-width:100%" />g src="math_svgs/is9z.svg" alt="LaTeX: A" style="display:inline;vertical-align:middle;max-width:100%" /> at any point is exactly the probability vector.</p>
+<p>We just saw $\frac{\partial A}{\partial \lambda_i} = P_i$. Collecting all components, $\nabla A(\lambda) = P$. The gradient of $A$ at any point is exactly the probability vector.</p>
 </div>
 
 <div class="card">
@@ -319,7 +311,7 @@ table.viz-table tr:hover td{background:rgba(129,140,248,.04)}
 
 <div class="card">
 <h3>Interactive: Visual Proof</h3>
-<p>Adjust the logits and watch how each component of <img src="math_svgs/ihd4dl.svg" alt="LaTeX: \nabla A" style="display:inline;vertical-align:middle;max-width:100%" /> matches the corresponding Softmax probability.</p>
+<p>Adjust the logits and watch how each component of $\nabla A$ matches the corresponding Softmax probability.</p>
 <div class="control-group">
 <div class="control">
 <label>$\lambda_1$</label>
@@ -327,27 +319,25 @@ table.viz-table tr:hover td{background:rgba(129,140,248,.04)}
 <span class="value" id="gradL1val">1.5</span>
 </div>
 <div class="control">
-<label><img src="math_svgs/ibgogzy.svg" alt="LaTeX: \lambda_2" style="display:inline;vertical-align:middle;max-width:100%" /></label>
+<label>$\lambda_2$</label>
 <input type="range" id="gradL2" min="-3" max="5" step="0.1" value="0.5">
 <span class="value" id="gradL2val">0.5</span>
 </div>
 <div class="control">
-<label><img src="math_svgs/ibgogz3.svg" alt="LaTeX: \lambda_3" style="display:inline;vertical-align:middle;max-width:100%" /></label>
+<label>$\lambda_3$</label>
 <input type="range" id="gradL3" min="-3" max="5" step="0.1" value="-0.5">
 <span class="value" id="gradL3val">-0.5</span>
 </div>
 </div>
 <div class="viz-container">
 <canvas id="gradientCanvas" width="700" height="300"></canvas>
-<div class="viz-label"><img src="math_svgs/it4qtvh.svg" alt="LaTeX: \nabla A(\lambda)" style="display:inline;vertical-align:middle;max-width:100%" /> components vs Softmax probabilities — they match exactly</div>
+<div class="viz-label">$\nabla A(\lambda)$ components vs Softmax probabilities — they match exactly</div>
 </div>
 </div>
 
 <div class="key-insight">
 <h4>✦ Key Insight</h4>
-<p>
-<img src="math_svgs/d67joh0.svg" alt="LaTeX: \boxed{\nabla A(\lambda) = P}" style="display:block;margin:1em auto;max-width:100%" />
-</p>
+<p>$$\boxed{\nabla A(\lambda) = P}$$</p>
 <p>This is not a coincidence — it's a fundamental property of exponential families. The gradient of the log-normaliser <strong>is</strong> the expected sufficient statistic (here, the probability vector).</p>
 </div>
 
@@ -361,16 +351,16 @@ table.viz-table tr:hover td{background:rgba(129,140,248,.04)}
 <div class="section-header">
 <div class="step">Section 5</div>
 <h2>Big Question: <span class="highlight">How sensitive is a token's probability to its own logit?</span></h2>
-<p>If we nudge <img src="math_svgs/ibgofol.svg" alt="LaTeX: \lambda_i" style="display:inline;vertical-align:middle;max-width:100%" />ath_svgs/ibgofol.svg" alt="LaTeX: \lambda_i" style="display:inline;vertical-align:middle;max-width:100%" /> up by a tiny <img src="math_svgs/ivaedm1.svg" alt="LaTeX: \varepsilon" style="display:inline;vertical-align:middle;max-width:100%" />, how much does <img src="math_svgs/il9pam.svg" alt="LaTeX: P_i" style="display:inline;vertical-align:middle;max-width:100%" />src="math_svgs/il9pam.svg" alt="LaTeX: P_i" style="display:inline;vertical-align:middle;max-width:100%" /> change? The answer is <img src="math_svgs/ihndcgp.svg" alt="LaTeX: P_i(1-P_i)" style="display:inline;vertical-align:middle;max-width:100%" /> — a beautiful sigmoid-like relationship.</p>
+<p>If we nudge $\lambda_i$ up by a tiny $\varepsilon$, how much does $P_i$ change? The answer is $P_i(1-P_i)$ — a beautiful sigmoid-like relationship.</p>
 </div>
 
 <div class="card">
 <h3>Intuition — The Law of Diminishing Returns</h3>
-<p>If a token already has very low probability (<img src="math_svgs/ib6yo2g.svg" alt="LaTeX: P_i \approx 0" style="display:inline;vertical-align:middle;max-width:100%" />), increasing its logit barely helps — it's competing against everyone else. If it's very high (<img src="math_svgs/ib6yo1l.svg" alt="LaTeX: P_i \approx 1" style="display:inline;vertical-align:middle;max-width:100%" />), there's almost no room to grow. The maximum sensitivity occurs at <img src="math_svgs/i4tylnq.svg" alt="LaTeX: P_i = 0.5" style="display:inline;vertical-align:middle;max-width:100%" />ath_svgs/i4tylnq.svg" alt="LaTeX: P_i = 0.5" style="display:inline;vertical-align:middle;max-width:100%" />, where a small nudge has the biggest effect.</p>
+<p>If a token already has very low probability ($P_i \approx 0$), increasing its logit barely helps — it's competing against everyone else. If it's very high ($P_i \approx 1$), there's almost no room to grow. The maximum sensitivity occurs at $P_i = 0.5$, where a small nudge has the biggest effect.</p>
 </div>
 
 <div class="card">
-<h3>Interactive: The <img src="math_svgs/itlbadv.svg" alt="LaTeX: P(1-P)" style="display:inline;vertical-align:middle;max-width:100%" /> Curve</h3>
+<h3>Interactive: The $P(1-P)$ Curve</h3>
 <p>Drag the slider to change the logit and trace how the self-derivative changes.</p>
 <div class="control-group">
 <div class="control">
@@ -381,13 +371,12 @@ table.viz-table tr:hover td{background:rgba(129,140,248,.04)}
 </div>
 <div class="viz-container">
 <canvas id="selfDerivCanvas" width="700" height="380"></canvas>
-<div class="viz-label">$P_i$ (blue) and its derivative <img src="math_svgs/i4jleen.svg" alt="LaTeX: \frac{\partial P_i}{\partial\lambda_i} = P_i(1-P_i)" style="display:inline;vertical-align:middle;max-width:100%" /> (orange)</div>
+<div class="viz-label">$P_i$ (blue) and its derivative $\frac{\partial P_i}{\partial\lambda_i} = P_i(1-P_i)$ (orange)</div>
 </div>
 <div class="card" style="margin-top:12px">
 <div class="math" id="selfDerivMath">
-
-<img src="math_svgs/d9f0xse.svg" alt="LaTeX: P_i = \frac{e^{\lambda_i}}{e^{\lambda_i} + e^{0.5} + e^{-1.0}} \quad\Rightarrow\" style="display:block;margin:1em auto;max-width:100%" />
-
+$$P_i = \frac{e^{\lambda_i}}{e^{\lambda_i} + e^{0.5} + e^{-1.0}} \quad\Rightarrow\quad
+\frac{\partial P_i}{\partial\lambda_i} = P_i(1-P_i)$$
 </div>
 </div>
 </div>
@@ -398,7 +387,7 @@ table.viz-table tr:hover td{background:rgba(129,140,248,.04)}
 </div>
 
 <div class="callout">
-<strong>Preview — Part 2:</strong> But what happens to the <em>other</em> tokens when we change one logit? That's the <strong>cross-derivative</strong> <img src="math_svgs/iyzax8o.svg" alt="LaTeX: \partial P_j / \partial \lambda_i = -P_i P_j" style="display:inline;vertical-align:middle;max-width:100%" />, which reveals the global coupling of Softmax — and leads directly to KL divergence and Bregman geometry.
+<strong>Preview — Part 2:</strong> But what happens to the <em>other</em> tokens when we change one logit? That's the <strong>cross-derivative</strong> $\partial P_j / \partial \lambda_i = -P_i P_j$, which reveals the global coupling of Softmax — and leads directly to KL divergence and Bregman geometry.
 </div>
 
 <a class="next-link" href="#" style="pointer-events:none;opacity:0.5">Continue to Part 2 → (Coming Soon)</a>
@@ -544,13 +533,11 @@ function drawSoftmaxBars() {
   const Z = ex.reduce((a,b)=>a+b,0);
   const A = Math.log(Z);
   document.getElementById('softmaxMathDisplay').innerHTML = `
+$$Z = e^{${l1.toFixed(1)}} + e^{${l2.toFixed(1)}} + e^{${l3.toFixed(1)}} = ${ex[0].toFixed(2)} + ${ex[1].toFixed(2)} + ${ex[2].toFixed(2)} = \\mathbf{${Z.toFixed(2)}}$$
 
-<img src="math_svgs/d3horup.svg" alt="LaTeX: Z = e^{${l1.toFixed(1)}} + e^{${l2.toFixed(1)}} + e^{${l3.toFixed(1)}} = ${ex[0]" style="display:block;margin:1em auto;max-width:100%" />
-
-
-
-<img src="math_svgs/deudsxl.svg" alt="LaTeX: P(A) = \\frac{${ex[0].toFixed(2)}}{${Z.toFixed(2)}} \\approx ${probs[0].toFixed(" style="display:block;margin:1em auto;max-width:100%" />
-
+$$P(A) = \\frac{${ex[0].toFixed(2)}}{${Z.toFixed(2)}} \\approx ${probs[0].toFixed(2)} \\qquad
+P(B) = \\frac{${ex[1].toFixed(2)}}{${Z.toFixed(2)}} \\approx ${probs[1].toFixed(2)} \\qquad
+P(C) = \\frac{${ex[2].toFixed(2)}}{${Z.toFixed(2)}} \\approx ${probs[2].toFixed(2)}$$
 `;
   if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
 }
@@ -636,17 +623,11 @@ function drawSensitivity() {
   const exCur=[Math.exp(l1),Math.exp(fixed[0]),Math.exp(fixed[1])];
   const Zcur=exCur.reduce((a,b)=>a+b,0);
   document.getElementById('sensMathDisplay').innerHTML=`
+$$Z = e^{${l1.toFixed(1)}} + e^{${fixed[0].toFixed(1)}} + e^{${fixed[1].toFixed(1)}} = ${exCur[0].toFixed(2)} + ${exCur[1].toFixed(2)} + ${exCur[2].toFixed(2)} = \\mathbf{${Zcur.toFixed(2)}}$$
 
-<img src="math_svgs/demcsfj.svg" alt="LaTeX: Z = e^{${l1.toFixed(1)}} + e^{${fixed[0].toFixed(1)}} + e^{${fixed[1].toFixed(1)" style="display:block;margin:1em auto;max-width:100%" />
+$$A(\\lambda) = \\log(${Zcur.toFixed(2)}) = \\mathbf{${Math.log(Zcur).toFixed(3)}}$$
 
-
-
-<img src="math_svgs/dx8sujk.svg" alt="LaTeX: A(\\lambda) = \\log(${Zcur.toFixed(2)}) = \\mathbf{${Math.log(Zcur).toFixed(3)}}" style="display:block;margin:1em auto;max-width:100%" />
-
-
-
-<img src="math_svgs/dku8aud.svg" alt="LaTeX: \\frac{\\partial A}{\\partial \\lambda_1} = P_1 = \\mathbf{${(exCur[0]/Zcur).toF" style="display:block;margin:1em auto;max-width:100%" />
-
+$$\\frac{\\partial A}{\\partial \\lambda_1} = P_1 = \\mathbf{${(exCur[0]/Zcur).toFixed(4)}}$$
 `;
   if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
 }
@@ -763,9 +744,9 @@ function drawSelfDerivative() {
 
   // Value labels at current point
   ctx.fillStyle='#818cf8'; ctx.textAlign='left';
-  ctx.fillText(`Pᵢ = <img src="math_svgs/isy5hhz.svg" alt="LaTeX: {curP.toFixed(4)}`,pad.l+10,32);
+  ctx.fillText(`Pᵢ = ${curP.toFixed(4)}`,pad.l+10,32);
   ctx.fillStyle='#f59e0b';
-" style="display:inline;vertical-align:middle;max-width:100%" />{curD.toFixed(4)}`,pad.l+10,50);
+  ctx.fillText(`dPᵢ/dλᵢ = ${curD.toFixed(4)}`,pad.l+10,50);
 
   // Axes
   ctx.strokeStyle='rgba(255,255,255,.08)'; ctx.lineWidth=1;
@@ -778,13 +759,9 @@ function drawSelfDerivative() {
   const Zcur=exCur.reduce((a,b)=>a+b,0);
   const pCur=exCur[0]/Zcur;
   document.getElementById('selfDerivMath').innerHTML=`
+$$P_i = \\frac{e^{${li.toFixed(1)}}}{e^{${li.toFixed(1)}}+e^{${fixed[0].toFixed(1)}}+e^{${fixed[1].toFixed(1)}}} = ${pCur.toFixed(4)}$$
 
-<img src="math_svgs/d77rtuj.svg" alt="LaTeX: P_i = \\frac{e^{${li.toFixed(1)}}}{e^{${li.toFixed(1)}}+e^{${fixed[0].toFixed(1)" style="display:block;margin:1em auto;max-width:100%" />
-
-
-
-<img src="math_svgs/d1orcv8.svg" alt="LaTeX: \\frac{\\partial P_i}{\\partial\\lambda_i} = P_i(1-P_i) = ${pCur.toFixed(4)} \\t" style="display:block;margin:1em auto;max-width:100%" />
-
+$$\\frac{\\partial P_i}{\\partial\\lambda_i} = P_i(1-P_i) = ${pCur.toFixed(4)} \\times (1-${pCur.toFixed(4)}) = \\mathbf{${(pCur*(1-pCur)).toFixed(4)}}$$
 `;
   if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
 }

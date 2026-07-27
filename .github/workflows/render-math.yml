@@ -27,9 +27,6 @@ jobs:
       - name: Render LaTeX in Markdown files
         run: node .github/scripts/render-math-to-svg.js "**/*.md"
 
-      - name: Render LaTeX in HTML files
-        run: node .github/scripts/render-math-to-svg.js "**/*.html"
-
       - name: Commit and Push Rendered SVGs
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"

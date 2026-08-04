@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340" width="1200" height="340" role="img" aria-label="Information Geometry of Softmax - from logits to probability geometry">
+  <title>Information Geometry of Softmax</title>
+  <defs>
+    <linearGradient id="igbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#100B18"/>
+      <stop offset="55%" stop-color="#1D1027"/>
+      <stop offset="100%" stop-color="#0B2430"/>
+    </linearGradient>
+    <linearGradient id="igacc" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#F5B942"/>
+      <stop offset="50%" stop-color="#FF7A59"/>
+      <stop offset="100%" stop-color="#51D6C2"/>
+    </linearGradient>
+    <radialGradient id="igglow" cx="0.7" cy="0.5" r="0.65">
+      <stop offset="0%" stop-color="#FF7A59" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#FF7A59" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="iggrid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M28 0H0V28" fill="none" stroke="#F5B942" stroke-opacity="0.055"/>
+    </pattern>
+    <clipPath id="igcard"><rect width="1200" height="340" rx="18"/></clipPath>
+  </defs>
+  <g clip-path="url(#igcard)">
+    <rect width="1200" height="340" fill="url(#igbg)"/>
+    <rect width="1200" height="340" fill="url(#iggrid)"/>
+    <ellipse cx="900" cy="125" rx="420" ry="250" fill="url(#igglow)"/>
+    <rect width="6" height="340" fill="url(#igacc)"/>
+
+    <text x="58" y="86" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="39" font-weight="700" fill="#FFF7E3">information geometry</text>
+    <text x="60" y="129" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="31" font-weight="700" fill="#FFB887">of softmax</text>
+    <text x="60" y="161" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" fill="#D8B9C4">An interactive path from logits and normalisation to KL and Bregman geometry.</text>
+
+    <g transform="translate(58,194)" font-family="ui-monospace, Menlo, Consolas, monospace">
+      <rect x="0" y="0" width="108" height="36" rx="18" fill="#322119" stroke="#F5B942" stroke-opacity="0.6"/>
+      <text x="54" y="23" text-anchor="middle" font-size="12" fill="#FFE2A0">logits</text>
+      <text x="119" y="23" font-size="18" fill="#F5B942">-&gt;</text>
+      <rect x="148" y="0" width="126" height="36" rx="18" fill="#321D27" stroke="#FF7A59" stroke-opacity="0.6"/>
+      <text x="211" y="23" text-anchor="middle" font-size="12" fill="#FFC3AE">softmax</text>
+      <text x="285" y="23" font-size="18" fill="#FF7A59">-&gt;</text>
+      <rect x="314" y="0" width="126" height="36" rx="18" fill="#102D31" stroke="#51D6C2" stroke-opacity="0.6"/>
+      <text x="377" y="23" text-anchor="middle" font-size="12" fill="#B7F2E8">geometry</text>
+    </g>
+
+    <g transform="translate(58,270)">
+      <rect width="3" height="36" fill="url(#igacc)"/>
+      <text x="18" y="23" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="17" fill="#FFF7E3">A(lambda) = log Z</text>
+      <text x="222" y="23" font-family="system-ui, Segoe UI, sans-serif" font-size="13" fill="#AE9CA5">the normaliser is where the geometry starts</text>
+    </g>
+
+    <g transform="translate(830,55)" font-family="ui-monospace, Menlo, Consolas, monospace">
+      <path d="M34 220 L190 45 L354 220 Z" fill="#142B31" fill-opacity="0.65" stroke="#51D6C2" stroke-opacity="0.65" stroke-width="2"/>
+      <path d="M34 220 L190 45 L354 220" fill="none" stroke="url(#igacc)" stroke-width="2.5"/>
+      <circle cx="34" cy="220" r="8" fill="#F5B942"/>
+      <circle cx="190" cy="45" r="8" fill="#FF7A59"/>
+      <circle cx="354" cy="220" r="8" fill="#51D6C2"/>
+      <circle cx="192" cy="170" r="7" fill="#FFF7E3"/>
+      <path d="M192 170 C226 139 263 123 298 105" fill="none" stroke="#FFF7E3" stroke-opacity="0.8" stroke-dasharray="5 5"/>
+      <text x="-2" y="248" font-size="12" fill="#FFE2A0">P1</text>
+      <text x="179" y="30" font-size="12" fill="#FFC3AE">P2</text>
+      <text x="350" y="248" font-size="12" fill="#B7F2E8">P3</text>
+      <text x="157" y="197" font-size="12" fill="#FFF7E3">P(lambda)</text>
+      <text x="84" y="289" font-family="system-ui, Segoe UI, sans-serif" font-size="11" fill="#A994A1" letter-spacing="1.4">PROBABILITY SIMPLEX · ILLUSTRATIVE</text>
+    </g>
+  </g>
+</svg>
